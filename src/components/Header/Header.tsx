@@ -11,7 +11,7 @@ export const Header = () => {
   const currentCity = cityData[selectedCity];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+
   if (!currentCity) {
     return null;
   }
