@@ -1,0 +1,158 @@
+@use '../../styles/utils' as *;
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: $color-white;
+  border-bottom: 1px solid $color-elements;
+
+  &__nav {
+    display: none;
+
+    @include on-desktop {
+      display: block;
+    }
+  }
+
+  &__main {
+    width: 100%;
+
+    &-phone {
+      color: $color-primary;
+      text-decoration: none;
+    }
+
+    &-content {
+      @include grid;
+
+      min-height: 80px;
+      align-items: center;
+    }
+
+    &-logo {
+      grid-column: 1 / 3;
+      width: 120px;
+      height: 32px;
+      background-repeat: no-repeat;
+    }
+
+    &-catalog {
+      grid-column: 4 / 5;
+
+      width: 44px;
+      height: 44px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      justify-self: end;
+
+      padding: 0;
+
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+
+      @include on-tablet {
+        grid-column: 12 / 13;
+      }
+
+      // .text__body--buttons {
+      //   display: none;
+      // }
+    }
+
+    &-city,
+    &-contact,
+    &-button {
+      display: none;
+    }
+  }
+
+  &__menu-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  @include on-desktop {
+    background-color: $color-secondary;
+
+    &__nav {
+      display: block;
+    }
+
+    &__main {
+      background-color: $color-white;
+
+      &-content {
+        min-height: 125px;
+      }
+
+      &-logo {
+        grid-column: 1 / 3;
+        width: 170px;
+        height: 40px;
+      }
+
+      &-catalog {
+        grid-column: 4 / 5;
+
+        width: 124px;
+        height: 50px;
+
+        background-color: $color-white;
+        border: 1px solid $color-primary;
+        border-radius: 4px;
+        gap: 3px;
+
+        // .text__body--buttons {
+        //   display: inline;
+        // }
+      }
+
+      &-city {
+        display: flex;
+        grid-column: 5 / 12;
+        flex-direction: column;
+        gap: 7px;
+      }
+
+      &-contact {
+        display: flex;
+        grid-column: 12 / 22;
+        flex-direction: column;
+        gap: 7px;
+      }
+
+      &-button {
+        display: block;
+        grid-column: 22 / 25;
+        justify-self: flex-end;
+      }
+    }
+
+    &__menu-close {
+      display: none;
+    }
+  }
+}

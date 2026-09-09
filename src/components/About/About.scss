@@ -1,0 +1,92 @@
+@use '../../styles/utils' as *;
+
+.about {
+  grid-column: 1 / -1;
+
+  &__title {
+    margin: 0 0 30px;
+
+    @include on-tablet {
+      margin-bottom: 40px;
+    }
+
+    @include on-desktop {
+      margin-bottom: 45px;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+
+    @include on-tablet {
+      flex-direction: row;
+      gap: 50px;
+    }
+
+    @include on-desktop {
+      gap: 100px;
+    }
+  }
+
+  &__description {
+    width: 100%;
+    margin: 0;
+
+    @include on-tablet {
+      width: 60%;
+    }
+
+    @include on-desktop {
+      width: 70%;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+
+    @include on-tablet {
+      gap: 24px;
+    }
+
+    @include on-desktop {
+      gap: 26px;
+    }
+
+    &-wrapper {
+      display: flex;
+      flex-direction: column;
+
+      gap: 25px;
+    }
+
+    &-title {
+      margin: 0;
+    }
+  }
+
+  &__item {
+    position: relative;
+
+    padding-left: 42px;
+
+    &::before {
+      content: url('/img/icons/icon-mark.svg');
+
+      position: absolute;
+      top: -10%;
+      left: 0;
+
+      width: 25px;
+      height: 22px;
+    }
+  }
+}

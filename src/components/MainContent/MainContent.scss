@@ -1,0 +1,27 @@
+@use '../../styles/utils' as *;
+
+.main-content {
+  margin-block: 56px;
+
+  @include on-tablet {
+    margin-block: 64px;
+  }
+
+  @include on-desktop {
+    margin-block: 80px;
+  }
+
+  &__inner {
+    @include grid;
+
+    row-gap: 56px;
+
+    @include on-tablet {
+      row-gap: 64px;
+    }
+
+    @include on-desktop {
+      row-gap: 80px;
+    }
+  }
+}

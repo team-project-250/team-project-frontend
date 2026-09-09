@@ -1,0 +1,111 @@
+@use '../../styles/utils' as *;
+
+.rental-terms {
+  position: relative;
+
+  padding: 60px 0;
+
+  background-color: $color-background-black;
+  color: $color-white;
+
+  @include on-tablet {
+    padding: 80px 0;
+  }
+
+  @include on-desktop {
+    padding: 120px 0;
+  }
+
+  &__inner {
+    @include grid;
+
+    grid-column: 1 / -1;
+  }
+
+  &__top {
+    grid-column: 1 / -1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 25px;
+
+    margin-bottom: 35px;
+
+    @include on-tablet {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0;
+
+      margin-bottom: 40px;
+    }
+
+    @include on-desktop {
+      margin-bottom: 45px;
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    &-title {
+      margin: 0;
+    }
+
+    &-description {
+      margin: 0;
+      color: $color-accent;
+    }
+  }
+
+  &__list {
+    grid-column: 1 / -1;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+
+    @include on-tablet {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    @include on-desktop {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #303030;
+
+    background-color: #282828;
+
+    @include on-tablet {
+      padding: 30px;
+    }
+  }
+
+  &__number {
+    margin-bottom: 5px;
+
+    color: $color-accent;
+  }
+
+  &__description {
+    max-width: 280px;
+
+    margin: 0;
+
+    color: #c0c0c0;
+  }
+}

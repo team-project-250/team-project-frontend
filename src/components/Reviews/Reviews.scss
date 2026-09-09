@@ -1,0 +1,286 @@
+@use '../../styles/utils' as *;
+
+.reviews {
+  @include grid;
+
+  padding-block: 60px;
+
+  @include on-tablet {
+    padding-block: 80px;
+  }
+
+  @include on-desktop {
+    padding-block: 100px;
+  }
+
+  &__top {
+    grid-column: 1 / -1;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 35px;
+
+    @include on-tablet {
+      margin-bottom: 40px;
+    }
+
+    @include on-desktop {
+      margin-bottom: 50px;
+    }
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__carousel {
+    grid-column: 1 / -1;
+
+    position: relative;
+  }
+
+  &__viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__track {
+    display: flex;
+    gap: 16px;
+
+    @include on-tablet {
+      gap: 24px;
+    }
+
+    @include on-desktop {
+      gap: 30px;
+    }
+  }
+
+  &__item {
+    flex: 0 0 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    min-height: 220px;
+    padding: 25px;
+
+    border-radius: 8px;
+    background-color: $color-secondary;
+
+    position: relative;
+
+    scroll-snap-align: start;
+
+    @include on-tablet {
+      flex: 0 0 calc((100% - 24px) / 2);
+
+      gap: 30px;
+      padding: 30px;
+
+      min-height: 240px;
+    }
+
+    @include on-desktop {
+      flex-basis: calc((100% - 30px) / 2);
+    }
+
+    &-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+
+      @include on-tablet {
+        justify-content: space-between;
+      }
+    }
+  }
+
+    &__arrows {
+    display: none;
+
+    @include on-desktop {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      position: absolute;
+      top: 50%;
+      left: -35px;
+      right: -35px;
+
+      z-index: 1;
+
+      pointer-events: none;
+      transform: translateY(-50%);
+
+    }
+
+    @media (min-width: 1200px) {
+      left: -60px;
+      right: -60px;
+    }
+
+  }
+
+  &__arrow {
+    width: 20px;
+    height: 55px;
+    padding: 0;
+
+    border: none;
+    background-color: transparent;
+    
+    cursor: pointer;
+    pointer-events: auto;
+
+    &--next {
+      transform: rotate(180deg);
+    }
+
+    &:disabled {
+      opacity: 0.3;
+
+      cursor: default;
+    }
+  }
+
+  &__quotes {
+    display: none;
+    position: absolute;
+
+    top: 0;
+    right: 25px;
+
+    width: 108px;
+    height: 77px;
+
+    background-image: url('/img/images/quotes.png');
+
+
+    @include on-desktop {
+      display: block;
+    }
+  }
+
+  &__author {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+
+    @include on-tablet {
+      flex-direction: row;
+    }
+  }
+
+  &__avatar {
+    width: 100px;
+    height: 100px;
+
+    overflow: hidden;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    @include on-desktop {
+      width: 65px;
+      height: 65px;
+    }
+
+    img {
+      display: block;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+    }
+  }
+
+  &__name {
+    margin: 0 0 10px;
+
+    @include on-tablet {
+      margin-bottom: 15px;
+    }
+  }
+
+  &__rating {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    @include on-tablet {
+      flex-direction: row;
+      gap: 15px;
+    }
+
+    &-star {
+      display: flex;
+      gap: 3px;
+
+      color: $color-accent;
+      font-size: 18px;
+    }
+
+    &-date {
+      font-size: 12px;
+
+      color: $color-icons;
+    }
+  }
+
+  &__text {
+    margin: 0;
+  }
+
+  &__dots {
+    grid-column: 1 / -1;
+
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+
+    margin-top: 25px;
+
+    @include on-tablet {
+      margin-top: 30px;
+    }
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+
+    padding: 0;
+
+    border: 1px solid $color-primary;
+    border-radius: 50%;
+
+    background-color: $color-white;
+
+    cursor: pointer;
+
+    transition:
+      width 0.3s ease-in-out,
+      background-color 0.3s ease-in-out;
+
+    &--active {
+      border-radius: 4px;
+
+      background-color: $color-primary;
+    }
+  }
+}

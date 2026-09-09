@@ -1,0 +1,28 @@
+@use '../../styles/utils' as *;
+
+.button {
+  height: 50px;
+  width: 100%;
+  background-color: $color-accent;
+  border: none;
+  border-radius: 4px;
+  justify-self: center;
+  
+  cursor: pointer;
+
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: $color-primary;
+    color: $color-accent;
+  }
+
+  @include on-tablet {
+    justify-self: start;
+    width: 318px;
+  }
+  
+  @include on-desktop {
+    width: 200px;
+  }
+}
