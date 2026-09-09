@@ -70,9 +70,8 @@
     &:hover {
       background-color: $color-accent;
       color: $color-primary;
-      border: 1px solid $color-primary
+      border: 1px solid $color-primary;
     }
-
 
     @include on-tablet {
       width: 260px;

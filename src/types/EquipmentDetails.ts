@@ -1,4 +1,4 @@
-import type { EquipmentType } from "./EquipmentType";
+import type { EquipmentType } from './EquipmentType';
 
 export interface EquipmentDetails extends EquipmentType {
   images: string[];

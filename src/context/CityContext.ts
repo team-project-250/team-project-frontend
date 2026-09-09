@@ -5,9 +5,7 @@ interface CityContextType {
   setSelectedCity: (city: string) => void;
 }
 
-export const CityContext = createContext<CityContextType | undefined>(
-  undefined
-);
+export const CityContext = createContext<CityContextType | undefined>(undefined);
 
 export const useCity = () => {
   const context = useContext(CityContext);

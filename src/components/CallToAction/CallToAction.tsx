@@ -16,7 +16,7 @@ export const CallToAction = () => {
             </p>
           </div>
 
-          <Button className='call-to-action__button'/>
+          <Button className="call-to-action__button" />
         </div>
       </div>
     </section>

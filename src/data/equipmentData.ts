@@ -1,4 +1,4 @@
-import type { EquipmentType } from "../types/EquipmentType";
+import type { EquipmentType } from '../types/EquipmentType';
 
 export const equipmentData: Record<string, EquipmentType[]> = {
   Луцьк: [
@@ -103,8 +103,8 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
   ],
 
-Київ: [
-  {
+  Київ: [
+    {
       id: 1,
       name: 'Миючий пилосос',
       model: 'Kärcher Puzzi 8/1 C',

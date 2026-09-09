@@ -7,8 +7,12 @@ export const Footer = () => {
   const { selectedCity } = useCity();
   const currentCity = cityData[selectedCity];
 
+  if (!currentCity) {
+    return null;
+  }
+
   return (
-    <footer className="footer" id='contacts'>
+    <footer className="footer" id="contacts">
       <div className="footer__inner">
         <div className="footer__content">
           <div className="footer__brand">
@@ -20,10 +24,7 @@ export const Footer = () => {
 
             <div className="footer__address">
               <div className="footer__address-wrapper">
-                <a
-                  href="#"
-                  className="footer__address-icon icon icon--instagram"
-                />
+                <a href="#" className="footer__address-icon icon icon--instagram" />
               </div>
 
               <p className="footer__address-description text__body text__body--how-to-rent">
@@ -58,9 +59,7 @@ export const Footer = () => {
                   {currentCity.phone}
                 </a>
 
-                <p className="footer__contacts-description">
-                  Пн-Нд: Цілодобово 24/7
-                </p>
+                <p className="footer__contacts-description">Пн-Нд: Цілодобово 24/7</p>
               </div>
             </div>
 
@@ -72,9 +71,7 @@ export const Footer = () => {
                   м. {selectedCity}
                 </p>
 
-                <p className="footer__contacts-description">
-                  {currentCity.address}
-                </p>
+                <p className="footer__contacts-description">{currentCity.address}</p>
               </div>
             </div>
           </div>

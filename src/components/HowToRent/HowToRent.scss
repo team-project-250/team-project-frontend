@@ -14,7 +14,7 @@
   &__steps {
     display: grid;
     gap: 30px;
-    
+
     @include on-tablet {
       grid-template-columns: repeat(4, 1fr);
     }
@@ -82,4 +82,3 @@
     line-height: 1.5;
   }
 }
-

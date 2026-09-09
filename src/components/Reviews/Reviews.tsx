@@ -24,21 +24,16 @@ export const Reviews = () => {
     }
 
     const slidesCount = getSlidesCount();
-    const maxScrollLeft =
-      viewport.scrollWidth - viewport.clientWidth;
+    const maxScrollLeft = viewport.scrollWidth - viewport.clientWidth;
 
     const slideWidth = viewport.clientWidth;
 
     const currentIndex =
-      slideWidth > 0
-        ? Math.round(viewport.scrollLeft / slideWidth)
-        : 0;
+      slideWidth > 0 ? Math.round(viewport.scrollLeft / slideWidth) : 0;
 
     setTotalSlides(slidesCount);
 
-    setCurrentSlide(
-      Math.min(currentIndex, slidesCount - 1)
-    );
+    setCurrentSlide(Math.min(currentIndex, slidesCount - 1));
 
     if (maxScrollLeft <= 0) {
       setCurrentSlide(0);
@@ -63,9 +58,7 @@ export const Reviews = () => {
   };
 
   const handleNext = () => {
-    scrollToSlide(
-      Math.min(currentSlide + 1, totalSlides - 1)
-    );
+    scrollToSlide(Math.min(currentSlide + 1, totalSlides - 1));
   };
 
   useEffect(() => {
@@ -81,15 +74,9 @@ export const Reviews = () => {
     window.addEventListener('resize', updateCarousel);
 
     return () => {
-      viewport.removeEventListener(
-        'scroll',
-        updateCarousel
-      );
+      viewport.removeEventListener('scroll', updateCarousel);
 
-      window.removeEventListener(
-        'resize',
-        updateCarousel
-      );
+      window.removeEventListener('resize', updateCarousel);
     };
   }, []);
 
@@ -102,27 +89,16 @@ export const Reviews = () => {
       </div>
 
       <div className="reviews__carousel">
-        <div
-          className="reviews__viewport"
-          ref={viewportRef}
-        >
+        <div className="reviews__viewport" ref={viewportRef}>
           <div className="reviews__track">
-            {reviews.map(review => (
-              <article
-                className="reviews__item"
-                key={review.id}
-              >
+            {reviews.map((review) => (
+              <article className="reviews__item" key={review.id}>
                 <div className="reviews__quotes"></div>
 
                 <div className="reviews__item-top">
                   <div className="reviews__author">
                     <div className="reviews__avatar">
-                      {review.avatar && (
-                        <img
-                          src={review.avatar}
-                          alt={review.name}
-                        />
-                      )}
+                      {review.avatar && <img src={review.avatar} alt={review.name} />}
                     </div>
 
                     <div>
@@ -173,20 +149,16 @@ export const Reviews = () => {
       </div>
 
       <div className="reviews__dots">
-        {Array.from({ length: totalSlides }).map(
-          (_, index) => (
-            <button
-              key={index}
-              type="button"
-              className={`reviews__dot ${
-                currentSlide === index
-                  ? 'reviews__dot--active'
-                  : ''
-              }`}
-              onClick={() => scrollToSlide(index)}
-            />
-          )
-        )}
+        {Array.from({ length: totalSlides }).map((_, index) => (
+          <button
+            key={index}
+            type="button"
+            className={`reviews__dot ${
+              currentSlide === index ? 'reviews__dot--active' : ''
+            }`}
+            onClick={() => scrollToSlide(index)}
+          />
+        ))}
       </div>
     </section>
   );

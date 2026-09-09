@@ -1,14 +1,14 @@
-import type React from "react";
+import type React from 'react';
 import './Button.scss';
 
 type Props = {
   className?: string;
-}
+};
 
-export const Button: React.FC<Props> = ({ className = ''}) => {
+export const Button: React.FC<Props> = ({ className = '' }) => {
   return (
-    <button type='button' className={`button ${className}`}>
+    <button type="button" className={`button ${className}`}>
       Обрати техніку
     </button>
   );
-}
+};

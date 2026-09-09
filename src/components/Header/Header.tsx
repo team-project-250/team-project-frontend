@@ -11,6 +11,10 @@ export const Header = () => {
   const currentCity = cityData[selectedCity];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  if (!currentCity) {
+    return null;
+  }
 
   return (
     <header className="header">
@@ -20,11 +24,7 @@ export const Header = () => {
 
       <div className="header__main">
         <div className="header__main-content">
-          <Link
-            to="/"
-            className="icon--logo header__main-logo"
-            aria-label="Logo"
-          />
+          <Link to="/" className="icon--logo header__main-logo" aria-label="Logo" />
 
           <button
             type="button"
@@ -32,19 +32,13 @@ export const Header = () => {
             onClick={() => setIsMenuOpen(true)}
           >
             <span className="icon icon--burger"></span>
-            <span className="text__body text__body--buttons">
-              Каталог
-            </span>
+            <span className="text__body text__body--buttons">Каталог</span>
           </button>
 
           <div className="header__main-city">
-            <p className="text__title text__title--secondary">
-              {selectedCity}
-            </p>
+            <p className="text__title text__title--secondary">{selectedCity}</p>
 
-            <p className="text__body text__body--small">
-              {currentCity.address}
-            </p>
+            <p className="text__body text__body--small">{currentCity.address}</p>
           </div>
 
           <div className="header__main-contact">
@@ -55,18 +49,14 @@ export const Header = () => {
               {currentCity.phone}
             </a>
 
-            <p className="text__body text__body--small">
-              Пн-Нд: Цілодобово 24/7
-            </p>
+            <p className="text__body text__body--small">Пн-Нд: Цілодобово 24/7</p>
           </div>
 
           <Button className="header__main-button text__body text__body--buttons" />
         </div>
       </div>
 
-      <div
-        className={`page__menu ${isMenuOpen ? 'page__menu--target' : ''}`}
-      >
+      <div className={`page__menu ${isMenuOpen ? 'page__menu--target' : ''}`}>
         <button
           type="button"
           className="header__menu-close"

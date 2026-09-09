@@ -106,7 +106,7 @@
     }
   }
 
-    &__arrows {
+  &__arrows {
     display: none;
 
     @include on-desktop {
@@ -123,14 +123,12 @@
 
       pointer-events: none;
       transform: translateY(-50%);
-
     }
 
     @media (min-width: 1200px) {
       left: -60px;
       right: -60px;
     }
-
   }
 
   &__arrow {
@@ -140,7 +138,7 @@
 
     border: none;
     background-color: transparent;
-    
+
     cursor: pointer;
     pointer-events: auto;
 
@@ -166,7 +164,6 @@
     height: 77px;
 
     background-image: url('/img/images/quotes.png');
-
 
     @include on-desktop {
       display: block;

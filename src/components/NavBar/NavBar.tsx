@@ -113,18 +113,12 @@ export const NavBar: React.FC<Props> = ({ onClose }) => {
         </button>
 
         <ul
-          className={classNames(
-            'nav__cities-list',
-            {
-              'nav__cities-list--open': isCitiesOpen,
-            }
-          )}
+          className={classNames('nav__cities-list', {
+            'nav__cities-list--open': isCitiesOpen,
+          })}
         >
           {cities.map((city) => (
-            <li
-              key={city}
-              className="nav__cities-item"
-            >
+            <li key={city} className="nav__cities-item">
               <button
                 type="button"
                 className="nav__cities-button text__body text__body--small"

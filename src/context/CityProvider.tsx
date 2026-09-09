@@ -8,7 +8,7 @@ interface CityProviderProps {
 }
 
 export const CityProvider = ({ children }: CityProviderProps) => {
-  const [selectedCity, setSelectedCity] = useState(cities[0]);
+  const [selectedCity, setSelectedCity] = useState(cities[0]!);
 
   return (
     <CityContext.Provider value={{ selectedCity, setSelectedCity }}>

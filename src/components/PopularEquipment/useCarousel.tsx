@@ -15,20 +15,13 @@ export const useCarousel = () => {
       return;
     }
 
-    const {
-      scrollLeft,
-      scrollWidth,
-      clientWidth,
-    } = content;
+    const { scrollLeft, scrollWidth, clientWidth } = content;
 
-    const maxScrollLeft =
-      scrollWidth - clientWidth;
+    const maxScrollLeft = scrollWidth - clientWidth;
 
     setCanScrollLeft(scrollLeft > 0);
 
-    setCanScrollRight(
-      scrollLeft < maxScrollLeft - 1
-    );
+    setCanScrollRight(scrollLeft < maxScrollLeft - 1);
 
     if (maxScrollLeft <= 0) {
       setCurrentSlide(0);
@@ -39,23 +32,16 @@ export const useCarousel = () => {
 
     const slideWidth = content.clientWidth;
 
-    const slidesCount =
-      Math.ceil(maxScrollLeft / slideWidth) + 1;
+    const slidesCount = Math.ceil(maxScrollLeft / slideWidth) + 1;
 
-    const currentIndex = Math.round(
-      scrollLeft / slideWidth
-    );
+    const currentIndex = Math.round(scrollLeft / slideWidth);
 
     setTotalSlides(slidesCount);
 
-    setCurrentSlide(
-      Math.min(currentIndex, slidesCount - 1)
-    );
+    setCurrentSlide(Math.min(currentIndex, slidesCount - 1));
   };
 
-  const scrollContent = (
-    direction: 'left' | 'right'
-  ) => {
+  const scrollContent = (direction: 'left' | 'right') => {
     const content = contentRef.current;
 
     if (!content) {
@@ -65,10 +51,7 @@ export const useCarousel = () => {
     const scrollAmount = content.clientWidth;
 
     content.scrollBy({
-      left:
-        direction === 'right'
-          ? scrollAmount
-          : -scrollAmount,
+      left: direction === 'right' ? scrollAmount : -scrollAmount,
       behavior: 'smooth',
     });
   };
@@ -80,15 +63,11 @@ export const useCarousel = () => {
       return;
     }
 
-    const maxScrollLeft =
-      content.scrollWidth - content.clientWidth;
+    const maxScrollLeft = content.scrollWidth - content.clientWidth;
 
     const slideWidth = content.clientWidth;
 
-    const targetPosition = Math.min(
-      index * slideWidth,
-      maxScrollLeft
-    );
+    const targetPosition = Math.min(index * slideWidth, maxScrollLeft);
 
     content.scrollTo({
       left: targetPosition,
@@ -105,26 +84,14 @@ export const useCarousel = () => {
       return undefined;
     }
 
-    content.addEventListener(
-      'scroll',
-      updateCarousel
-    );
+    content.addEventListener('scroll', updateCarousel);
 
-    window.addEventListener(
-      'resize',
-      updateCarousel
-    );
+    window.addEventListener('resize', updateCarousel);
 
     return () => {
-      content.removeEventListener(
-        'scroll',
-        updateCarousel
-      );
+      content.removeEventListener('scroll', updateCarousel);
 
-      window.removeEventListener(
-        'resize',
-        updateCarousel
-      );
+      window.removeEventListener('resize', updateCarousel);
     };
   }, []);
 

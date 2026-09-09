@@ -3,6 +3,7 @@ import { EquipmentCard } from '../EquipmentCard';
 import { useCity } from '../../context/CityContext';
 import { useCarousel } from './useCarousel';
 import './PopularEquipment.scss';
+import type { EquipmentType } from '../../types/EquipmentType';
 
 export const PopularEquipment = () => {
   const { selectedCity } = useCity();
@@ -17,7 +18,7 @@ export const PopularEquipment = () => {
     scrollToSlide,
   } = useCarousel();
 
-  const equipment = equipmentData[selectedCity];
+  const equipment = equipmentData[selectedCity]!;
 
   return (
     <section className="popular">
@@ -30,15 +31,9 @@ export const PopularEquipment = () => {
       </div>
 
       <div className="popular__carousel">
-        <div
-          className="popular__content"
-          ref={contentRef}
-        >
-          {equipment.map((item) => (
-            <div
-              className="popular__card"
-              key={item.id}
-            >
+        <div className="popular__content" ref={contentRef}>
+          {equipment.map((item: EquipmentType) => (
+            <div className="popular__card" key={item.id}>
               <EquipmentCard equipment={item} />
             </div>
           ))}
@@ -62,20 +57,16 @@ export const PopularEquipment = () => {
       </div>
 
       <div className="popular__dots">
-        {Array.from({ length: totalSlides }).map(
-          (_, index) => (
-            <button
-              type="button"
-              key={index}
-              className={`popular__dots-dot ${
-                index === currentSlide
-                  ? 'popular__dots-dot--active'
-                  : ''
-              }`}
-              onClick={() => scrollToSlide(index)}
-            />
-          )
-        )}
+        {Array.from({ length: totalSlides }).map((_, index) => (
+          <button
+            type="button"
+            key={index}
+            className={`popular__dots-dot ${
+              index === currentSlide ? 'popular__dots-dot--active' : ''
+            }`}
+            onClick={() => scrollToSlide(index)}
+          />
+        ))}
       </div>
     </section>
   );

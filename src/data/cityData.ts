@@ -1,7 +1,7 @@
 export type CityData = {
   address: string;
   phone: string;
-}
+};
 
 export const cityData: Record<string, CityData> = {
   Луцьк: {
