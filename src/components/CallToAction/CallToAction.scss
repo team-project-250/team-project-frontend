@@ -1,0 +1,80 @@
+@use '../../styles/utils' as *;
+
+.call-to-action {
+  padding-block: 40px;
+
+  background-color: $color-accent;
+
+  @include on-tablet {
+    padding-block: 50px;
+  }
+
+  @include on-desktop {
+    padding-block: 45px;
+  }
+
+  &__inner {
+    @include grid;
+  }
+
+  &__content {
+    grid-column: 1 / -1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 25px;
+
+    @include on-tablet {
+      gap: 30px;
+    }
+
+    @include on-desktop {
+      flex-direction: row;
+      align-items: center;
+      gap: 109px;
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+
+    &-title {
+      margin: 0;
+    }
+
+    &-description {
+      margin: 0;
+
+      @include on-tablet {
+        font-weight: 400;
+      }
+
+      @include on-desktop {
+        font-weight: 400;
+      }
+    }
+  }
+
+  &__button {
+    background-color: $color-primary;
+    color: $color-accent;
+
+    width: 100%;
+
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: $color-accent;
+      color: $color-primary;
+      border: 1px solid $color-primary;
+    }
+
+    @include on-tablet {
+      width: 260px;
+    }
+  }
+}

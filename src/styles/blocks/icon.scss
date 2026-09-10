@@ -1,0 +1,107 @@
+@use '../utils' as *;
+
+.icon {
+  display: block;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: all 0.4s ease-in-out;
+
+  &--logo {
+    background-image: url(/img/icons/icon-logo.svg);
+    background-size: contain;
+    background-position: center;
+  }
+
+  &--logo-footer {
+    background-image: url(/img/icons/icon-logo-footer.svg);
+    background-size: contain;
+    background-position: center;
+  }
+
+  &--burger {
+    width: 24px;
+    height: 24px;
+    background-image: url(/img/icons/icon-burger.svg);
+  }
+
+  &--calendar {
+    width: 24px;
+    height: 24px;
+    background-image: url(/img/icons/icon-calendar.svg);
+  }
+
+  &--instagram {
+    width: 24px;
+    height: 24px;
+    background-image: url(/img/icons/icon-instagram.svg);
+  }
+
+  &--close {
+    background-image: url(/img/icons/icon-close.svg);
+    width: 24px;
+    height: 24px;
+  }
+
+  &--arrow {
+    width: 16px;
+    height: 16px;
+
+    background-size: auto;
+    background-position: center;
+
+    background-image: url(/img/icons/icon-arrow.svg);
+  }
+
+  &--arrow-left {
+    background-size: auto;
+    background-position: center;
+
+    background-image: url(/img/icons/icon-arrow-left.svg);
+  }
+
+  &--location {
+    width: 24px;
+    height: 24px;
+    background-image: url(/img/icons/icon-location.svg);
+  }
+
+  &--location-yellow {
+    width: 24px;
+    height: 24px;
+    background-image: url(/img/icons/icon-location-yellow.svg);
+  }
+
+  &--phone-yellow {
+    width: 24px;
+    height: 24px;
+    background-image: url(/img/icons/icon-phone-yellow.svg);
+  }
+
+  &--how-to-rent-1 {
+    background-image: url(/img/icons/icon-how-to-rent-1.svg);
+    background-size: contain;
+    width: 64px;
+    height: 64px;
+  }
+
+  &--how-to-rent-2 {
+    background-image: url(/img/icons/icon-how-to-rent-2.svg);
+    background-size: contain;
+    width: 64px;
+    height: 64px;
+  }
+
+  &--how-to-rent-3 {
+    background-image: url(/img/icons/icon-how-to-rent-3.svg);
+    background-size: contain;
+    width: 64px;
+    height: 64px;
+  }
+
+  &--how-to-rent-4 {
+    background-image: url(/img/icons/icon-how-to-rent-4.svg);
+    background-size: contain;
+    width: 64px;
+    height: 64px;
+  }
+}

@@ -1,28 +1,21 @@
-import { Card, Container, Stack, Text, Title } from '@mantine/core';
+import { Outlet } from 'react-router-dom';
+import { Footer } from './components/Footer';
+import { Header } from './components/Header';
+import './App.scss';
+import { CityProvider } from './context/CityProvider';
 
-import { BackendStatus } from './components/BackendStatus';
-
-function App() {
+export const App = () => {
   return (
-    <Container size="sm" py="xl">
-      <Stack gap="lg">
-        <Title order={1}>Hello world!</Title>
+    <CityProvider>
+      <div className="app text page">
+        <Header />
 
-        <Text c="dimmed">
-          Frontend of the Team Project — React + Vite + TypeScript, styled with Mantine.
-        </Text>
+        <main className="app__main">
+          <Outlet />
+        </main>
 
-        <Card withBorder padding="lg">
-          <Stack gap="sm">
-            <Title order={3} size="h5">
-              Sanity check
-            </Title>
-            <BackendStatus />
-          </Stack>
-        </Card>
-      </Stack>
-    </Container>
+        <Footer />
+      </div>
+    </CityProvider>
   );
-}
-
-export default App;
+};
