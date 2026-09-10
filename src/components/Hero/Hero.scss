@@ -1,0 +1,157 @@
+@use '../../styles/utils' as *;
+
+.hero {
+  height: calc(100vh - 80px);
+  position: relative;
+  overflow: hidden;
+  background-color: $color-primary;
+
+  @include on-tablet {
+    background-color: #111;
+  }
+
+  @include on-desktop {
+    height: 650px;
+  }
+
+  &::before {
+    display: none;
+
+    @include on-tablet {
+      content: '';
+      display: block;
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+
+      background: linear-gradient(
+        90deg,
+        #111 0%,
+        #111 30%,
+        rgba(17, 17, 17, 0.85) 50%,
+        rgba(17, 17, 17, 0.4) 75%,
+        transparent 100%
+      );
+    }
+  }
+
+  &__image {
+    display: none;
+
+    @include on-tablet {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-image: url('/img/images/main-image.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+
+    @include on-desktop {
+      background-size: contain;
+      background-position: right center;
+    }
+  }
+
+  &__content {
+    @include grid;
+    align-content: center;
+    height: 100%;
+    padding-inline: 30px;
+
+    @include on-tablet {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+  }
+
+  &__title {
+    grid-column: 1 / -1;
+    margin: 0 0 20px;
+    color: $color-white;
+
+    @include on-tablet {
+      margin-bottom: 25px;
+    }
+
+    @include on-desktop {
+      grid-column: 1 / 20;
+      margin-bottom: 30px;
+    }
+  }
+
+  &__description {
+    grid-column: 1 / -1;
+    margin: 0 0 25px;
+    color: $color-white;
+
+    @include on-tablet {
+      margin-bottom: 30px;
+    }
+
+    @include on-desktop {
+      grid-column: 1 / 16;
+      margin-bottom: 45px;
+    }
+  }
+
+  &__features {
+    grid-column: 1 / -1;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    margin-bottom: 25px;
+
+    @include on-tablet {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    @include on-desktop {
+      grid-column: 1 / 16;
+      margin-bottom: 28px;
+    }
+
+    &-desc {
+      position: relative;
+      padding: 8px 12px 8px 25px;
+
+      border: 1px solid $color-accent;
+      border-radius: 4px;
+
+      color: $color-white;
+
+      &::before {
+        content: '';
+
+        position: absolute;
+        top: 50%;
+        left: 12px;
+
+        width: 5px;
+        height: 5px;
+
+        border-radius: 50%;
+        background-color: $color-accent;
+
+        transform: translateY(-50%);
+      }
+    }
+  }
+
+  &__button {
+    grid-column: 1 / -1;
+
+    @include on-tablet {
+      grid-column: 1 / 7;
+    }
+
+    @include on-desktop {
+      grid-column: 1 / 12;
+    }
+  }
+}

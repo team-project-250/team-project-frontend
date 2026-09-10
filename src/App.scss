@@ -1,0 +1,26 @@
+@use './styles/utils/' as *;
+@use './styles/blocks/page';
+@use './styles/blocks/icon';
+@use './styles/blocks/text';
+@use './styles//blocks/fonts.scss';
+
+#about,
+#rental-terms,
+#contacts {
+  scroll-margin-top: 170px;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  &__main {
+    flex-grow: 1;
+    padding-top: 80px;
+
+    @include on-desktop {
+      padding-top: 169px;
+    }
+  }
+}
