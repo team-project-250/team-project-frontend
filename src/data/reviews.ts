@@ -1,5 +1,4 @@
-const imagePath = (path: string) =>
-  `${import.meta.env.BASE_URL}${path}`;
+const imagePath = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 
 export const reviews = [
   {
