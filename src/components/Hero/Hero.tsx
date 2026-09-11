@@ -13,12 +13,12 @@ export const Hero = () => {
           техніки для прибирання
         </h1>
 
-        <p className="hero__description text__body">
-          Професійні мийні пилососи, підлогомийні машини та інше обладнання для якісного
-          прибирання.
+        <p className="hero__description text__title text__title--utility">
+          Професійні мийні пилососи, пароочисники та роботи для вікон без купівлі дорогого
+          обладнання
         </p>
 
-        <div className="hero__features">
+        <div className="hero__features text__body text__body--label">
           <span className="hero__features-desc">Від 200 грн/добу</span>
 
           <span className="hero__features-desc">Хімія Kärcher включена</span>

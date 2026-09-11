@@ -48,7 +48,7 @@ export const Footer: React.FC<Props> = ({ onClose }) => {
               </div>
 
               <p className="footer__address-description text__body text__body--how-to-rent">
-                © 2026 Easyrent.
+                © 2026 EasyRent.
                 <br />
                 Всі права захищені
               </p>
