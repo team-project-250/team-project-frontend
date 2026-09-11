@@ -1,21 +1,25 @@
 @use '../../styles/utils' as *;
 
 .popular {
-  grid-column: 1 / -1;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+
+  &__inner {
+    @include grid;
+  }
 
   &__top {
+    grid-column: 1 / -1;
+
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 15px;
-    margin-bottom: 20px;
 
     @include on-tablet {
       flex-direction: row;
       align-items: end;
       justify-content: space-between;
+
       margin-bottom: 25px;
     }
 
@@ -30,10 +34,17 @@
 
   &__top a {
     color: $color-primary;
-    text-decoration: none;
+
+    transition: textDecoration 0.3s ease-in-out;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 
   &__carousel {
+    grid-column: 1 / -1;
+
     position: relative;
   }
 
@@ -135,27 +146,30 @@
   }
 
   &__dots {
+    grid-column: 1 / -1;
+
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 4px;
 
     margin-top: 10px;
-  }
 
-  &__dots-dot {
-    width: 8px;
-    height: 8px;
+    &-dot {
+      width: 8px;
+      height: 8px;
 
-    padding: 0;
-    border: none;
-    border-radius: 50%;
-    background-color: $color-elements;
+      padding: 0;
 
-    cursor: pointer;
+      border: none;
+      border-radius: 50%;
+      background-color: $color-elements;
 
-    &--active {
-      background-color: $color-primary;
+      cursor: pointer;
+
+      &--active {
+        background-color: $color-primary;
+      }
     }
   }
 }

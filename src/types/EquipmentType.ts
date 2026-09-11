@@ -5,4 +5,7 @@ export interface EquipmentType {
   image: string;
   pricePerDay: number;
   description: string;
+  category: string;
+  rating: number;
+  availableUntil?: string;
 }

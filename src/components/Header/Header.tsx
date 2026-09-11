@@ -28,17 +28,21 @@ export const Header = () => {
 
           <button
             type="button"
-            className="header__main-catalog"
+            className="header__main-catalog text"
             onClick={() => setIsMenuOpen(true)}
           >
-            <span className="icon icon--burger"></span>
-            <span className="text__body text__body--buttons">Каталог</span>
+            <span className="header__main-menu icon icon--burger"></span>
+            <span className="header__main-button text__body text__body--buttons">
+              Каталог
+            </span>
           </button>
 
           <div className="header__main-city">
             <p className="text__title text__title--secondary">{selectedCity}</p>
 
-            <p className="text__body text__body--small">{currentCity.address}</p>
+            <p className="header__main-text text__body text__body--small">
+              {currentCity.address}
+            </p>
           </div>
 
           <div className="header__main-contact">
@@ -49,7 +53,9 @@ export const Header = () => {
               {currentCity.phone}
             </a>
 
-            <p className="text__body text__body--small">Пн-Нд: Цілодобово 24/7</p>
+            <p className="header__main-text text__body text__body--small">
+              Пн-Нд: Цілодобово 24/7
+            </p>
           </div>
 
           <Button className="header__main-button text__body text__body--buttons" />

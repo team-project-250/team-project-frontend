@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import type { EquipmentType } from '../../types/EquipmentType';
 import './EquipmentCard.scss';
 
@@ -8,8 +9,19 @@ type Props = {
 export const EquipmentCard: React.FC<Props> = ({ equipment }) => {
   return (
     <article className="equipment-card">
-      <span className="equipment-card__badge text__body text__body--uppercase">
-        Доступно
+      <span
+        className={classNames(
+          'equipment-card__badge',
+          'text__body',
+          'text__body--uppercase',
+          {
+            'equipment-card__badge--booked': equipment.availableUntil,
+          },
+        )}
+      >
+        {equipment.availableUntil
+          ? `Заброньовано до ${equipment.availableUntil}`
+          : 'Доступно'}
       </span>
 
       <div className="equipment-card__image-wrapper">
@@ -33,7 +45,10 @@ export const EquipmentCard: React.FC<Props> = ({ equipment }) => {
         <span className="text__body text__body--small">доба</span>
       </p>
 
-      <button className="equipment-card__button text__body text__body--buttons">
+      <button
+        className="equipment-card__button text__body text__body--buttons"
+        disabled={Boolean(equipment.availableUntil)}
+      >
         <span className="icon icon--calendar"></span>
         Забронювати
       </button>
