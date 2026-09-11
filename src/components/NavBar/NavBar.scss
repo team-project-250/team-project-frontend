@@ -49,6 +49,7 @@
       padding: 0;
 
       background-color: transparent;
+      color: $color-primary;
       border: none;
 
       cursor: pointer;
@@ -94,7 +95,7 @@
 
       &-item {
         position: relative;
-        padding-block: 12px;
+        padding-block: 14px;
         border: none;
 
         &::after {

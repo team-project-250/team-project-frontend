@@ -1,0 +1,75 @@
+@use '../../styles/utils' as *;
+
+.catalog-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 45px;
+
+  height: max-content;
+  padding: 30px;
+  background-color: $color-background;
+  border-radius: 8px;
+
+  @include on-desktop {
+    width: 345px;
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    margin: 0;
+
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 15px;
+    line-height: 22px;
+
+    cursor: pointer;
+  }
+
+  &__option input {
+    min-width: 20px;
+    min-height: 20px;
+    margin: 0;
+
+    cursor: pointer;
+  }
+
+  &__reset {
+    align-self: flex-start;
+
+    padding: 10px 20px;
+
+    border-radius: 4px;
+    border: 1px solid $color-primary;
+    background-color: transparent;
+
+    color: $color-primary;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: $color-primary;
+      color: $color-background;
+    }
+  }
+}

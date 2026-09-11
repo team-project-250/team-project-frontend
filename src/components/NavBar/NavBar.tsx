@@ -102,14 +102,14 @@ export const NavBar: React.FC<Props> = ({ onClose }) => {
       <div className="nav__cities">
         <button
           type="button"
-          className="nav__cities-button text__body text__body--small"
+          className="nav__cities-button text text__body text__body--small"
           onClick={() => setIsCitiesOpen(!isCitiesOpen)}
         >
           <span className="icon icon--location"></span>
 
           <span>{selectedCity}</span>
 
-          <span className="icon icon--arrow"></span>
+          <span className="nav__cities-arrow icon icon--arrow"></span>
         </button>
 
         <ul
@@ -121,7 +121,7 @@ export const NavBar: React.FC<Props> = ({ onClose }) => {
             <li key={city} className="nav__cities-item">
               <button
                 type="button"
-                className="nav__cities-button text__body text__body--small"
+                className="nav__cities-button text text__body text__body--small"
                 onClick={() => handleCitySelect(city)}
               >
                 {city}

@@ -1,0 +1,203 @@
+@use '../../styles/utils' as *;
+
+.catalog {
+  width: 100%;
+
+  padding-top: 50px;
+
+  &__content {
+    @include grid;
+  }
+
+  &__breadcrumbs {
+    grid-column: 1 / 5;
+
+    display: flex;
+    gap: 8px;
+
+    padding-left: 4px;
+
+    color: #767676;
+
+    &-link {
+      color: #767676;
+      text-decoration: none;
+    }
+  }
+
+  &__title {
+    grid-column: 1 / 6;
+    grid-row: 2;
+
+    padding-top: 8px;
+    padding-bottom: 45px;
+    margin: 0;
+  }
+
+  &__body {
+    grid-column: 1 / -1;
+
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 30px;
+
+    @include on-tablet {
+    }
+
+    @include on-desktop {
+      flex-direction: row;
+    }
+  }
+
+  &__sort {
+    position: relative;
+
+    grid-column: 1 / -1;
+
+    width: 100%;
+
+    @include on-tablet {
+      width: 220px;
+    }
+
+    &-button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      width: 100%;
+      height: 45px;
+
+      padding: 0 14px;
+
+      border: 1px solid $color-primary;
+      border-radius: 4px;
+
+      background-color: $color-white;
+      color: $color-primary;
+
+      cursor: pointer;
+
+      transition: border-color 0.3s ease-in-out;
+
+      @include on-tablet {
+        width: 200px;
+      }
+
+      &--open {
+        border-color: $color-primary;
+      }
+
+      &--dropdown {
+        width: 100%;
+
+        padding: 10px 14px;
+
+        border: none;
+
+        background-color: transparent;
+        color: $color-primary;
+
+        text-align: left;
+
+        cursor: pointer;
+
+        transition: background-color 0.2s ease-in-out;
+
+        &:hover {
+          background-color: $color-background;
+        }
+      }
+    }
+
+    &-menu {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 2;
+
+      display: flex;
+      flex-direction: column;
+
+      width: 100%;
+
+      padding: 6px 0;
+
+      border: 1px solid $color-elements;
+      border-radius: 4px;
+
+      background-color: $color-white;
+
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &__list {
+    display: grid;
+    grid-template-rows: 45px 1fr;
+    gap: 24px;
+
+    @include on-tablet {
+      grid-template-columns: repeat(2, 1fr);
+      width: 100%;
+    }
+
+    // @include on-desktop {
+    //   grid-template-columns: repeat(3, 1fr);
+    //   gap: 30px;
+    // }
+  }
+
+  &__pagination {
+    grid-column: 1 / -1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    margin-top: 40px;
+
+    &-button {
+      width: 40px;
+      height: 40px;
+
+      border: none;
+      background-color: transparent;
+      color: $color-primary;
+
+      cursor: pointer;
+
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        border: 1px solid $color-elements;
+        border-radius: 4px;
+      }
+
+      &--active {
+        border: 1px solid $color-elements;
+        border-radius: 4px;
+        background-color: $color-white;
+      }
+    }
+
+    &-arrows {
+      border: none;
+
+      width: 24px;
+      height: 24px;
+      background-color: transparent;
+
+      cursor: pointer;
+
+      &--left {
+        transform: rotate(90deg);
+      }
+
+      &--right {
+        transform: rotate(270deg);
+      }
+    }
+  }
+}
