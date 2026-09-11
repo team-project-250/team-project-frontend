@@ -1,9 +1,24 @@
 @use '../../styles/utils' as *;
 
 .about {
-  grid-column: 1 / -1;
+  width: 100%;
+  padding-block: 40px;
+
+  @include on-tablet {
+    padding-block: 80px;
+  }
+
+  @include on-desktop {
+    padding-block: 120px;
+  }
+
+  &__inner {
+    @include grid;
+  }
 
   &__title {
+    grid-column: 1 / -1;
+
     margin: 0 0 30px;
 
     @include on-tablet {
@@ -16,6 +31,8 @@
   }
 
   &__content {
+    grid-column: 1 / -1;
+
     display: flex;
     flex-direction: column;
     gap: 35px;
@@ -27,6 +44,43 @@
 
     @include on-desktop {
       gap: 100px;
+    }
+  }
+
+  &__button {
+    display: none;
+    grid-column: 1 / -1;
+    font-weight: 400;
+
+    justify-self: start;
+
+    margin-top: 28px;
+    padding: 0;
+
+    border: none;
+
+    background-color: transparent;
+    color: $color-primary;
+
+    cursor: pointer;
+    text-decoration: underline;
+
+    transition: textSecoration 0.3s ease-in-out;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    @include on-tablet {
+      display: block;
+    }
+  }
+
+  &__details {
+    grid-column: 1 / -1;
+
+    &-text {
+      margin: 0;
     }
   }
 
@@ -64,7 +118,6 @@
     &-wrapper {
       display: flex;
       flex-direction: column;
-
       gap: 25px;
     }
 

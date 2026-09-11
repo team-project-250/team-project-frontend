@@ -1,15 +1,35 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCity } from '../../context/CityContext';
 import { cityData } from '../../data/cityData';
 import './Footer.scss';
 
-export const Footer = () => {
+type Props = {
+  onClose?: () => void;
+};
+
+export const Footer: React.FC<Props> = ({ onClose }) => {
   const { selectedCity } = useCity();
   const currentCity = cityData[selectedCity];
+
+  const navigate = useNavigate();
 
   if (!currentCity) {
     return null;
   }
+
+  const scrollToSection = (id: string) => {
+    onClose?.();
+
+    if (location.pathname === '/') {
+      document.getElementById(id)?.scrollIntoView({
+        behavior: 'smooth',
+      });
+
+      return;
+    }
+
+    navigate(`/#${id}`);
+  };
 
   return (
     <footer className="footer" id="contacts">
@@ -19,7 +39,7 @@ export const Footer = () => {
             <Link
               to="/"
               className="icon icon--logo-footer footer__logo"
-              aria-label="Головна сторінка"
+              aria-label="Logo"
             />
 
             <div className="footer__address">
@@ -37,12 +57,39 @@ export const Footer = () => {
 
           <nav className="footer__nav text__body text__body--how-to-rent">
             <Link to="/catalog">Каталог</Link>
-            <Link to="/contacts">Контакти</Link>
-            <Link to="/conditions">Умови бронювання</Link>
+
+            <a
+              href="#contacts"
+              onClick={(event) => {
+                event.preventDefault();
+                scrollToSection('contacts');
+              }}
+            >
+              Контакти
+            </a>
+
+            <a
+              href="#rental-terms"
+              onClick={(event) => {
+                event.preventDefault();
+                scrollToSection('rental-terms');
+              }}
+            >
+              Умови бронювання
+            </a>
           </nav>
 
           <nav className="footer__nav text__body text__body--how-to-rent">
-            <Link to="/about">Про нас</Link>
+            <a
+              href="#about"
+              onClick={(event) => {
+                event.preventDefault();
+                scrollToSection('about');
+              }}
+            >
+              Про нас
+            </a>
+
             <Link to="/faq">Питання та відповіді</Link>
             <Link to="/delivery">Доставка і оплата</Link>
           </nav>
