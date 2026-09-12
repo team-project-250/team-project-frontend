@@ -6,14 +6,13 @@
   color: $color-primary;
 
   &__body {
-    font-size: 24px;
+    font-size: 16px;
     font-weight: 400;
     line-height: 24px;
     letter-spacing: 0;
 
     &--small {
       font-size: 14px;
-      font-weight: 400;
       line-height: 14px;
     }
 
@@ -24,6 +23,12 @@
       letter-spacing: 0;
     }
 
+    &--label {
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 22px;
+    }
+
     &--uppercase {
       font-size: 12px;
       font-weight: 600;
@@ -32,12 +37,12 @@
       text-transform: uppercase;
     }
 
-    &--how-to-rent {
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 24px;
-      letter-spacing: 0;
-    }
+    // &--how-to-rent {
+    //   font-size: 16px;
+    //   font-weight: 400;
+    //   line-height: 24px;
+    //   letter-spacing: 0;
+    // }
 
     &--number {
       font-size: 42px;
@@ -50,7 +55,7 @@
   &__title {
     margin: 0;
     font-size: 32px;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 32px;
     letter-spacing: 0;
 
@@ -60,11 +65,11 @@
     }
 
     &--basic {
-      font-size: 32px;
-      line-height: 34px;
+      font-size: 28px;
+      line-height: 28px;
 
       @include on-desktop {
-        font-size: 40px;
+        font-size: 42px;
         line-height: 42px;
       }
     }
@@ -76,12 +81,12 @@
       letter-spacing: 0;
     }
 
-    &--how-to-rent {
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 20px;
-      letter-spacing: 0;
-    }
+    // &--how-to-rent {
+    //   font-size: 20px;
+    //   font-weight: 600;
+    //   line-height: 20px;
+    //   letter-spacing: 0;
+    // }
 
     &--utility {
       font-size: 16px;
@@ -91,7 +96,6 @@
 
       @include on-desktop {
         font-size: 24px;
-        font-weight: 600;
         line-height: 36px;
       }
     }

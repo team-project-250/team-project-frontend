@@ -13,7 +13,7 @@ export const About = () => {
 
         <div className="about__content">
           <p className="about__description text__body text__body--how-to-rent">
-            Easyrent — сервіс оренди професійної техніки для прибирання, який допомагає
+            EasyRent — сервіс оренди професійної техніки для прибирання, який допомагає
             швидко та якісно впоратися з прибиранням квартир, будинків, офісів,
             комерційних і виробничих приміщень. У нас можна орендувати професійне
             обладнання для миття підлоги, чищення килимів, м'яких меблів та інших
@@ -32,20 +32,24 @@ export const About = () => {
               Техніка підходить для:
             </p>
 
-            <ul className="about__list">
-              <li className="about__item">квартир та будинків</li>
-              <li className="about__item">офісів</li>
-              <li className="about__item">комерційних приміщень</li>
-              <li className="about__item">виробничих приміщень</li>
+            <ul className="about__list text__body">
+              <li className="about__item">Плит та витяжок</li>
+              <li className="about__item">Важкодоступних місць та кутів</li>
+              <li className="about__item">
+                Підлоги будь-якого типу (плитка, ламінат, лінолеум){' '}
+              </li>
+              <li className="about__item">
+                Вікон, дзеркал, скляних поверхнь, душових кабін та сантехнік
+              </li>
+              <li className="about__item">Дитячих іграшок (дезінфекція)</li>
+              <li className="about__item">Плитки та міжплиткових швів</li>
             </ul>
           </div>
         </div>
 
         {isExpanded && (
           <div className="about__details">
-            <p className="about__details-text text__body text__body--how-to-rent">
-              <br />
-              <br />
+            <p className="about__details-text text__body">
               EasyRent допомагає орендувати професійне обладнання без зайвих витрат та
               складнощів. Ми підбираємо техніку під конкретні потреби клієнта, щоб кожне
               прибирання було максимально ефективним.

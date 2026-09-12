@@ -38,17 +38,12 @@
     }
 
     &-content {
-      display: flex;
+      @include grid;
       min-height: 80px;
       align-items: center;
-      justify-content: space-between;
-      padding-inline: 30px;
 
       @include on-desktop {
-        max-width: 1024px;
         min-height: 125px;
-        margin-inline: auto;
-        padding-inline: 48px;
       }
     }
 
@@ -59,8 +54,16 @@
       background-repeat: no-repeat;
 
       @include on-desktop {
+        grid-column: 1 / 4;
         width: 170px;
         height: 40px;
+      }
+    }
+
+    &-wrapper {
+      @include on-desktop {
+        grid-column: 5 / 8;
+        position: relative;
       }
     }
 
@@ -70,6 +73,8 @@
       background-color: transparent;
       border: none;
       cursor: pointer;
+
+      display: none;
 
       @include on-desktop {
         display: flex;
@@ -84,14 +89,39 @@
         border-radius: 4px;
         gap: 3px;
 
-        pointer-events: none;
+        transition: all 0.3s ease-in-out;
+
+        &--active {
+          background-color: $color-primary;
+          color: $color-white;
+        }
       }
+
+      &:hover .header__main-menu {
+        background-image: url(img/icons/icon-burger-white.svg);
+      }
+
+      &:hover {
+        background-color: $color-primary;
+        color: $color-white;
+      }
+    }
+
+    &-catalog-mobile {
+      @include on-desktop {
+        display: none;
+      }
+
+      background-color: transparent;
+      border: none;
+      grid-column: -1;
     }
 
     &-city {
       display: none;
 
       @include on-desktop {
+        grid-column: 9 / 13;
         display: flex;
         flex-direction: column;
         gap: 7px;
@@ -106,6 +136,7 @@
       display: none;
 
       @include on-desktop {
+        grid-column: 13 / 19;
         display: flex;
         flex-direction: column;
         gap: 7px;
@@ -116,6 +147,7 @@
       display: none;
 
       @include on-desktop {
+        grid-column: 19 / -1;
         display: flex;
         justify-self: flex-end;
       }
@@ -141,6 +173,82 @@
 
     @include on-desktop {
       display: none;
+    }
+  }
+
+  &__mega-menu {
+    display: none;
+
+    @include on-desktop {
+      display: block;
+      position: absolute;
+      top: 50px;
+      left: 0;
+    }
+
+    &-list {
+      margin: 0;
+      padding: 10px;
+      background-color: $color-background;
+      border-radius: 8px;
+      width: 320px;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-item {
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      position: relative;
+    }
+
+    &-link {
+      padding: 15px;
+      background-color: transparent;
+      border: none;
+
+      cursor: pointer;
+    }
+
+    &-arrow {
+      transform: rotate(270deg);
+    }
+
+    &-models {
+      position: absolute;
+      top: 0;
+      left: calc(100% + 10px);
+
+      width: 300px;
+
+      &-list {
+        list-style: none;
+
+        margin: 0;
+        padding: 0;
+        background-color: $color-background;
+        border-radius: 8px;
+        width: max-content;
+
+        display: flex;
+        flex-direction: column;
+      }
+
+      &-link {
+        border: none;
+        background-color: transparent;
+        padding: 15px;
+        width: 100%;
+
+        display: flex;
+        gap: 4px;
+
+        cursor: pointer;
+      }
     }
   }
 }

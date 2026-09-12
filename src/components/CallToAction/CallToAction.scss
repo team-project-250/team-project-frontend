@@ -32,6 +32,7 @@
     @include on-desktop {
       flex-direction: row;
       align-items: center;
+      justify-content: space-between;
       gap: 109px;
     }
   }
@@ -75,6 +76,10 @@
 
     @include on-tablet {
       width: 260px;
+    }
+
+    @include on-desktop {
+      width: 200px;
     }
   }
 }
