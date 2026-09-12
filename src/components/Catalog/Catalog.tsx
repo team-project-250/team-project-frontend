@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCity } from '../../context/CityContext';
 import { equipmentData } from '../../data/equipmentData';
@@ -18,6 +18,21 @@ export const Catalog = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOption, setSortOption] = useState<SortOption>('rating');
   const [isSortOpen, setIsSortOpen] = useState(false);
+
+  const catalogListRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    catalogListRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  }, [currentPage]);
 
   const itemsPerPage = 6;
 
@@ -89,7 +104,7 @@ export const Catalog = () => {
   };
 
   return (
-    <section className="catalog text">
+    <section className="catalog text" ref={catalogListRef}>
       <div className="catalog__content">
         <div className="catalog__breadcrumbs text__body text__body--small">
           <Link className="catalog__breadcrumbs-link" to="/">

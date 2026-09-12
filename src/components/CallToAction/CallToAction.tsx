@@ -8,7 +8,7 @@ export const CallToAction = () => {
         <div className="call-to-action__content">
           <div className="call-to-action__text">
             <h2 className="call-to-action__text-title text__title text__title--basic">
-              Готові для генерального прибирання?
+              Готові до генерального прибирання?
             </h2>
 
             <p className="call-to-action__text-description text__title text__title--utility">
