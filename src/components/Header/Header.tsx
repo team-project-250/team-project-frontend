@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { useCity } from '../../context/CityContext';
 import { cityData } from '../../data/cityData';
 import { Button } from '../Button';
-import { NavBar } from '../NavBar';
 import './Header.scss';
 import { Link } from 'react-router-dom';
 import { equipmentCategories } from '../../data/equipmentCategories';
 import classNames from 'classnames';
 import { equipmentData } from '../../data/equipmentData';
+import { MobileMenu } from '../MobileMenu';
+// import { NavBar } from '../NavBar';
 
 export const Header = () => {
   const { selectedCity } = useCity();
@@ -34,6 +35,14 @@ export const Header = () => {
     };
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
   const equipment = equipmentData[selectedCity] ?? [];
 
   const categoryEquipment = equipment.filter(
@@ -46,10 +55,6 @@ export const Header = () => {
 
   return (
     <header className="header">
-      <div className="header__nav">
-        <NavBar />
-      </div>
-
       <div className="header__main">
         <div className="header__main-content">
           <Link to="/" className="icon--logo header__main-logo" aria-label="Logo" />
@@ -80,12 +85,9 @@ export const Header = () => {
                     <li
                       key={category}
                       className="header__mega-menu-item text__body text_body--label"
+                      onMouseEnter={() => setSelectedCategory(category)}
                     >
-                      <button
-                        type="button"
-                        className="header__mega-menu-link text"
-                        onClick={() => setSelectedCategory(category)}
-                      >
+                      <button type="button" className="header__mega-menu-link text">
                         {category}
                       </button>
 
@@ -149,7 +151,7 @@ export const Header = () => {
         </div>
       </div>
 
-      <div className={`page__menu ${isMenuOpen ? 'page__menu--target' : ''}`}>
+      <div className={classNames('page__menu', { 'page__menu--target': isMenuOpen })}>
         <button
           type="button"
           className="header__menu-close"
@@ -158,7 +160,7 @@ export const Header = () => {
           <span className="icon icon--close"></span>
         </button>
 
-        <NavBar onClose={() => setIsMenuOpen(false)} />
+        <MobileMenu onClose={() => setIsMenuOpen(false)} />
       </div>
     </header>
   );

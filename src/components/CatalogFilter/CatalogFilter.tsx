@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { cities } from '../../data/cities';
 import { equipmentCategories } from '../../data/equipmentCategories';
 import './CatalogFilter.scss';
@@ -9,6 +10,7 @@ type CatalogFilterProps = {
   onCategoryChange: (category: string) => void;
   onCityChange: (city: string) => void;
   onAvailabilityChange: (availability: string) => void;
+  isOpen: boolean;
   onReset: () => void;
 };
 
@@ -19,10 +21,11 @@ export const CatalogFilter = ({
   onCategoryChange,
   onCityChange,
   onAvailabilityChange,
+  isOpen,
   onReset,
 }: CatalogFilterProps) => {
   return (
-    <aside className="catalog-filter">
+    <aside className={classNames('catalog-filter', { 'catalog-filter--open': isOpen })}>
       <div className="catalog-filter__group">
         <h2 className="catalog-filter__title text__title text__title-how-to-rent">
           Категорії

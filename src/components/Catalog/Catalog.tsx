@@ -18,6 +18,7 @@ export const Catalog = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOption, setSortOption] = useState<SortOption>('rating');
   const [isSortOpen, setIsSortOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const catalogListRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
@@ -126,11 +127,19 @@ export const Catalog = () => {
             onCategoryChange={handleCategoryChange}
             onCityChange={handleCityChange}
             onAvailabilityChange={handleAvailabilityChange}
+            isOpen={isFilterOpen}
             onReset={handleReset}
           />
 
           <div className="text catalog__list">
             <div className="catalog__sort">
+              <button
+                type="button"
+                className="catalog__filter-button text text__body"
+                onClick={() => setIsFilterOpen((prev) => !prev)}
+              >
+                <span className="icon icon--filter"></span>
+              </button>
               <button
                 type="button"
                 className={`text catalog__sort-button ${
