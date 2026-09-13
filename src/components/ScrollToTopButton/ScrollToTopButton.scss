@@ -1,0 +1,44 @@
+@use '../../styles/utils' as *;
+
+.scroll-to-top {
+  display: none;
+
+  @include on-desktop {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 10;
+
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    background-color: $color-white;
+    border: 1px solid $color-icons;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease-in-out;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+    border: 1px solid $color-accent;
+  }
+
+  @include on-tablet {
+    right: 32px;
+    bottom: 32px;
+  }
+
+  @include on-desktop {
+    right: 48px;
+    bottom: 48px;
+  }
+}

@@ -18,6 +18,12 @@
     background-position: center;
   }
 
+  &--filter {
+    width: 24px;
+    height: 24px;
+    background-image: url(/img/icons/icon-filter.svg);
+  }
+
   &--burger {
     width: 24px;
     height: 24px;
@@ -63,6 +69,12 @@
     background-position: center;
 
     background-image: url(/img/icons/icon-arrow-left.svg);
+  }
+
+  &--arrow-up {
+    width: 15px;
+    height: 15px;
+    background-image: url(/img/icons/icon-arrow-up.svg);
   }
 
   &--location {

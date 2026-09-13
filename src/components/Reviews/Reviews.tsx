@@ -102,7 +102,7 @@ export const Reviews = () => {
                     </div>
 
                     <div>
-                      <h3 className="reviews__name text__title text__title--how-to-rent">
+                      <h3 className="reviews__name text__title text__title--secondary">
                         {review.name}
                       </h3>
 
@@ -115,7 +115,7 @@ export const Reviews = () => {
                           ))}
                         </div>
 
-                        <time className="reviews__rating-date text__body text__body--how-to-rent">
+                        <time className="reviews__rating-date text__body">
                           {review.date}
                         </time>
                       </div>
@@ -123,9 +123,7 @@ export const Reviews = () => {
                   </div>
                 </div>
 
-                <p className="reviews__text text__body text__body--how-to-rent">
-                  {review.text}
-                </p>
+                <p className="reviews__text text__body">{review.text}</p>
               </article>
             ))}
           </div>
