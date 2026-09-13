@@ -15,12 +15,14 @@
   flex-direction: column;
   min-height: 100vh;
 
+  &__nav {
+    width: 100%;
+    background-color: $color-secondary;
+    border: 1px solid $color-elements;
+    z-index: 4;
+  }
+
   &__main {
     flex-grow: 1;
-    padding-top: 80px;
-
-    @include on-desktop {
-      padding-top: 169px;
-    }
   }
 }

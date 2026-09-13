@@ -12,6 +12,7 @@ export const EquipmentCard: React.FC<Props> = ({ equipment }) => {
       <span
         className={classNames(
           'equipment-card__badge',
+          'text',
           'text__body',
           'text__body--uppercase',
           {
@@ -33,11 +34,9 @@ export const EquipmentCard: React.FC<Props> = ({ equipment }) => {
       </div>
 
       <div className="equipment-card__content">
-        <p className="equipment-card__name text__body text__body--small">
-          {equipment.name}
-        </p>
+        <p className="equipment-card__name text__body">{equipment.name}</p>
 
-        <p className="equipment-card__model">{equipment.model}</p>
+        <p className="equipment-card__model text__body">{equipment.model}</p>
       </div>
 
       <p className="equipment-card__price text__title text__title--utility">
@@ -46,10 +45,9 @@ export const EquipmentCard: React.FC<Props> = ({ equipment }) => {
       </p>
 
       <button
-        className="equipment-card__button text__body text__body--buttons"
+        className="equipment-card__button text text__body text__body--buttons"
         disabled={Boolean(equipment.availableUntil)}
       >
-        <span className="icon icon--calendar"></span>
         Забронювати
       </button>
     </article>

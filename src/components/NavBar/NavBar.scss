@@ -1,13 +1,18 @@
 @use '../../styles/utils' as *;
 
 .nav {
-  width: 100%;
-  height: 100%;
+  display: none;
 
-  display: flex;
-  flex-direction: column;
+  @include on-desktop {
+    width: 100%;
+    height: 100%;
 
-  padding: 80px 24px 30px;
+    @include grid;
+    padding: 0;
+
+    flex-direction: row;
+    align-items: center;
+  }
 
   &__list {
     display: flex;
@@ -21,9 +26,42 @@
 
     list-style: none;
 
+    @include on-desktop {
+      grid-column: 1 / 19;
+
+      width: 100%;
+
+      flex-direction: row;
+      align-items: center;
+      gap: 30px;
+    }
+
     &-item {
       padding-block: 18px;
       border-bottom: 1px solid $color-elements;
+
+      @include on-desktop {
+        position: relative;
+        padding-block: 14px;
+        border: none;
+
+        &::after {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 3px;
+          bottom: 0;
+          left: 0;
+
+          background-color: $color-primary;
+
+          transition: width 0.3s ease-in-out;
+        }
+
+        &:hover::after {
+          width: 100%;
+        }
+      }
     }
   }
 
@@ -40,6 +78,13 @@
     position: relative;
 
     margin-top: 25px;
+
+    @include on-desktop {
+      grid-column: 19 / 25;
+      justify-self: center;
+
+      margin: 0;
+    }
 
     &-button {
       display: flex;
@@ -65,65 +110,7 @@
 
       list-style: none;
 
-      &--open {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-      }
-    }
-  }
-
-  @include on-desktop {
-    @include grid;
-
-    height: 44px;
-
-    margin-inline: auto;
-    padding: 0;
-
-    flex-direction: row;
-    align-items: center;
-
-    &__list {
-      grid-column: 1 / 19;
-
-      width: 100%;
-
-      flex-direction: row;
-      align-items: center;
-      gap: 30px;
-
-      &-item {
-        position: relative;
-        padding-block: 14px;
-        border: none;
-
-        &::after {
-          content: '';
-          position: absolute;
-          width: 0;
-          height: 3px;
-          bottom: 0;
-          left: 0;
-
-          background-color: $color-primary;
-
-          transition: width 0.3s ease-in-out;
-        }
-
-        &:hover::after {
-          width: 100%;
-        }
-      }
-    }
-
-    &__cities {
-      grid-column: 19 / 25;
-      justify-self: center;
-
-      margin: 0;
-
-      &-list {
+      @include on-desktop {
         position: absolute;
         top: calc(100% + 10px);
         left: 0;
@@ -151,8 +138,14 @@
           opacity 0.3s ease-in-out,
           transform 0.3s ease-in-out,
           visibility 0.3s ease-in-out;
+      }
 
-        &--open {
+      &--open {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        @include on-desktop {
           opacity: 1;
           visibility: visible;
           transform: translateY(0);

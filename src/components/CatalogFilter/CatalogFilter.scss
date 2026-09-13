@@ -1,17 +1,24 @@
 @use '../../styles/utils' as *;
 
 .catalog-filter {
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 45px;
 
+  width: 100%;
   height: max-content;
   padding: 30px;
+
   background-color: $color-background;
   border-radius: 8px;
 
+  &--open {
+    display: flex;
+  }
+
   @include on-desktop {
-    width: 345px;
+    display: flex;
+    width: 370px;
   }
 
   &__group {
