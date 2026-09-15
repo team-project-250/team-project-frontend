@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { reviews } from '../../data/reviews';
 import './Reviews.scss';
 
@@ -16,7 +16,7 @@ export const Reviews = () => {
     return Math.ceil(reviews.length / 2);
   };
 
-  const updateCarousel = () => {
+  const updateCarousel = useCallback(() => {
     const viewport = viewportRef.current;
 
     if (!viewport) {
@@ -26,24 +26,52 @@ export const Reviews = () => {
     const slidesCount = getSlidesCount();
     const maxScrollLeft = viewport.scrollWidth - viewport.clientWidth;
 
-    const slideWidth = viewport.clientWidth;
+    const items = Array.from(viewport.querySelectorAll<HTMLElement>('.reviews__item'));
 
     const currentIndex =
-      slideWidth > 0 ? Math.round(viewport.scrollLeft / slideWidth) : 0;
+      window.innerWidth < 640
+        ? items.reduce((closestIndex, item, index) => {
+            const closestItem = items[closestIndex];
+
+            if (!closestItem) {
+              return index;
+            }
+
+            const closestDistance = Math.abs(
+              closestItem.offsetLeft - viewport.scrollLeft,
+            );
+            const currentDistance = Math.abs(item.offsetLeft - viewport.scrollLeft);
+
+            return currentDistance < closestDistance ? index : closestIndex;
+          }, 0)
+        : viewport.clientWidth > 0
+          ? Math.round(viewport.scrollLeft / viewport.clientWidth)
+          : 0;
 
     setTotalSlides(slidesCount);
-
     setCurrentSlide(Math.min(currentIndex, slidesCount - 1));
 
     if (maxScrollLeft <= 0) {
       setCurrentSlide(0);
     }
-  };
+  }, []);
 
   const scrollToSlide = (index: number) => {
     const viewport = viewportRef.current;
 
     if (!viewport) {
+      return;
+    }
+
+    if (window.innerWidth < 640) {
+      const items = viewport.querySelectorAll<HTMLElement>('.reviews__item');
+
+      items[index]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'start',
+      });
+
       return;
     }
 
@@ -78,7 +106,7 @@ export const Reviews = () => {
 
       window.removeEventListener('resize', updateCarousel);
     };
-  }, []);
+  }, [updateCarousel]);
 
   return (
     <section className="reviews">

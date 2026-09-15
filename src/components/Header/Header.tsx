@@ -56,6 +56,16 @@ export const Header = () => {
   return (
     <header className="header">
       <div className="header__main">
+        <div className="header__phone">
+          <span className="icon icon--phone"></span>
+
+          <a
+            href={`tel:${currentCity.phone.replace(/\D/g, '')}`}
+            className="header__phone-link text__body text__body--small"
+          >
+            {currentCity.phone}
+          </a>
+        </div>
         <div className="header__main-content">
           <Link to="/" className="icon--logo header__main-logo" aria-label="Logo" />
 
