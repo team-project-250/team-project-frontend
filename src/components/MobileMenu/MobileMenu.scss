@@ -1,14 +1,18 @@
 @use '../../styles/utils' as *;
 
 .mobile-menu {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 56px 1fr 1fr;
 
   height: 100%;
-  padding: 50px 0 24px 0;
+  padding: 64px 0 34px 0;
 
   overflow-y: auto;
   background-color: $color-white;
+
+  @include on-desktop {
+    display: none;
+  }
 
   &__catalog {
     position: relative;
@@ -116,7 +120,8 @@
   &__cities {
     position: relative;
 
-    margin-top: auto;
+    align-self: self-end;
+
     padding-top: 24px;
     padding-inline: 30px;
 
@@ -158,13 +163,5 @@
 
   &__address {
     margin: 8px 0 0;
-  }
-
-  @include on-tablet {
-    padding-inline: 32px;
-  }
-
-  @include on-desktop {
-    display: none;
   }
 }
