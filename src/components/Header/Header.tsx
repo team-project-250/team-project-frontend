@@ -8,7 +8,6 @@ import { equipmentCategories } from '../../data/equipmentCategories';
 import classNames from 'classnames';
 import { equipmentData } from '../../data/equipmentData';
 import { MobileMenu } from '../MobileMenu';
-// import { NavBar } from '../NavBar';
 
 export const Header = () => {
   const { selectedCity } = useCity();

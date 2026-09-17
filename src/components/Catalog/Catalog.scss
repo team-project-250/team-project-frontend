@@ -9,22 +9,6 @@
     @include grid;
   }
 
-  &__breadcrumbs {
-    grid-column: 1 / 5;
-
-    display: flex;
-    gap: 8px;
-
-    padding-left: 4px;
-
-    color: #767676;
-
-    &-link {
-      color: #767676;
-      text-decoration: none;
-    }
-  }
-
   &__title {
     grid-column: 1 / 6;
     grid-row: 2;
@@ -37,16 +21,19 @@
   &__body {
     grid-column: 1 / -1;
 
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 30px;
 
     position: relative;
 
     @include on-tablet {
+      grid-template-columns: repeat(2 1fr);
     }
 
     @include on-desktop {
+      display: flex;
+      align-items: start;
       flex-direction: row;
     }
   }
@@ -55,6 +42,7 @@
     position: relative;
 
     grid-column: 1 / -1;
+    grid-row: 1;
 
     width: 100%;
 
@@ -63,6 +51,12 @@
 
     @include on-tablet {
       width: 220px;
+    }
+
+    @include on-desktop {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      width: 100%;
     }
 
     &-button {
@@ -138,16 +132,21 @@
   }
 
   &__list {
-    display: grid;
-    grid-template-rows: 45px 1fr;
-    gap: 24px;
+    display: contents;
+    // grid-template-rows: 45px 1fr;
+    // gap: 24px;
 
-    @include on-tablet {
-      grid-template-columns: repeat(2, 1fr);
-      width: 100%;
-    }
+    // @include on-tablet {
+    //   grid-template-columns: repeat(2, 1fr);
+    //   width: 100%;
+    // }
 
     @include on-desktop {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: 45px 1fr;
+      gap: 24px;
+
       width: 66%;
     }
   }
