@@ -1,0 +1,392 @@
+@use '../../styles/utils' as *;
+
+.equipment-details {
+  padding-top: 50px;
+  background-color: $color-white;
+
+  &__content {
+    @include grid;
+
+    align-items: start;
+    padding-bottom: 30px;
+
+    @include on-tablet {
+      padding-block: 40px 80px;
+    }
+  }
+
+  &__gallery {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+
+    @include on-tablet {
+      grid-column: 1 / 13;
+      width: 468px;
+    }
+  }
+
+  &__image {
+    display: block;
+    height: auto;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: contain;
+
+    @include on-desktop {
+      width: 468px;
+      height: 468px;
+    }
+  }
+
+  &__thumbnails {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    overflow-x: auto;
+  }
+
+  &__thumbnail {
+    flex-shrink: 0;
+    display: block;
+    padding: 0;
+    border: 1px solid transparent;
+    background: transparent;
+    cursor: pointer;
+
+    &--active {
+      border-color: $color-primary;
+    }
+
+    &-img {
+      display: block;
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+    }
+  }
+
+  &__info {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-top: 30px;
+
+    @include on-tablet {
+      padding: 0;
+      grid-column: 14 / -1;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    display: none;
+
+    @include on-desktop {
+      display: block;
+    }
+
+    &-mobile {
+      grid-column: 1 / -1;
+      padding-top: 30px;
+
+      @include on-desktop {
+        display: none;
+      }
+    }
+  }
+
+  &__model {
+    margin: 0;
+    color: $color-background;
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+
+    @include on-desktop {
+      padding-top: 30px;
+    }
+
+    &-description {
+      position: relative;
+
+      padding-left: 42px;
+
+      &::before {
+        content: url('/img/icons/icon-mark.svg');
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 25px;
+        height: 22px;
+      }
+    }
+  }
+
+  &__availability {
+    position: relative;
+
+    padding-left: 42px;
+
+    &::before {
+      content: url('/img/icons/icon-mark.svg');
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 25px;
+      height: 22px;
+    }
+  }
+
+  &__price {
+    margin: 0;
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-top: 15px;
+
+    &-button {
+      width: 100%;
+      height: 55px;
+      border: 1px solid $color-accent;
+      background-color: $color-accent;
+      color: $color-primary;
+      border-radius: 4px;
+      cursor: pointer;
+
+      transition: all 0.4s ease-in-out;
+
+      &:hover {
+        background-color: transparent;
+        border: 1px solid $color-primary;
+      }
+
+      &--booking-for-one {
+        background-color: transparent;
+        border: 1px solid $color-primary;
+
+        transition: all 0.4s ease-in-out;
+
+        &:hover {
+          border: 1px solid $color-accent;
+          background-color: $color-accent;
+        }
+      }
+    }
+  }
+
+  &__tabs {
+    display: flex;
+    // overflow-x: auto;
+    border-bottom: 1px solid $color-elements;
+    width: 100%;
+    padding-top: 30px;
+    position: relative;
+
+    grid-column: 1 / -1;
+
+    @include on-desktop {
+      width: max-content;
+      padding-top: 90px;
+    }
+
+    &-select {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      width: 100%;
+
+      padding: 14px 16px;
+
+      border: 1px solid $color-primary;
+      border-radius: 8px;
+      background-color: $color-white;
+
+      color: $color-primary;
+
+      cursor: pointer;
+
+      @include on-tablet {
+        display: none;
+      }
+    }
+
+    &-arrow {
+      width: 8px;
+      height: 8px;
+
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+
+      transform: rotate(45deg);
+      transition: transform 0.3s ease-in-out;
+
+      &--open {
+        transform: rotate(225deg);
+      }
+    }
+
+    &-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      // bottom: auto;
+
+      z-index: 3;
+
+      display: flex;
+      flex-direction: column;
+
+      // overflow: hidden;
+
+      border: 1px solid $color-primary;
+      border-radius: 8px;
+      background-color: $color-white;
+
+      @include on-tablet {
+        display: none;
+      }
+    }
+
+    &-option {
+      width: 100%;
+
+      padding: 14px 16px;
+      border: none;
+
+      background-color: $color-white;
+
+      text-align: left;
+      cursor: pointer;
+
+      transition: background-color 0.3s ease-in-out;
+
+      &:hover {
+        background-color: rgba($color-primary, 0.08);
+      }
+
+      &--active {
+        color: $color-primary;
+        font-weight: 600;
+      }
+    }
+
+    &-list {
+      display: none;
+
+      @include on-tablet {
+        display: flex;
+      }
+    }
+  }
+
+  &__tab {
+    flex-shrink: 0;
+    padding: 16px;
+    border: 0;
+    text-transform: uppercase;
+    background: transparent;
+    color: $color-background;
+    cursor: pointer;
+
+    &-content {
+      grid-column: 1 / -1;
+    }
+
+    &--active {
+      grid-column: 1 / -1;
+      border-bottom: 2px solid $color-primary;
+      color: $color-primary;
+    }
+  }
+
+  &__description {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding-top: 30px;
+
+    &-desc {
+      margin: 0;
+    }
+  }
+
+  &__suitable {
+    display: flex;
+    flex-direction: column;
+
+    &-title {
+      font-weight: 700;
+      margin: 0;
+    }
+
+    &-list {
+      list-style: none;
+      padding: 30px 0 0 0;
+      margin: 0;
+
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    &-item {
+      position: relative;
+
+      padding-left: 42px;
+
+      &::before {
+        content: url('/img/icons/icon-mark.svg');
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 25px;
+        height: 22px;
+      }
+    }
+  }
+
+  &__carousel {
+    grid-column: 1 / -1;
+    padding-top: 50px;
+
+    display: flex;
+    flex-direction: column;
+
+    @include on-desktop {
+      padding-top: 120px;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &-title {
+      margin: 0;
+    }
+
+    &-button {
+      color: $color-primary;
+    }
+  }
+}

@@ -9,15 +9,20 @@
   height: max-content;
   padding: 30px;
 
-  background-color: $color-background;
+  background-color: $color-elements;
   border-radius: 8px;
 
   &--open {
     display: flex;
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 
   @include on-desktop {
     display: flex;
+    grid-column: auto;
+    grid-row: auto;
+
     width: 370px;
   }
 

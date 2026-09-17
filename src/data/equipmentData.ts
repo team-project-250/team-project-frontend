@@ -67,7 +67,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
         'Компактний миючий пилосос для глибокого очищення текстильних поверхонь.',
       category: 'Апарати для чищення килимів',
       rating: 4.8,
-      availableUntil: '10.09',
+      availableUntil: '20.09.2026',
     },
     {
       id: 7,
