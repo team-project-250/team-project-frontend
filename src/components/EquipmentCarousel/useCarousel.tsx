@@ -1,22 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-export const useCarousel = () => {
+export const useCarousel = (itemsCount: number) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [totalSlides, setTotalSlides] = useState(1);
-
-  const getItems = useCallback(() => {
-    const content = contentRef.current;
-
-    if (!content) {
-      return [];
-    }
-
-    return Array.from(content.querySelectorAll<HTMLElement>('.popular__card'));
-  }, []);
 
   const getVisibleItemsCount = useCallback(() => {
     if (window.innerWidth >= 1024) {
@@ -46,34 +36,36 @@ export const useCarousel = () => {
       return;
     }
 
-    const items = getItems();
+    const visibleItems = getVisibleItemsCount();
 
-    if (items.length === 0) {
+    const slidesCount = Math.max(itemsCount - visibleItems + 1, 1);
+
+    const cards = Array.from(content.children) as HTMLElement[];
+
+    if (cards.length === 0) {
       return;
     }
-
-    const visibleItems = getVisibleItemsCount();
-    const slidesCount = Math.max(items.length - visibleItems + 1, 1);
 
     const currentIndex =
       scrollLeft >= maxScrollLeft - 1
         ? slidesCount - 1
-        : items.reduce((closestIndex, item, index) => {
-            const closestItem = items[closestIndex];
+        : cards.reduce((closestIndex, card, index) => {
+            const closestCard = cards[closestIndex];
 
-            if (!closestItem) {
+            if (!closestCard) {
               return index;
             }
 
-            const closestDistance = Math.abs(closestItem.offsetLeft - scrollLeft);
-            const currentDistance = Math.abs(item.offsetLeft - scrollLeft);
+            const closestDistance = Math.abs(closestCard.offsetLeft - scrollLeft);
+
+            const currentDistance = Math.abs(card.offsetLeft - scrollLeft);
 
             return currentDistance < closestDistance ? index : closestIndex;
           }, 0);
 
     setTotalSlides(slidesCount);
     setCurrentSlide(Math.min(currentIndex, slidesCount - 1));
-  }, [getItems, getVisibleItemsCount]);
+  }, [getVisibleItemsCount, itemsCount]);
 
   const scrollContent = (direction: 'left' | 'right') => {
     const content = contentRef.current;
@@ -82,9 +74,9 @@ export const useCarousel = () => {
       return;
     }
 
-    const items = getItems();
+    const cards = Array.from(content.children) as HTMLElement[];
 
-    if (items.length === 0) {
+    if (cards.length === 0) {
       return;
     }
 
@@ -93,14 +85,14 @@ export const useCarousel = () => {
         ? Math.min(currentSlide + 1, totalSlides - 1)
         : Math.max(currentSlide - 1, 0);
 
-    const targetItem = items[targetIndex];
+    const targetCard = cards[targetIndex];
 
-    if (!targetItem) {
+    if (!targetCard) {
       return;
     }
 
     content.scrollTo({
-      left: targetItem.offsetLeft,
+      left: targetCard.offsetLeft,
       behavior: 'smooth',
     });
   };
@@ -112,15 +104,16 @@ export const useCarousel = () => {
       return;
     }
 
-    const items = getItems();
-    const targetItem = items[index];
+    const cards = Array.from(content.children) as HTMLElement[];
 
-    if (!targetItem) {
+    const targetCard = cards[index];
+
+    if (!targetCard) {
       return;
     }
 
     content.scrollTo({
-      left: targetItem.offsetLeft,
+      left: targetCard.offsetLeft,
       behavior: 'smooth',
     });
   };

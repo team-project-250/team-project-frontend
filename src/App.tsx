@@ -5,25 +5,28 @@ import './App.scss';
 import { CityProvider } from './context/CityProvider';
 import { NavBar } from './components/NavBar';
 import { ScrollToTopButton } from './components/ScrollToTopButton/ScrollToTopButton';
+import { BookingProvider } from './context/BookingProvider';
 
 export const App = () => {
   return (
-    <CityProvider>
-      <div className="app text page">
-        <div className="app__nav">
-          <NavBar />
+    <BookingProvider>
+      <CityProvider>
+        <div className="app text page">
+          <div className="app__nav">
+            <NavBar />
+          </div>
+
+          <Header />
+
+          <main className="app__main">
+            <Outlet />
+          </main>
+
+          <Footer />
+
+          <ScrollToTopButton />
         </div>
-
-        <Header />
-
-        <main className="app__main">
-          <Outlet />
-        </main>
-
-        <Footer />
-
-        <ScrollToTopButton />
-      </div>
-    </CityProvider>
+      </CityProvider>
+    </BookingProvider>
   );
 };

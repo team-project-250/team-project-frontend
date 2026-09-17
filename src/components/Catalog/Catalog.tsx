@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useCity } from '../../context/CityContext';
 import { equipmentData } from '../../data/equipmentData';
 import type { EquipmentType } from '../../types/EquipmentType';
@@ -7,6 +6,7 @@ import { CatalogFilter } from '../CatalogFilter';
 import { EquipmentCard } from '../EquipmentCard';
 import './Catalog.scss';
 import classNames from 'classnames';
+import { Breadcrumbs } from '../Breadcrumbs';
 
 type SortOption = 'rating' | 'priceAsc' | 'priceDesc' | 'name';
 
@@ -107,15 +107,7 @@ export const Catalog = () => {
   return (
     <section className="catalog text" ref={catalogListRef}>
       <div className="catalog__content">
-        <div className="catalog__breadcrumbs text__body text__body--small">
-          <Link className="catalog__breadcrumbs-link" to="/">
-            Головна
-          </Link>
-
-          <span>/</span>
-
-          <span>Каталог</span>
-        </div>
+        <Breadcrumbs items={[{ label: 'Головна', path: '/' }, { label: 'Каталог' }]} />
 
         <h1 className="catalog__title text__title">Каталог</h1>
 
@@ -138,7 +130,12 @@ export const Catalog = () => {
                 className="catalog__filter-button text text__body"
                 onClick={() => setIsFilterOpen((prev) => !prev)}
               >
-                <span className="icon icon--filter"></span>
+                <span
+                  className={classNames(
+                    'icon',
+                    isFilterOpen ? 'icon--close' : 'icon--filter',
+                  )}
+                ></span>
               </button>
               <button
                 type="button"

@@ -3,17 +3,25 @@ import { App } from './App';
 import { HomePage } from './pages/HomePage';
 import { CatalogPage } from './pages/CatalogPage';
 import { ScrollToTop } from './components/ScrollToTop/ScrollToTop';
+import { EquipmentDetailsPage } from './pages/EquipmentDetailsPage';
+import { MantineProvider } from '@mantine/core';
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 
 export const Root = () => (
   <Router>
-    <ScrollToTop />
+    <MantineProvider>
+      <ScrollToTop />
 
-    <Routes>
-      <Route path="/" element={<App />}>
-        <Route index element={<HomePage />}></Route>
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route index element={<HomePage />}></Route>
 
-        <Route path="catalog" element={<CatalogPage />}></Route>
-      </Route>
-    </Routes>
+          <Route path="catalog" element={<CatalogPage />}></Route>
+
+          <Route path="catalog/:id" element={<EquipmentDetailsPage />} />
+        </Route>
+      </Routes>
+    </MantineProvider>
   </Router>
 );

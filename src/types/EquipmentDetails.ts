@@ -1,7 +1,6 @@
-import type { EquipmentType } from './EquipmentType';
-
-export interface EquipmentDetails extends EquipmentType {
+export interface EquipmentDetails {
   images: string[];
   specifications: string[];
   equipment: string[];
+  suitableFor: string[];
 }
