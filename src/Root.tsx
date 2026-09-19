@@ -7,6 +7,7 @@ import { EquipmentDetailsPage } from './pages/EquipmentDetailsPage';
 import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
+import { BookingPage } from './pages/BookingPage';
 
 export const Root = () => (
   <Router>
@@ -20,6 +21,8 @@ export const Root = () => (
           <Route path="catalog" element={<CatalogPage />}></Route>
 
           <Route path="catalog/:id" element={<EquipmentDetailsPage />} />
+
+          <Route path="booking/:id" element={<BookingPage />} />
         </Route>
       </Routes>
     </MantineProvider>

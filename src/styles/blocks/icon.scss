@@ -128,4 +128,11 @@
     width: 64px;
     height: 64px;
   }
+
+  &--success {
+    background-image: url(/img/icons/icon-success.svg);
+    background-size: contain;
+    width: 110px;
+    height: 110px;
+  }
 }

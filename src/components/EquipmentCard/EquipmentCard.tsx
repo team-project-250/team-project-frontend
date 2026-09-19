@@ -16,7 +16,7 @@ export const EquipmentCard: React.FC<Props> = ({ equipment }) => {
   const { bookings } = useBooking();
 
   const booking = bookings.find(
-    (item) => item.equipmentId === equipment.id && item.city === selectedCity,
+    (item) => item.equipmentId === equipment.equipmentId && item.city === selectedCity,
   );
 
   const bookedUntil = booking?.dates[1];
@@ -24,13 +24,13 @@ export const EquipmentCard: React.FC<Props> = ({ equipment }) => {
   const handleBookingClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
 
-    navigate(`/catalog/${equipment.id}?booking=true`);
+    navigate(`/catalog/${equipment.equipmentId}?booking=true`);
   };
 
   return (
     <article
       className="equipment-card"
-      onClick={() => navigate(`/catalog/${equipment.id}`)}
+      onClick={() => navigate(`/catalog/${equipment.equipmentId}`)}
     >
       <span
         className={classNames(

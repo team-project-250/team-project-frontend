@@ -198,7 +198,7 @@
     &-list {
       margin: 0;
       padding: 10px;
-      background-color: $color-background;
+      background-color: $color-secondary;
       border-radius: 8px;
       width: 320px;
 
@@ -240,7 +240,7 @@
 
         margin: 0;
         padding: 0;
-        background-color: $color-background;
+        background-color: $color-secondary;
         border-radius: 8px;
         width: max-content;
 
@@ -253,6 +253,7 @@
         background-color: transparent;
         padding: 15px;
         width: 100%;
+        text-decoration: none;
 
         display: flex;
         gap: 4px;
