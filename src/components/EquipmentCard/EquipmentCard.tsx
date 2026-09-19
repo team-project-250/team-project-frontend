@@ -4,6 +4,7 @@ import './EquipmentCard.scss';
 import { useNavigate } from 'react-router-dom';
 import { useCity } from '../../context/CityContext';
 import { useBooking } from '../../context/useBooking';
+import dayjs from 'dayjs';
 
 type Props = {
   equipment: EquipmentType;
@@ -20,6 +21,16 @@ export const EquipmentCard: React.FC<Props> = ({ equipment }) => {
   );
 
   const bookedUntil = booking?.dates[1];
+
+  const bookingEndDate = bookedUntil ?? equipment.availableUntil;
+
+  const isBooked = bookingEndDate
+    ? !dayjs(bookingEndDate).isBefore(dayjs(), 'day')
+    : false;
+
+  const bookingLabel = isBooked
+    ? `Заброньовано до ${dayjs(bookingEndDate).format('DD.MM')}`
+    : 'Доступно';
 
   const handleBookingClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -39,15 +50,11 @@ export const EquipmentCard: React.FC<Props> = ({ equipment }) => {
           'text__body',
           'text__body--uppercase',
           {
-            'equipment-card__badge--booked': equipment.availableUntil || booking,
+            'equipment-card__badge--booked': isBooked,
           },
         )}
       >
-        {equipment.availableUntil
-          ? `Заброньовано до ${equipment.availableUntil}`
-          : booking
-            ? `Заброньовано до ${bookedUntil}`
-            : 'Доступно'}
+        {bookingLabel}
       </span>
 
       <div className="equipment-card__image-wrapper">

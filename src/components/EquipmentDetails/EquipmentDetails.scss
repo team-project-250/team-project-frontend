@@ -81,6 +81,7 @@
 
   &__thumbnails {
     display: flex;
+    align-items: center;
     gap: 12px;
     margin-top: 16px;
     overflow-x: auto;
@@ -95,6 +96,7 @@
     cursor: pointer;
 
     &--active {
+      border-radius: 4px;
       border-color: $color-primary;
     }
 
@@ -103,6 +105,27 @@
       width: 64px;
       height: 64px;
       object-fit: contain;
+    }
+
+    &-arrow {
+      display: none;
+      border: none;
+      background-color: transparent;
+      width: 24px;
+      height: 24px;
+
+      @include on-tablet {
+        display: block;
+      }
+
+      & span {
+        width: 24px;
+        height: 24px;
+      }
+
+      &--right {
+        transform: rotate(180deg);
+      }
     }
   }
 
@@ -134,7 +157,7 @@
 
     &-mobile {
       grid-column: 1 / -1;
-      padding-top: 30px;
+      padding-block: 30px;
 
       @include on-tablet {
         display: none;
@@ -325,6 +348,7 @@
 
       padding: 14px 16px;
       border: none;
+      color: $color-primary;
 
       background-color: $color-white;
 
