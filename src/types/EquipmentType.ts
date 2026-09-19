@@ -1,5 +1,6 @@
 export interface EquipmentType {
   id: number;
+  equipmentId: number;
   name: string;
   model: string;
   image: string;

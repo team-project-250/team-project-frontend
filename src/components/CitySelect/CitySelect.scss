@@ -1,0 +1,140 @@
+@use '../../styles/utils' as *;
+
+.city-select {
+  position: relative;
+
+  margin-top: 25px;
+
+  @include on-desktop {
+    grid-column: 22;
+    margin: 0;
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+
+    padding: 0;
+
+    background-color: transparent;
+    color: $color-primary;
+    border: none;
+
+    cursor: pointer;
+  }
+
+  &__arrow {
+    transition: transform 0.3s ease-in-out;
+
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__list {
+    position: absolute;
+    bottom: calc(100% + 15px);
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    width: max-content;
+    min-width: 130px;
+
+    margin: 0;
+    padding: 15px;
+
+    list-style: none;
+
+    background-color: $color-white;
+    border-radius: 10px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+    @include on-desktop {
+      top: calc(100% + 10px);
+      bottom: auto;
+
+      gap: 24px;
+
+      width: 100%;
+      min-width: 130px;
+
+      padding: 20px;
+    }
+  }
+
+  &__option {
+    width: 100%;
+
+    padding: 0;
+
+    background-color: transparent;
+    color: $color-primary;
+    border: none;
+
+    text-align: left;
+    cursor: pointer;
+  }
+
+  &--booking {
+    width: 100%;
+    margin: 0;
+
+    .city-select__button {
+      display: grid;
+      grid-template-columns: 24px 1fr 1fr;
+      align-items: center;
+      justify-content: center;
+
+      width: 100%;
+      box-sizing: border-box;
+
+      padding: 8px 22px;
+
+      border: 1px solid $color-elements;
+      border-radius: 4px;
+
+      transition: border-color 0.4s ease-in-out;
+
+      &:hover {
+        border-color: $color-primary;
+      }
+
+      &:active {
+        border-color: $color-primary;
+      }
+    }
+
+    .city-select__icon {
+      grid-column: 1;
+      justify-self: start;
+    }
+
+    .city-select__name {
+      grid-column: 2;
+      justify-self: start;
+    }
+
+    .city-select__arrow {
+      grid-column: 3;
+      justify-self: end;
+    }
+
+    .city-select__list {
+      top: calc(100% + 15px);
+      bottom: auto;
+      z-index: 1;
+
+      width: 100%;
+
+      @include on-desktop {
+        top: calc(100% + 10px);
+      }
+    }
+  }
+}

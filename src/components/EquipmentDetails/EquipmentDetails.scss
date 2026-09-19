@@ -1,7 +1,6 @@
 @use '../../styles/utils' as *;
 
 .equipment-details {
-  padding-top: 50px;
   background-color: $color-white;
 
   &__content {
@@ -11,7 +10,7 @@
     padding-bottom: 30px;
 
     @include on-tablet {
-      padding-block: 40px 80px;
+      padding-block: 50px 80px;
     }
   }
 
@@ -21,10 +20,49 @@
     flex-direction: column;
     align-items: center;
     width: auto;
+    position: relative;
 
     @include on-tablet {
+      grid-column: 1 / 7;
+      max-width: 468px;
+      margin-top: 60px;
+    }
+
+    @include on-desktop {
       grid-column: 1 / 13;
-      width: 468px;
+    }
+  }
+
+  &__badge {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    z-index: 1;
+
+    padding: 3px 7px;
+
+    background-color: $color-green;
+    color: $color-white;
+
+    border-radius: 4px;
+
+    &--booked {
+      background-color: $color-elements;
+    }
+
+    &-karcher {
+      position: absolute;
+
+      top: 10px;
+      left: 10px;
+      z-index: 1;
+
+      padding: 3px 7px;
+
+      background-color: $color-accent;
+      color: $color-primary;
+
+      border-radius: 4px;
     }
   }
 
@@ -77,6 +115,11 @@
 
     @include on-tablet {
       padding: 0;
+      grid-column: 7 / -1;
+      margin-top: 60px;
+    }
+
+    @include on-desktop {
       grid-column: 14 / -1;
     }
   }
@@ -85,7 +128,7 @@
     margin: 0;
     display: none;
 
-    @include on-desktop {
+    @include on-tablet {
       display: block;
     }
 
@@ -93,7 +136,7 @@
       grid-column: 1 / -1;
       padding-top: 30px;
 
-      @include on-desktop {
+      @include on-tablet {
         display: none;
       }
     }
@@ -158,11 +201,21 @@
 
   &__buttons {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 30px;
     margin-top: 15px;
 
+    @include on-desktop {
+      flex-direction: row;
+    }
+
     &-button {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
       width: 100%;
       height: 55px;
       border: 1px solid $color-accent;
@@ -194,13 +247,16 @@
 
   &__tabs {
     display: flex;
-    // overflow-x: auto;
     border-bottom: 1px solid $color-elements;
     width: 100%;
     padding-top: 30px;
     position: relative;
 
     grid-column: 1 / -1;
+
+    @include on-tablet {
+      overflow-x: auto;
+    }
 
     @include on-desktop {
       width: max-content;
@@ -249,14 +305,11 @@
       top: calc(100% + 4px);
       left: 0;
       right: 0;
-      // bottom: auto;
 
       z-index: 3;
 
       display: flex;
       flex-direction: column;
-
-      // overflow: hidden;
 
       border: 1px solid $color-primary;
       border-radius: 8px;
@@ -300,6 +353,7 @@
   }
 
   &__tab {
+    position: relative;
     flex-shrink: 0;
     padding: 16px;
     border: 0;
@@ -307,6 +361,27 @@
     background: transparent;
     color: $color-background;
     cursor: pointer;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+
+      background-color: $color-primary;
+
+      transition: all 0.3s ease-in-out;
+    }
+
+    &:not(&--active):hover::after {
+      width: 100%;
+    }
+
+    &:hover {
+      color: $color-primary;
+    }
 
     &-content {
       grid-column: 1 / -1;

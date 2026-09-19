@@ -7,6 +7,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
   Луцьк: [
     {
       id: 1,
+      equipmentId: 101,
       name: 'Апарат високого тиску',
       model: 'Kärcher HD 6/15',
       image: imagePath('hd-6-15.png'),
@@ -17,6 +18,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 2,
+      equipmentId: 102,
       name: 'Апарат високого тиску',
       model: 'Kärcher HD 10/25-4 S',
       image: imagePath('hd-10-25-4-s.png'),
@@ -28,6 +30,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 3,
+      equipmentId: 103,
       name: 'Професійний пилосос',
       model: 'Kärcher NT 35/1 Ap',
       image: imagePath('nt-35-1-ap.png'),
@@ -39,6 +42,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 4,
+      equipmentId: 104,
       name: 'Професійний пилосос',
       model: 'Kärcher NT 65/2 Eco',
       image: imagePath('nt-65-2-eco.png'),
@@ -49,6 +53,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 5,
+      equipmentId: 105,
       name: 'Миючий пилосос',
       model: 'Kärcher Puzzi 10/1',
       image: imagePath('puzzi-10-1.png'),
@@ -59,6 +64,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 6,
+      equipmentId: 106,
       name: 'Миючий пилосос',
       model: 'Kärcher Puzzi 8/1 C',
       image: imagePath('puzzi-8-1-c.png'),
@@ -71,6 +77,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 7,
+      equipmentId: 107,
       name: 'Підлогомийна машина',
       model: 'Kärcher BD 50/60 C Ep Classic',
       image: imagePath('bd-50-60-c-ep-classic.png'),
@@ -81,6 +88,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 8,
+      equipmentId: 108,
       name: 'Підлогомийна машина',
       model: 'Kärcher BD 43/35 C Ep',
       image: imagePath('bd-43-35-c-ep.png'),
@@ -91,6 +99,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 9,
+      equipmentId: 109,
       name: 'Пароочисник',
       model: 'Kärcher SG 4/4',
       image: imagePath('sg-4-4.png'),
@@ -102,6 +111,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 10,
+      equipmentId: 110,
       name: 'Пароочисник',
       model: 'Kärcher SC 4 EasyFix',
       image: imagePath('sc-4-easyfix.png'),
@@ -112,6 +122,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 11,
+      equipmentId: 111,
       name: 'Акумуляторна газонокосарка',
       model: 'Kärcher LMO 18-33 Battery Set',
       image: imagePath('lmo-18-33.png'),
@@ -123,6 +134,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 12,
+      equipmentId: 112,
       name: 'Акумуляторна газонокосарка',
       model: 'Kärcher LMO 18-36 Battery Set',
       image: imagePath('lmo-18-36.png'),
@@ -134,6 +146,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 13,
+      equipmentId: 113,
       name: 'Пінна насадка',
       model: 'Kärcher FJ 6',
       image: imagePath('fj-6.png'),
@@ -145,6 +158,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 14,
+      equipmentId: 114,
       name: 'Обертова миюча щітка',
       model: 'Kärcher WB 130',
       image: imagePath('wb-130.png'),
@@ -159,6 +173,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
   Львів: [
     {
       id: 1,
+      equipmentId: 101,
       name: 'Апарат високого тиску',
       model: 'Kärcher HD 6/15',
       image: imagePath('hd-6-15.png'),
@@ -169,6 +184,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 2,
+      equipmentId: 103,
       name: 'Професійний пилосос',
       model: 'Kärcher NT 35/1 Ap',
       image: imagePath('nt-35-1-ap.png'),
@@ -179,6 +195,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 3,
+      equipmentId: 105,
       name: 'Миючий пилосос',
       model: 'Kärcher Puzzi 10/1',
       image: imagePath('puzzi-10-1.png'),
@@ -190,6 +207,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 4,
+      equipmentId: 108,
       name: 'Підлогомийна машина',
       model: 'Kärcher BD 43/35 C Ep',
       image: imagePath('bd-43-35-c-ep.png'),
@@ -200,6 +218,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 5,
+      equipmentId: 109,
       name: 'Пароочисник',
       model: 'Kärcher SG 4/4',
       image: imagePath('sg-4-4.png'),
@@ -210,6 +229,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 6,
+      equipmentId: 111,
       name: 'Акумуляторна газонокосарка',
       model: 'Kärcher LMO 18-33 Battery Set',
       image: imagePath('lmo-18-33.png'),
@@ -221,6 +241,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 7,
+      equipmentId: 112,
       name: 'Акумуляторна газонокосарка',
       model: 'Kärcher LMO 18-36 Battery Set',
       image: imagePath('lmo-18-36.png'),
@@ -231,6 +252,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 8,
+      equipmentId: 113,
       name: 'Пінна насадка',
       model: 'Kärcher FJ 6',
       image: imagePath('fj-6.png'),
@@ -242,6 +264,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 9,
+      equipmentId: 114,
       name: 'Обертова миюча щітка',
       model: 'Kärcher WB 130',
       image: imagePath('wb-130.png'),
@@ -257,6 +280,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
   Київ: [
     {
       id: 1,
+      equipmentId: 102,
       name: 'Апарат високого тиску',
       model: 'Kärcher HD 10/25-4 S',
       image: imagePath('hd-10-25-4-s.png'),
@@ -268,6 +292,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 2,
+      equipmentId: 104,
       name: 'Професійний пилосос',
       model: 'Kärcher NT 65/2 Eco',
       image: imagePath('nt-65-2-eco.png'),
@@ -279,6 +304,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 3,
+      equipmentId: 106,
       name: 'Миючий пилосос',
       model: 'Kärcher Puzzi 8/1 C',
       image: imagePath('puzzi-8-1-c.png'),
@@ -290,6 +316,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 4,
+      equipmentId: 107,
       name: 'Підлогомийна машина',
       model: 'Kärcher BD 50/60 C Ep Classic',
       image: imagePath('bd-50-60-c-ep-classic.png'),
@@ -300,6 +327,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 5,
+      equipmentId: 110,
       name: 'Пароочисник',
       model: 'Kärcher SC 4 EasyFix',
       image: imagePath('sc-4-easyfix.png'),
@@ -310,6 +338,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 6,
+      equipmentId: 111,
       name: 'Акумуляторна газонокосарка',
       model: 'Kärcher LMO 18-33 Battery Set',
       image: imagePath('lmo-18-33.png'),
@@ -321,6 +350,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 7,
+      equipmentId: 112,
       name: 'Акумуляторна газонокосарка',
       model: 'Kärcher LMO 18-36 Battery Set',
       image: imagePath('lmo-18-36.png'),
@@ -332,6 +362,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 8,
+      equipmentId: 113,
       name: 'Пінна насадка',
       model: 'Kärcher FJ 6',
       image: imagePath('fj-6.png'),
@@ -343,6 +374,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 9,
+      equipmentId: 114,
       name: 'Обертова миюча щітка',
       model: 'Kärcher WB 130',
       image: imagePath('wb-130.png'),
@@ -357,6 +389,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
   Одеса: [
     {
       id: 1,
+      equipmentId: 101,
       name: 'Апарат високого тиску',
       model: 'Kärcher HD 6/15',
       image: imagePath('hd-6-15.png'),
@@ -368,6 +401,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 2,
+      equipmentId: 103,
       name: 'Професійний пилосос',
       model: 'Kärcher NT 35/1 Ap',
       image: imagePath('nt-35-1-ap.png'),
@@ -378,6 +412,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 3,
+      equipmentId: 105,
       name: 'Миючий пилосос',
       model: 'Kärcher Puzzi 10/1',
       image: imagePath('puzzi-10-1.png'),
@@ -388,6 +423,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 4,
+      equipmentId: 108,
       name: 'Підлогомийна машина',
       model: 'Kärcher BD 43/35 C Ep',
       image: imagePath('bd-43-35-c-ep.png'),
@@ -399,6 +435,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 5,
+      equipmentId: 109,
       name: 'Пароочисник',
       model: 'Kärcher SG 4/4',
       image: imagePath('sg-4-4.png'),
@@ -409,6 +446,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 6,
+      equipmentId: 111,
       name: 'Акумуляторна газонокосарка',
       model: 'Kärcher LMO 18-33 Battery Set',
       image: imagePath('lmo-18-33.png'),
@@ -420,6 +458,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 7,
+      equipmentId: 112,
       name: 'Акумуляторна газонокосарка',
       model: 'Kärcher LMO 18-36 Battery Set',
       image: imagePath('lmo-18-36.png'),
@@ -430,6 +469,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 8,
+      equipmentId: 113,
       name: 'Пінна насадка',
       model: 'Kärcher FJ 6',
       image: imagePath('fj-6.png'),
@@ -442,6 +482,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
     },
     {
       id: 9,
+      equipmentId: 114,
       name: 'Обертова миюча щітка',
       model: 'Kärcher WB 130',
       image: imagePath('wb-130.png'),
