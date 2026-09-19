@@ -38,7 +38,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
       description: 'Компактний професійний пилосос для сухого прибирання.',
       category: 'Професійні пилососи',
       rating: 4.7,
-      availableUntil: '19.09',
+      availableUntil: '2026-09-19',
     },
     {
       id: 4,
@@ -73,7 +73,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
         'Компактний миючий пилосос для глибокого очищення текстильних поверхонь.',
       category: 'Апарати для чищення килимів',
       rating: 4.8,
-      availableUntil: '20.09.2026',
+      availableUntil: '2026-09-20',
     },
     {
       id: 7,
@@ -107,7 +107,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
       description: 'Професійний пароочисник для гігієнічного очищення поверхонь.',
       category: 'Пароочисники',
       rating: 4.8,
-      availableUntil: '09.09',
+      availableUntil: '2026-09-09',
     },
     {
       id: 10,
@@ -142,7 +142,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
       description: 'Акумуляторна газонокосарка для ефективного догляду за газоном.',
       category: 'Газонокосарки',
       rating: 4.8,
-      availableUntil: '20.09',
+      availableUntil: '2026-09-20',
     },
     {
       id: 13,
@@ -203,7 +203,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
       description: 'Професійний миючий пилосос для очищення килимів та м’яких меблів.',
       category: 'Апарати для чищення килимів',
       rating: 4.9,
-      availableUntil: '19.09',
+      availableUntil: '2026-09-19',
     },
     {
       id: 4,
@@ -273,7 +273,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
         'Обертова миюча щітка для дбайливого очищення автомобілів та інших поверхонь.',
       category: 'Аксесуари',
       rating: 4.7,
-      availableUntil: '22.09',
+      availableUntil: '2026-09-22',
     },
   ],
 
@@ -300,7 +300,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
       description: 'Професійний пилосос із великим контейнером для тривалого прибирання.',
       category: 'Професійні пилососи',
       rating: 4.8,
-      availableUntil: '18.09',
+      availableUntil: '2026-09-18',
     },
     {
       id: 3,
@@ -358,7 +358,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
       description: 'Акумуляторна газонокосарка для ефективного догляду за газоном.',
       category: 'Газонокосарки',
       rating: 4.8,
-      availableUntil: '21.09',
+      availableUntil: '2026-09-21',
     },
     {
       id: 8,
@@ -397,7 +397,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
       description: 'Професійний апарат високого тиску для ефективного очищення.',
       category: 'Апарати високого тиску',
       rating: 4.8,
-      availableUntil: '09.09',
+      availableUntil: '2026-09-09',
     },
     {
       id: 2,
@@ -431,7 +431,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
       description: 'Компактна підлогомийна машина для професійного прибирання.',
       category: 'Підлогомийні машини',
       rating: 4.7,
-      availableUntil: '18.09',
+      availableUntil: '2026-09-18',
     },
     {
       id: 5,
@@ -478,7 +478,7 @@ export const equipmentData: Record<string, EquipmentType[]> = {
         'Пінна насадка для нанесення мийного засобу та ретельного очищення поверхонь.',
       category: 'Аксесуари',
       rating: 4.6,
-      availableUntil: '17.09',
+      availableUntil: '2026-09-17',
     },
     {
       id: 9,

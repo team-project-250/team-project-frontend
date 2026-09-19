@@ -12,6 +12,7 @@ import { EquipmentCarousel } from '../EquipmentCarousel';
 import { BookingUnavailable } from '../BookingUnavailable';
 import { QuickBooking } from '../QuickBooking';
 import { useBooking } from '../../context/useBooking';
+import dayjs from 'dayjs';
 
 export const EquipmentDetails = () => {
   const [activeImage, setActiveImage] = useState(0);
@@ -54,11 +55,26 @@ export const EquipmentDetails = () => {
 
   const images = [equipment.image, ...(details?.images ?? [])];
 
+  const handlePrevImage = () => {
+    setActiveImage((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const handleNextImage = () => {
+    setActiveImage((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
   const booking = bookings.find(
     (item) => item.equipmentId === equipment.equipmentId && item.city === selectedCity,
   );
 
   const bookedUntil = booking?.dates[1];
+
+  const bookingEndDate = bookedUntil ?? equipment.availableUntil;
+  const isBooked = bookingEndDate && !dayjs(bookingEndDate).isBefore(dayjs(), 'day');
+
+  const bookingLabel = isBooked
+    ? `Заброньовано до ${dayjs(bookingEndDate).format('DD.MM')}`
+    : 'Доступно';
 
   return (
     <section className="equipment-details">
@@ -87,15 +103,11 @@ export const EquipmentDetails = () => {
               'text__body',
               'text__body--uppercase',
               {
-                'equipment-details__badge--booked': equipment.availableUntil || booking,
+                'equipment-details__badge--booked': isBooked,
               },
             )}
           >
-            {equipment.availableUntil
-              ? `Заброньовано до ${equipment.availableUntil}`
-              : booking
-                ? `Заброньовано до ${bookedUntil}`
-                : 'Доступно'}
+            {bookingLabel}
           </span>
 
           <img
@@ -105,6 +117,17 @@ export const EquipmentDetails = () => {
           />
 
           <div className="equipment-details__thumbnails">
+            {images.length > 1 && (
+              <button
+                type="button"
+                onClick={handlePrevImage}
+                className="equipment-details__thumbnail-arrow"
+                aria-label="prev-image"
+              >
+                <span className="icon icon--arrow-left"></span>
+              </button>
+            )}
+
             {images.map((image, index) => (
               <button
                 type="button"
@@ -121,6 +144,15 @@ export const EquipmentDetails = () => {
                 />
               </button>
             ))}
+
+            <button
+              type="button"
+              onClick={handleNextImage}
+              className="equipment-details__thumbnail-arrow equipment-details__thumbnail-arrow--right"
+              aria-label="next-image"
+            >
+              <span className="icon icon--arrow-left"></span>
+            </button>
           </div>
         </div>
 

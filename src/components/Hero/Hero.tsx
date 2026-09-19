@@ -14,8 +14,8 @@ export const Hero = () => {
         </h1>
 
         <p className="hero__description text__title text__title--utility">
-          Професійні мийні пилососи, пароочисники та роботи для вікон без купівлі дорогого
-          обладнання
+          Професійні мийні пилососи, пароочисники та апарати високого тиску без купівлі
+          дорогого обладнання
         </p>
 
         <div className="hero__features text__body text__body--label">
