@@ -107,14 +107,19 @@ export const Header = () => {
                           <ul className="header__mega-menu-models-list">
                             {categoryEquipment.map((item) => (
                               <li key={item.id} className="header__mega-menu-models-item">
-                                <button
+                                <Link
+                                  to={`/catalog/${item.equipmentId}`}
                                   type="button"
                                   className="header__mega-menu-models-link text"
+                                  onClick={() => {
+                                    setIsMegaMenuOpen(false);
+                                    setSelectedCategory(null);
+                                  }}
                                 >
                                   <span>{item.name}</span>
 
                                   <span>{item.model}</span>
-                                </button>
+                                </Link>
                               </li>
                             ))}
                           </ul>

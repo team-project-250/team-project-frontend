@@ -1,6 +1,6 @@
 import './EquipmentDetails.scss';
 
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useCity } from '../../context/CityContext';
 import { equipmentData } from '../../data/equipmentData';
 import { Breadcrumbs } from '../Breadcrumbs';
@@ -9,19 +9,15 @@ import { useState } from 'react';
 import { rentalTerms } from '../../data/rentalTerms';
 import classNames from 'classnames';
 import { EquipmentCarousel } from '../EquipmentCarousel';
-// import { BookingCalendar } from '../BookingCalendar';
-// import type { DateRange } from '../../types/DateRange';
-// import { useBooking } from '../../context/useBooking';
+import { BookingUnavailable } from '../BookingUnavailable';
+import { QuickBooking } from '../QuickBooking';
+import { useBooking } from '../../context/useBooking';
 
 export const EquipmentDetails = () => {
   const [activeImage, setActiveImage] = useState(0);
   const [activeTab, setActiveTab] = useState('description');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  // const [isBookingOpen, setIsBookingOpen] = useState(false);
-  // const [selectedRange, setSelectedRange] = useState<DateRange>([
-  //   null,
-  //   null,
-  // ]);
+  const [isQuickBookingOpen, setIsQuickBookingOpen] = useState(false);
 
   const tabs = [
     { id: 'description', label: 'Опис' },
@@ -33,28 +29,36 @@ export const EquipmentDetails = () => {
 
   const { id } = useParams();
   const { selectedCity } = useCity();
-  // const { bookings, addBooking } = useBooking();
+  const { bookings } = useBooking();
 
-  const equipment = equipmentData[selectedCity]?.find((item) => item.id === Number(id));
+  const equipment = equipmentData[selectedCity]?.find(
+    (item) => item.equipmentId === Number(id),
+  );
 
   if (!equipment) {
-    return null;
+    return <BookingUnavailable />;
   }
 
   const relatedEquipment =
-    equipmentData[selectedCity]?.filter((item) => item.id !== equipment.id) ?? [];
+    equipmentData[selectedCity]?.filter(
+      (item) => item.equipmentId !== equipment.equipmentId,
+    ) ?? [];
 
   const details = equipmentDetails[equipment.model];
 
   const availableCities = Object.entries(equipmentData)
     .filter(([, cityEquipment]) =>
-      cityEquipment.some(
-        (item) => item.model === equipment.model && !item.availableUntil,
-      ),
+      cityEquipment.some((item) => item.equipmentId === equipment.equipmentId),
     )
     .map(([city]) => city);
 
   const images = [equipment.image, ...(details?.images ?? [])];
+
+  const booking = bookings.find(
+    (item) => item.equipmentId === equipment.equipmentId && item.city === selectedCity,
+  );
+
+  const bookedUntil = booking?.dates[1];
 
   return (
     <section className="equipment-details">
@@ -72,6 +76,28 @@ export const EquipmentDetails = () => {
         </h1>
 
         <div className="equipment-details__gallery">
+          <span className="equipment-details__badge-karcher text__body text__body--uppercase">
+            орігінал karcher
+          </span>
+
+          <span
+            className={classNames(
+              'equipment-details__badge',
+              'text',
+              'text__body',
+              'text__body--uppercase',
+              {
+                'equipment-details__badge--booked': equipment.availableUntil || booking,
+              },
+            )}
+          >
+            {equipment.availableUntil
+              ? `Заброньовано до ${equipment.availableUntil}`
+              : booking
+                ? `Заброньовано до ${bookedUntil}`
+                : 'Доступно'}
+          </span>
+
           <img
             src={images[activeImage]}
             alt={equipment.name}
@@ -128,43 +154,22 @@ export const EquipmentDetails = () => {
             <span className="text__body text__body--small">доба</span>
           </p>
 
-          {/* {isBookingOpen && (
-            <BookingCalendar
-              onDateChange={setSelectedRange}
-              availableUntil={equipment.availableUntil}
-              bookings={bookings}
-              equipmentId={equipment.id}
-              city={selectedCity}
-            />
-          )} */}
-
           <div className="equipment-details__buttons text__body text__body--buttons">
-            <button
-              type="button"
+            <Link
+              to={`/booking/${equipment.equipmentId}`}
               className="text equipment-details__buttons-button"
-              onClick={() => {
-                alert('Сторінка бронювання буде доступна пізніше');
-              }}
             >
               Забронювати
-            </button>
+            </Link>
 
             <button
               type="button"
               className="text equipment-details__buttons-button equipment-details__buttons-button--booking-for-one"
-              onClick={() => {
-                alert('Сторінка бронювання в 1 клік буде доступна пізніше');
-              }}
+              onClick={() => setIsQuickBookingOpen(true)}
             >
               Забронювати в 1 клік
             </button>
           </div>
-
-          {/* {selectedRange[0] && selectedRange[1] && (
-            <p className="equipment-details__selected-date">
-              Обраний період: {selectedRange[0]} — {selectedRange[1]}
-            </p>
-          )} */}
         </div>
 
         <div className="equipment-details__tabs text__body text__body--label">
@@ -301,6 +306,10 @@ export const EquipmentDetails = () => {
 
         <EquipmentCarousel equipment={relatedEquipment} />
       </div>
+
+      {isQuickBookingOpen && (
+        <QuickBooking onClose={() => setIsQuickBookingOpen(false)} />
+      )}
     </section>
   );
 };
