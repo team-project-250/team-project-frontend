@@ -93,13 +93,19 @@ export const MobileMenu: React.FC<Props> = ({ onClose }) => {
                   <ul className="mobile-menu__models-list">
                     {categoryEquipment.map((item) => (
                       <li key={item.id}>
-                        <button
-                          type="button"
+                        <Link
+                          to={`/catalog/${item.equipmentId}`}
                           className="mobile-menu__model text text__body text__body--small"
+                          onClick={() => {
+                            setIsCatalogOpen(false);
+                            setSelectedCategory(null);
+                            setIsCitiesOpen(false);
+                            onClose();
+                          }}
                         >
                           <span>{item.name}</span>
                           <span>{item.model}</span>
-                        </button>
+                        </Link>
                       </li>
                     ))}
                   </ul>

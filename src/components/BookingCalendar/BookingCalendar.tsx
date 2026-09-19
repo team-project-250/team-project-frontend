@@ -37,10 +37,7 @@ export const BookingCalendar: React.FC<Props> = ({
 
   const isBookedDate = (date: string) => {
     if (availableUntil) {
-      const [day, month, year] = availableUntil.split('.');
-      const bookedUntil = `${year}-${month}-${day}`;
-
-      if (date <= bookedUntil) {
+      if (date <= availableUntil) {
         return true;
       }
     }
