@@ -1,11 +1,21 @@
 import type { BookingFormData, BookingFormErrors } from '../../types/BookingForm';
 
-export const validateBookingForm = (formData: BookingFormData): BookingFormErrors => {
+export const validateBookingForm = (
+  formData: BookingFormData,
+  delivery: 'pickup' | 'delivery',
+): BookingFormErrors => {
   const errors: BookingFormErrors = {
     name: '',
     tel: '',
     email: '',
+    address: '',
   };
+
+  const nameRegex = /^[A-Za-zА-Яа-яІіЇїЄєҐґ]+(?:[ -][A-Za-zА-Яа-яІіЇїЄєҐґ]+)+$/;
+
+  if (!nameRegex.test(formData.name.trim())) {
+    errors.name = 'Введіть ім’я та прізвище';
+  }
 
   if (formData.name.trim().length < 2) {
     errors.name = 'Введіть ім’я та прізвище';
@@ -21,6 +31,10 @@ export const validateBookingForm = (formData: BookingFormData): BookingFormError
 
   if (!emailRegex.test(formData.email)) {
     errors.email = 'Введіть коректну електронну адресу';
+  }
+
+  if (delivery === 'delivery' && !formData.address.trim()) {
+    errors.address = 'Введіть адресу доставки';
   }
 
   return errors;

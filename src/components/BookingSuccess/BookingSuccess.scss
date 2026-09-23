@@ -1,11 +1,19 @@
 @use '../../styles/utils' as *;
 
-.booking-modal {
+.booking-success {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  padding-inline: 30px;
 
   text-align: center;
+  height: 70dvh;
+
+  @include on-desktop {
+    height: auto;
+    margin-block: 40px;
+  }
 
   &__icon {
     display: flex;
@@ -17,11 +25,6 @@
 
     border: 3px solid $color-primary;
     border-radius: 50%;
-
-    // span {
-    //   // font-size: 42px;
-    //   // line-height: 1;
-    // }
   }
 
   &__title {

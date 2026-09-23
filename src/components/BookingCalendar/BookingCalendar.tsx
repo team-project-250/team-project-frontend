@@ -27,12 +27,19 @@ export const BookingCalendar: React.FC<Props> = ({
   const [opened, setOpened] = useState(false);
 
   const handleDateChange = (value: DateRange) => {
+    const [startDate, endDate] = value;
+
+    if (!startDate && !endDate && range[0] && !range[1]) {
+      const singleDayRange: DateRange = [range[0], range[0]];
+
+      setRange(singleDayRange);
+      onDateChange(singleDayRange);
+
+      return;
+    }
+
     setRange(value);
     onDateChange(value);
-
-    if (value[0] && value[1]) {
-      setOpened(false);
-    }
   };
 
   const isBookedDate = (date: string) => {

@@ -10,6 +10,7 @@ export const QuickBooking: React.FC<Props> = ({ onClose }) => {
   const [phone, setPhone] = useState('');
   const [isAgree, setIsAgree] = useState(false);
   const [error, setError] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,60 +23,76 @@ export const QuickBooking: React.FC<Props> = ({ onClose }) => {
     }
 
     setError('');
-    onClose();
+    setIsSubmitted(true);
   };
 
   return (
     <Modal onClose={onClose}>
       <div className="quick-booking">
-        <h2 className="quick-booking__title text__title text__title--modal">
-          Забронювати в 1 клік
-        </h2>
+        {isSubmitted ? (
+          <div className="quick-booking__success">
+            <span className="icon icon--success"></span>
 
-        <form className="quick-booking__form" onSubmit={handleSubmit}>
-          <label
-            htmlFor="quick-booking-phone"
-            className="quick-booking__label text__body text__body--label"
-          >
-            Телефон:
-            <input
-              id="quick-booking-phone"
-              type="tel"
-              value={phone}
-              onChange={(event) => {
-                setPhone(event.target.value);
-                setError('');
-              }}
-              placeholder="+ 380"
-            />
-          </label>
+            <h2 className="quick-booking__title text__title text__title--modal">
+              Дякуємо!
+            </h2>
 
-          {error && (
-            <span className="quick-booking__error text__body text__body--error">
-              {error}
-            </span>
-          )}
+            <p className="quick-booking__success-text text__body">
+              Менеджер зв’яжеться з вами найближчим часом.
+            </p>
+          </div>
+        ) : (
+          <>
+            <h2 className="quick-booking__title text__title text__title--modal">
+              Забронювати в 1 клік
+            </h2>
 
-          <button
-            type="submit"
-            className="quick-booking__button text text__body text__body--buttons"
-            disabled={!isAgree}
-          >
-            Забронювати
-          </button>
+            <form className="quick-booking__form" onSubmit={handleSubmit}>
+              <label
+                htmlFor="quick-booking-phone"
+                className="quick-booking__label text__body text__body--label"
+              >
+                Телефон:
+                <input
+                  id="quick-booking-phone"
+                  type="tel"
+                  value={phone}
+                  onChange={(event) => {
+                    setPhone(event.target.value);
+                    setError('');
+                  }}
+                  placeholder="+ 380"
+                />
+              </label>
 
-          <label className="quick-booking__agreement">
-            <input
-              type="checkbox"
-              checked={isAgree}
-              onChange={(event) => setIsAgree(event.target.checked)}
-            />
+              {error && (
+                <span className="quick-booking__error text__body text__body--error">
+                  {error}
+                </span>
+              )}
 
-            <span className="text__body text__body--label">
-              Відправляючи заявку, я погоджуюся з умовами обробки персональних даних
-            </span>
-          </label>
-        </form>
+              <button
+                type="submit"
+                className="quick-booking__button text text__body text__body--buttons"
+                disabled={!isAgree}
+              >
+                Забронювати
+              </button>
+
+              <label className="quick-booking__agreement">
+                <input
+                  type="checkbox"
+                  checked={isAgree}
+                  onChange={(event) => setIsAgree(event.target.checked)}
+                />
+
+                <span className="text__body text__body--label">
+                  Відправляючи заявку, я погоджуюся з умовами обробки персональних даних
+                </span>
+              </label>
+            </form>
+          </>
+        )}
       </div>
     </Modal>
   );

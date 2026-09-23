@@ -8,10 +8,6 @@
     padding-block: 80px;
   }
 
-  @include on-desktop {
-    padding-block: 120px;
-  }
-
   &__inner {
     @include grid;
   }

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import './Breadcrumbs.scss';
 import type React from 'react';
+import classNames from 'classnames';
 
 type BreadcrumbItem = {
   label: string;
@@ -9,11 +10,12 @@ type BreadcrumbItem = {
 
 type Props = {
   items: BreadcrumbItem[];
+  className?: string;
 };
 
-export const Breadcrumbs: React.FC<Props> = ({ items }) => {
+export const Breadcrumbs: React.FC<Props> = ({ items, className }) => {
   return (
-    <nav className="breadcrumbs" aria-label="Breadcrumb">
+    <nav className={classNames('breadcrumbs', className)} aria-label="Breadcrumb">
       {items.map((item, index) => (
         <span className="breadcrumbs__item" key={item.label}>
           {item.path ? (

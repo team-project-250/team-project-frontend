@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import './Booking.scss';
 import { useCity } from '../../context/CityContext';
@@ -11,12 +11,12 @@ import type { BookingFormData, BookingFormErrors } from '../../types/BookingForm
 import { validateBookingForm } from '../utils/bookingValidation';
 import { CitySelect } from '../CitySelect';
 import { BookingUnavailable } from '../BookingUnavailable';
-import { BookingModal } from '../BookingModal';
 
 export const Booking = () => {
   const { id } = useParams();
   const { selectedCity } = useCity();
   const { bookings, addBooking } = useBooking();
+  const navigate = useNavigate();
 
   const [selectedRange, setSelectedRange] = useState<DateRange>([null, null]);
   const [delivery, setDelivery] = useState<'pickup' | 'delivery'>('pickup');
@@ -26,15 +26,15 @@ export const Booking = () => {
     name: '',
     tel: '',
     email: '',
+    address: '',
   });
 
   const [errors, setErrors] = useState<BookingFormErrors>({
     name: '',
     tel: '',
     email: '',
+    address: '',
   });
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const equipment = equipmentData[selectedCity]?.find(
     (item) => item.equipmentId === Number(id),
@@ -74,7 +74,7 @@ export const Booking = () => {
   const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const validationErrors = validateBookingForm(formData);
+    const validationErrors = validateBookingForm(formData, delivery);
 
     setErrors(validationErrors);
 
@@ -94,7 +94,7 @@ export const Booking = () => {
       dates: selectedRange,
     });
 
-    setIsModalOpen(true);
+    navigate('/booking-success');
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -249,6 +249,27 @@ export const Booking = () => {
               />
               Доставка по місту - 100грн
             </label>
+
+            {delivery === 'delivery' && (
+              <label
+                className="booking__form-label booking__form-label--address"
+                htmlFor="form-address"
+              >
+                <input
+                  type="text"
+                  name="address"
+                  id="form-address"
+                  onChange={handleInputChange}
+                  placeholder="Введіть адресу"
+                />
+
+                {errors.address && (
+                  <span className="booking__form-error text__body text__body--error">
+                    {errors.address}
+                  </span>
+                )}
+              </label>
+            )}
           </div>
 
           <div className="booking__form-content">
@@ -350,13 +371,11 @@ export const Booking = () => {
             />
 
             <span className="booking__card-checkbox text__body text__body--small">
-              Відправляючи заявку, я погоджуюсь з умовами обробки персональних даніх
+              Відправляючи заявку, я погоджуюсь з умовами обробки персональних даних
             </span>
           </label>
         </div>
       </div>
-
-      {isModalOpen && <BookingModal onClose={() => setIsModalOpen(false)} />}
     </section>
   );
 };
