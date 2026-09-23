@@ -3,7 +3,6 @@ import './EquipmentDetails.scss';
 import { Link, useParams } from 'react-router-dom';
 import { useCity } from '../../context/CityContext';
 import { equipmentData } from '../../data/equipmentData';
-import { Breadcrumbs } from '../Breadcrumbs';
 import { equipmentDetails } from '../../data/equipmentDetails';
 import { useState } from 'react';
 import { rentalTerms } from '../../data/rentalTerms';
@@ -79,21 +78,13 @@ export const EquipmentDetails = () => {
   return (
     <section className="equipment-details">
       <div className="equipment-details__content">
-        <Breadcrumbs
-          items={[
-            { label: 'Головна', path: '/' },
-            { label: 'Каталог', path: '/catalog' },
-            { label: equipment.name },
-          ]}
-        />
-
         <h1 className="equipment-details__title-mobile text__title text__title--basic">
           {equipment.name} {equipment.model}
         </h1>
 
         <div className="equipment-details__gallery">
           <span className="equipment-details__badge-karcher text__body text__body--uppercase">
-            орігінал karcher
+            оригінал karcher
           </span>
 
           <span

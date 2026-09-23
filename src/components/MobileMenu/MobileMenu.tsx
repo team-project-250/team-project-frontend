@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import classNames from 'classnames';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useCity } from '../../context/CityContext';
 import { cityData } from '../../data/cityData';
 import { cities } from '../../data/cities';
@@ -20,9 +20,6 @@ export const MobileMenu: React.FC<Props> = ({ onClose }) => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [isCitiesOpen, setIsCitiesOpen] = useState(false);
 
-  const navigate = useNavigate();
-  const location = useLocation();
-
   if (!currentCity) {
     return null;
   }
@@ -32,20 +29,6 @@ export const MobileMenu: React.FC<Props> = ({ onClose }) => {
   const categoryEquipment = equipment.filter(
     (item) => item.category === selectedCategory,
   );
-
-  const scrollToSection = (id: string) => {
-    onClose();
-
-    if (location.pathname === '/') {
-      document.getElementById(id)?.scrollIntoView({
-        behavior: 'smooth',
-      });
-
-      return;
-    }
-
-    navigate(`/#${id}`);
-  };
 
   const handleCitySelect = (city: string) => {
     setSelectedCity(city);
@@ -117,40 +100,23 @@ export const MobileMenu: React.FC<Props> = ({ onClose }) => {
       </div>
 
       <nav className="mobile-menu__navigation">
-        <a
-          href="#contacts"
-          className="mobile-menu__link text__body"
-          onClick={(event) => {
-            event.preventDefault();
-            scrollToSection('contacts');
-          }}
-        >
+        <Link to="/contacts" className="mobile-menu__link text__body" onClick={onClose}>
           Контакти
-        </a>
+        </Link>
 
-        <a
-          href="#rental-terms"
+        <Link
+          to="/rental-terms"
           className="mobile-menu__link text__body"
-          onClick={(event) => {
-            event.preventDefault();
-            scrollToSection('rental-terms');
-          }}
+          onClick={onClose}
         >
           Умови бронювання
-        </a>
+        </Link>
 
-        <a
-          href="#about"
-          className="mobile-menu__link text__body"
-          onClick={(event) => {
-            event.preventDefault();
-            scrollToSection('about');
-          }}
-        >
+        <Link to="/about" className="mobile-menu__link text__body" onClick={onClose}>
           Про нас
-        </a>
+        </Link>
 
-        <Link to="/faq" className="mobile-menu__link text__body" onClick={onClose}>
+        <Link to="/questions" className="mobile-menu__link text__body" onClick={onClose}>
           Питання та відповіді
         </Link>
 

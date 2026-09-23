@@ -4,10 +4,9 @@ import { cityData } from '../../data/cityData';
 import { Button } from '../Button';
 import './Header.scss';
 import { Link } from 'react-router-dom';
-import { equipmentCategories } from '../../data/equipmentCategories';
 import classNames from 'classnames';
-import { equipmentData } from '../../data/equipmentData';
 import { MobileMenu } from '../MobileMenu';
+import { MegaMenu } from '../MegaMenu';
 
 export const Header = () => {
   const { selectedCity } = useCity();
@@ -15,7 +14,6 @@ export const Header = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const megaMenuRef = useRef<HTMLDivElement>(null);
 
@@ -23,7 +21,6 @@ export const Header = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (megaMenuRef.current && !megaMenuRef.current.contains(event.target as Node)) {
         setIsMegaMenuOpen(false);
-        setSelectedCategory(null);
       }
     };
 
@@ -41,12 +38,6 @@ export const Header = () => {
       document.body.style.overflow = '';
     };
   }, [isMenuOpen]);
-
-  const equipment = equipmentData[selectedCity] ?? [];
-
-  const categoryEquipment = equipment.filter(
-    (item) => item.category === selectedCategory,
-  );
 
   if (!currentCity) {
     return null;
@@ -87,49 +78,7 @@ export const Header = () => {
               </span>
             </button>
 
-            {isMegaMenuOpen && (
-              <div className="header__mega-menu">
-                <ul className="header__mega-menu-list">
-                  {equipmentCategories.map((category) => (
-                    <li
-                      key={category}
-                      className="header__mega-menu-item text__body text_body--label"
-                      onMouseEnter={() => setSelectedCategory(category)}
-                    >
-                      <button type="button" className="header__mega-menu-link text">
-                        {category}
-                      </button>
-
-                      <span className="header__mega-menu-arrow icon icon--arrow"></span>
-
-                      {selectedCategory === category && (
-                        <div className="header__mega-menu-models">
-                          <ul className="header__mega-menu-models-list">
-                            {categoryEquipment.map((item) => (
-                              <li key={item.id} className="header__mega-menu-models-item">
-                                <Link
-                                  to={`/catalog/${item.equipmentId}`}
-                                  type="button"
-                                  className="header__mega-menu-models-link text"
-                                  onClick={() => {
-                                    setIsMegaMenuOpen(false);
-                                    setSelectedCategory(null);
-                                  }}
-                                >
-                                  <span>{item.name}</span>
-
-                                  <span>{item.model}</span>
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            {isMegaMenuOpen && <MegaMenu onClose={() => setIsMegaMenuOpen(false)} />}
           </div>
 
           <button

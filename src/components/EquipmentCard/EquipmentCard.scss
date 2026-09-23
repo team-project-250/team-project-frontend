@@ -17,6 +17,8 @@
 
   box-shadow: 0 0 24px rgba(0, 0, 0, 0.08);
 
+  cursor: pointer;
+
   @include on-tablet {
     padding: 20px 14px;
   }
