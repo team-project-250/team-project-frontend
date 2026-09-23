@@ -1,35 +1,15 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useCity } from '../../context/CityContext';
 import { cityData } from '../../data/cityData';
 import './Footer.scss';
 
-type Props = {
-  onClose?: () => void;
-};
-
-export const Footer: React.FC<Props> = ({ onClose }) => {
+export const Footer = () => {
   const { selectedCity } = useCity();
   const currentCity = cityData[selectedCity];
-
-  const navigate = useNavigate();
 
   if (!currentCity) {
     return null;
   }
-
-  const scrollToSection = (id: string) => {
-    onClose?.();
-
-    if (location.pathname === '/') {
-      document.getElementById(id)?.scrollIntoView({
-        behavior: 'smooth',
-      });
-
-      return;
-    }
-
-    navigate(`/#${id}`);
-  };
 
   return (
     <footer className="footer" id="contacts">
@@ -44,7 +24,10 @@ export const Footer: React.FC<Props> = ({ onClose }) => {
 
             <div className="footer__address">
               <div className="footer__address-wrapper">
-                <a href="#" className="footer__address-icon icon icon--instagram" />
+                <a
+                  href="https://www.instagram.com/easy_rent_lutsk?igsi=amlwYzF1bW81MzE4"
+                  className="footer__address-icon icon icon--instagram"
+                />
               </div>
 
               <p className="footer__address-description text__body text__body--how-to-rent">
@@ -58,39 +41,16 @@ export const Footer: React.FC<Props> = ({ onClose }) => {
           <nav className="footer__nav text__body text__body--how-to-rent">
             <Link to="/catalog">Каталог</Link>
 
-            <a
-              href="#contacts"
-              onClick={(event) => {
-                event.preventDefault();
-                scrollToSection('contacts');
-              }}
-            >
-              Контакти
-            </a>
+            <Link to="/contacts">Контакти</Link>
 
-            <a
-              href="#rental-terms"
-              onClick={(event) => {
-                event.preventDefault();
-                scrollToSection('rental-terms');
-              }}
-            >
-              Умови бронювання
-            </a>
+            <Link to="/rental-terms">Умови бронювання</Link>
           </nav>
 
           <nav className="footer__nav text__body text__body--how-to-rent">
-            <a
-              href="#about"
-              onClick={(event) => {
-                event.preventDefault();
-                scrollToSection('about');
-              }}
-            >
-              Про нас
-            </a>
+            <Link to="/about">Про нас</Link>
 
-            <Link to="/faq">Питання та відповіді</Link>
+            <Link to="/questions">Питання та відповіді</Link>
+
             <Link to="/delivery">Доставка і оплата</Link>
           </nav>
 

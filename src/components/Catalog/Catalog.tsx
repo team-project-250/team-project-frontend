@@ -6,14 +6,23 @@ import { CatalogFilter } from '../CatalogFilter';
 import { EquipmentCard } from '../EquipmentCard';
 import './Catalog.scss';
 import classNames from 'classnames';
-import { Breadcrumbs } from '../Breadcrumbs';
+import dayjs from 'dayjs';
+import { useBooking } from '../../context/useBooking';
+import { useSearchParams } from 'react-router-dom';
 
 type SortOption = 'rating' | 'priceAsc' | 'priceDesc' | 'name';
 
 export const Catalog = () => {
+  const [searchParams] = useSearchParams();
   const { selectedCity, setSelectedCity } = useCity();
+  const { bookings } = useBooking();
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
+    const category = searchParams.get('category');
+
+    return category ? [category] : [];
+  });
+
   const [selectedAvailability, setSelectedAvailability] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOption, setSortOption] = useState<SortOption>('rating');
@@ -39,14 +48,34 @@ export const Catalog = () => {
 
   const equipment: EquipmentType[] = equipmentData[selectedCity] ?? [];
 
+  const isCurrentlyBooked = (item: EquipmentType) => {
+    const availableUntilIsActive = item.availableUntil
+      ? !dayjs(item.availableUntil).isBefore(dayjs(), 'day')
+      : false;
+
+    const bookingIsActive = bookings.some((booking) => {
+      if (booking.equipmentId !== item.equipmentId || booking.city !== selectedCity) {
+        return false;
+      }
+
+      const [, bookingEnd] = booking.dates;
+
+      return bookingEnd ? !dayjs(bookingEnd).isBefore(dayjs(), 'day') : false;
+    });
+
+    return availableUntilIsActive || bookingIsActive;
+  };
+
   const filteredEquipment = equipment.filter((item) => {
     const categoryMatches =
       selectedCategories.length === 0 || selectedCategories.includes(item.category);
 
+    const isBooked = isCurrentlyBooked(item);
+
     const availabilityMatches =
       selectedAvailability.length === 0 ||
-      (selectedAvailability.includes('available') && !item.availableUntil) ||
-      (selectedAvailability.includes('booked') && Boolean(item.availableUntil));
+      (selectedAvailability.includes('available') && !isBooked) ||
+      (selectedAvailability.includes('booked') && isBooked);
 
     return categoryMatches && availabilityMatches;
   });
@@ -107,8 +136,6 @@ export const Catalog = () => {
   return (
     <section className="catalog text" ref={catalogListRef}>
       <div className="catalog__content">
-        <Breadcrumbs items={[{ label: 'Головна', path: '/' }, { label: 'Каталог' }]} />
-
         <h1 className="catalog__title text__title">Каталог</h1>
 
         <div className="catalog__body">
