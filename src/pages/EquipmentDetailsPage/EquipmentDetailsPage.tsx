@@ -27,7 +27,7 @@ export const EquipmentDetailsPage = () => {
         ]}
       />
 
-      <EquipmentDetails />
+      <EquipmentDetails key={id} />
     </>
   );
 };
