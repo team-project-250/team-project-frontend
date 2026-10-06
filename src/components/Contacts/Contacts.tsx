@@ -1,10 +1,9 @@
 import { useCity } from '../../context/CityContext';
-import { cityData } from '../../data/cityData';
 import './Contacts.scss';
 
 export const Contacts = () => {
-  const { selectedCity } = useCity();
-  const currentCity = cityData[selectedCity];
+  const { cities, selectedCity } = useCity();
+  const currentCity = cities.find((city) => city.name === selectedCity);
 
   if (!currentCity) {
     return null;
@@ -32,8 +31,11 @@ export const Contacts = () => {
               <li className="contacts__content-item">
                 <strong>Телефон:</strong>
 
-                <a href={`tel:${currentCity.phone}`} className="contacts__content-link">
-                  {currentCity.phone}
+                <a
+                  href={`tel:${currentCity.pickup_phone}`}
+                  className="contacts__content-link"
+                >
+                  {currentCity.pickup_phone}
                 </a>
               </li>
 
@@ -48,7 +50,9 @@ export const Contacts = () => {
               <li className="contacts__content-item">
                 <strong>Графік роботи:</strong>
 
-                <p className="contacts__content-description">Пн-Нд: Цілодобово 24/7</p>
+                <p className="contacts__content-description">
+                  {currentCity.working_hours}
+                </p>
               </li>
             </ul>
           </div>
@@ -59,14 +63,18 @@ export const Contacts = () => {
             </h3>
 
             <p className="contacts__content-description text__body text__body--small">
-              Ми працюємо у чотирьох містах України:
+              Ми працюємо у містах України:
             </p>
 
             <ul className="contacts__content-list text__body text__body-small">
-              <li className="contacts__content-item contacts__content-cities">Луцьк</li>
-              <li className="contacts__content-item contacts__content-cities">Києв</li>
-              <li className="contacts__content-item contacts__content-cities">Львів</li>
-              <li className="contacts__content-item contacts__content-cities">Одеса</li>
+              {cities.map((city) => (
+                <li
+                  key={city.id}
+                  className="contacts__content-item contacts__content-cities"
+                >
+                  {city.name}
+                </li>
+              ))}
             </ul>
           </div>
         </div>
