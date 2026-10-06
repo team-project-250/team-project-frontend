@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { useCity } from '../../context/CityContext';
-import { cityData } from '../../data/cityData';
 import { Button } from '../Button';
 import './Header.scss';
 import { Link } from 'react-router-dom';
@@ -9,8 +8,8 @@ import { MobileMenu } from '../MobileMenu';
 import { MegaMenu } from '../MegaMenu';
 
 export const Header = () => {
-  const { selectedCity } = useCity();
-  const currentCity = cityData[selectedCity];
+  const { cities, selectedCity } = useCity();
+  const currentCity = cities.find((city) => city.name === selectedCity);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
@@ -50,10 +49,10 @@ export const Header = () => {
           <span className="icon icon--phone"></span>
 
           <a
-            href={`tel:${currentCity.phone.replace(/\D/g, '')}`}
+            href={`tel:${currentCity.pickup_phone.replace(/\D/g, '')}`}
             className="header__phone-link text__body text__body--small"
           >
-            {currentCity.phone}
+            {currentCity.pickup_phone}
           </a>
         </div>
         <div className="header__main-content">
@@ -93,20 +92,20 @@ export const Header = () => {
             <p className="text__title text__title--secondary">{selectedCity}</p>
 
             <p className="header__main-text text__body text__body--small">
-              {currentCity.address}
+              {currentCity.pickup_address}
             </p>
           </div>
 
           <div className="header__main-contact">
             <a
-              href="tel:+30501234567"
+              href={`tel:${currentCity.pickup_phone.replace(/\D/g, '')}`}
               className="header__main-phone text__title text__title--secondary"
             >
-              {currentCity.phone}
+              {currentCity.pickup_phone}
             </a>
 
             <p className="header__main-text text__body text__body--small">
-              Пн-Нд: Цілодобово 24/7
+              {currentCity.working_hours}
             </p>
           </div>
 

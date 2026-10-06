@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { useCity } from '../../context/CityContext';
-import { cities } from '../../data/cities';
 import './CitySelect.scss';
 
 type Props = {
@@ -10,7 +9,7 @@ type Props = {
 };
 
 export const CitySelect: React.FC<Props> = ({ onSelect, className }) => {
-  const { selectedCity, setSelectedCity } = useCity();
+  const { cities, selectedCity, setSelectedCity } = useCity();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCitySelect = (city: string) => {
@@ -40,13 +39,13 @@ export const CitySelect: React.FC<Props> = ({ onSelect, className }) => {
       {isOpen && (
         <ul className="city-select__list">
           {cities.map((city) => (
-            <li key={city} className="city-select__item">
+            <li key={city.id} className="city-select__item">
               <button
                 type="button"
                 className="city-select__option text text__body text__body--label"
-                onClick={() => handleCitySelect(city)}
+                onClick={() => handleCitySelect(city.name)}
               >
-                {city}
+                {city.name}
               </button>
             </li>
           ))}

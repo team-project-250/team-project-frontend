@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { cities } from '../../data/cities';
+import { useCity } from '../../context/CityContext';
 import { equipmentCategories } from '../../data/equipmentCategories';
 import './CatalogFilter.scss';
 
@@ -24,6 +24,8 @@ export const CatalogFilter = ({
   isOpen,
   onReset,
 }: CatalogFilterProps) => {
+  const { cities } = useCity();
+
   return (
     <aside className={classNames('catalog-filter', { 'catalog-filter--open': isOpen })}>
       <div className="catalog-filter__group">
@@ -53,15 +55,15 @@ export const CatalogFilter = ({
 
         <div className="catalog-filter__options">
           {cities.map((city) => (
-            <label className="catalog-filter__option" key={city}>
+            <label className="catalog-filter__option" key={city.id}>
               <input
                 type="radio"
                 name="city"
-                checked={selectedCity === city}
-                onChange={() => onCityChange(city)}
+                checked={selectedCity === city.name}
+                onChange={() => onCityChange(city.name)}
               />
 
-              <span>{city}</span>
+              <span>{city.name}</span>
             </label>
           ))}
         </div>
