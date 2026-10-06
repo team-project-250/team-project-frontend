@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useCity } from '../../context/CityContext';
-import { cityData } from '../../data/cityData';
 import './Footer.scss';
 
 export const Footer = () => {
-  const { selectedCity } = useCity();
-  const currentCity = cityData[selectedCity];
+  const { cities, selectedCity } = useCity();
+  const currentCity = cities.find((city) => city.name === selectedCity);
 
   if (!currentCity) {
     return null;
@@ -60,13 +59,15 @@ export const Footer = () => {
 
               <div className="footer__contacts-wrapper">
                 <a
-                  href={`tel:${currentCity.phone.replace(/\D/g, '')}`}
+                  href={`tel:${currentCity.pickup_phone.replace(/\D/g, '')}`}
                   className="footer__contacts-phone text__title text__title--secondary"
                 >
-                  {currentCity.phone}
+                  {currentCity.pickup_phone}
                 </a>
 
-                <p className="footer__contacts-description">Пн-Нд: Цілодобово 24/7</p>
+                <p className="footer__contacts-description">
+                  {currentCity.working_hours}
+                </p>
               </div>
             </div>
 
@@ -78,7 +79,9 @@ export const Footer = () => {
                   м. {selectedCity}
                 </p>
 
-                <p className="footer__contacts-description">{currentCity.address}</p>
+                <p className="footer__contacts-description">
+                  {currentCity.pickup_address}
+                </p>
               </div>
             </div>
           </div>

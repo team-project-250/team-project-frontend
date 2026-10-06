@@ -7,7 +7,7 @@ import './PopularEquipment.scss';
 export const PopularEquipment = () => {
   const { selectedCity } = useCity();
 
-  const equipment = equipmentData[selectedCity]!;
+  const equipment = equipmentData[selectedCity] ?? [];
 
   return (
     <section className="popular">

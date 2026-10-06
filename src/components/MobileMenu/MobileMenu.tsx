@@ -2,8 +2,6 @@ import { useState } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { useCity } from '../../context/CityContext';
-import { cityData } from '../../data/cityData';
-import { cities } from '../../data/cities';
 import { equipmentCategories } from '../../data/equipmentCategories';
 import { equipmentData } from '../../data/equipmentData';
 import './MobileMenu.scss';
@@ -13,8 +11,8 @@ type Props = {
 };
 
 export const MobileMenu: React.FC<Props> = ({ onClose }) => {
-  const { selectedCity, setSelectedCity } = useCity();
-  const currentCity = cityData[selectedCity];
+  const { cities, selectedCity, setSelectedCity } = useCity();
+  const currentCity = cities.find((city) => city.name === selectedCity);
 
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -145,13 +143,13 @@ export const MobileMenu: React.FC<Props> = ({ onClose }) => {
         {isCitiesOpen && (
           <ul className="mobile-menu__cities-list">
             {cities.map((city) => (
-              <li key={city}>
+              <li key={city.id}>
                 <button
                   type="button"
                   className="mobile-menu__city text text__body"
-                  onClick={() => handleCitySelect(city)}
+                  onClick={() => handleCitySelect(city.name)}
                 >
-                  {city}
+                  {city.name}
                 </button>
               </li>
             ))}
@@ -159,7 +157,7 @@ export const MobileMenu: React.FC<Props> = ({ onClose }) => {
         )}
 
         <p className="mobile-menu__address text__body text__body--buttons">
-          {selectedCity} {currentCity.address}
+          {selectedCity} {currentCity.pickup_address}
         </p>
       </div>
     </div>

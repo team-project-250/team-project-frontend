@@ -1,6 +1,17 @@
 import { createContext, useContext } from 'react';
 
+export interface City {
+  id: number;
+  name: string;
+  slug: string;
+  is_default: boolean;
+  pickup_address: string;
+  pickup_phone: string;
+  working_hours: string;
+}
+
 interface CityContextType {
+  cities: City[];
   selectedCity: string;
   setSelectedCity: (city: string) => void;
 }
