@@ -13,15 +13,15 @@ export const PopularEquipment = () => {
   const [equipment, setEquipment] = useState<EquipmentType[]>([]);
 
   useEffect(() => {
-    const city = cities.find(item => item.name === selectedCity);
+    const city = cities.find((item) => item.name === selectedCity);
 
     if (!city) {
       return;
     }
 
     getEquipment(city.slug)
-      .then(data => {
-        const popularEquipment = data.filter(item => item.is_popular)
+      .then((data) => {
+        const popularEquipment = data.filter((item) => item.is_popular);
 
         setEquipment(popularEquipment.map(mapEquipment));
       })

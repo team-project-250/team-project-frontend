@@ -47,7 +47,7 @@ export const EquipmentDetails = () => {
     }
 
     getEquipmentDetails(slug)
-      .then(data => {
+      .then((data) => {
         setEquipment(data);
       })
       .catch(() => {
@@ -64,7 +64,7 @@ export const EquipmentDetails = () => {
     }
 
     getRelatedEquipment(slug)
-      .then(data => {
+      .then((data) => {
         setRelatedEquipment(data.map(mapEquipment));
       })
       .catch(() => {
@@ -76,7 +76,7 @@ export const EquipmentDetails = () => {
     return <div>Завантаження...</div>;
   }
 
- if (error || !equipment) {
+  if (error || !equipment) {
     return <BookingUnavailable />;
   }
 
@@ -84,7 +84,9 @@ export const EquipmentDetails = () => {
     .map((citySlug) => cities.find((city) => city.slug === citySlug)?.name)
     .filter(Boolean);
 
-  const images = equipment?.main_image ? [equipment.main_image, ...equipment.images] : equipment?.images ?? [];
+  const images = equipment?.main_image
+    ? [equipment.main_image, ...equipment.images]
+    : (equipment?.images ?? []);
 
   const handlePrevImage = () => {
     setActiveImage((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -115,7 +117,7 @@ export const EquipmentDetails = () => {
         </h1>
 
         <div className="equipment-details__gallery">
-          {equipment.badges.map(badge => (
+          {equipment.badges.map((badge) => (
             <span
               key={badge.label}
               className="equipment-details__badge-karcher text__body text__body--uppercase"
@@ -191,9 +193,7 @@ export const EquipmentDetails = () => {
             {equipment.name}
           </h1>
 
-          <p className="equipment-details__model text__body">
-            Артикул: {equipment.sku}
-          </p>
+          <p className="equipment-details__model text__body">Артикул: {equipment.sku}</p>
 
           <ul className="equipment-details__list">
             <li className="equipment-details__availability">

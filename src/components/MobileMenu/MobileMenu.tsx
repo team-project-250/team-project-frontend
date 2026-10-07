@@ -18,7 +18,7 @@ export const MobileMenu: React.FC<Props> = ({ onClose }) => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [isCitiesOpen, setIsCitiesOpen] = useState(false);
   const [categories, setCategories] = useState<string[]>([]);
-  const [equipment, setEquipment] = useState<EquipmentApiItem[]>([]); 
+  const [equipment, setEquipment] = useState<EquipmentApiItem[]>([]);
 
   useEffect(() => {
     getCategories()
@@ -44,10 +44,9 @@ export const MobileMenu: React.FC<Props> = ({ onClose }) => {
       });
   }, [currentCity]);
 
-    if (!currentCity) {
+  if (!currentCity) {
     return null;
   }
-
 
   const categoryEquipment = equipment.filter(
     (item) => item.category.name === selectedCategory,

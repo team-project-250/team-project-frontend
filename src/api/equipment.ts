@@ -54,9 +54,7 @@ interface EquipmentApiResponse {
 
 const API_URL = 'http://127.0.0.1:8000/api';
 
-export const getEquipment = async (
-  citySlug: string,
-): Promise<EquipmentApiItem[]> => {
+export const getEquipment = async (citySlug: string): Promise<EquipmentApiItem[]> => {
   const response = await fetch(`${API_URL}/equipment/?city=${citySlug}`);
 
   if (!response.ok) {
@@ -80,9 +78,7 @@ export const getEquipmentDetails = async (
   return response.json();
 };
 
-export const getRelatedEquipment = async (
-  slug: string,
-): Promise<EquipmentApiItem[]> => {
+export const getRelatedEquipment = async (slug: string): Promise<EquipmentApiItem[]> => {
   const response = await fetch(`${API_URL}/equipment/${slug}/related/`);
 
   if (!response.ok) {

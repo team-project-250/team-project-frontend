@@ -14,6 +14,6 @@ export const mapEquipment = (item: EquipmentApiItem): EquipmentType => ({
   rating: Number(item.rating),
   availableUntil:
     item.availability.status === 'booked'
-      ? item.availability.available_from ?? undefined
+      ? (item.availability.available_from ?? undefined)
       : undefined,
 });

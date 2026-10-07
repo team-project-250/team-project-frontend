@@ -47,7 +47,7 @@ export const CatalogFilter = ({
         </h2>
 
         <div className="catalog-filter__options">
-          {categories.map(category => (
+          {categories.map((category) => (
             <label className="catalog-filter__option" key={category}>
               <input
                 type="checkbox"
