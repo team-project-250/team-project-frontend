@@ -1,13 +1,34 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCity } from '../../context/CityContext';
-import { equipmentData } from '../../data/equipmentData';
+import { getEquipment } from '../../api/equipment';
+import { mapEquipment } from '../../api/equipmentMapper';
 import { EquipmentCarousel } from '../EquipmentCarousel';
+import type { EquipmentType } from '../../types/EquipmentType';
 import './PopularEquipment.scss';
 
 export const PopularEquipment = () => {
-  const { selectedCity } = useCity();
+  const { cities, selectedCity } = useCity();
 
-  const equipment = equipmentData[selectedCity] ?? [];
+  const [equipment, setEquipment] = useState<EquipmentType[]>([]);
+
+  useEffect(() => {
+    const city = cities.find(item => item.name === selectedCity);
+
+    if (!city) {
+      return;
+    }
+
+    getEquipment(city.slug)
+      .then(data => {
+        const popularEquipment = data.filter(item => item.is_popular)
+
+        setEquipment(popularEquipment.map(mapEquipment));
+      })
+      .catch(() => {
+        setEquipment([]);
+      });
+  }, [cities, selectedCity]);
 
   return (
     <section className="popular">

@@ -36,7 +36,7 @@ export const Root = () => (
 
           <Route path="catalog" element={<CatalogPage />} />
 
-          <Route path="catalog/:id" element={<EquipmentDetailsPage />} />
+          <Route path="catalog/:slug" element={<EquipmentDetailsPage />} />
 
           <Route path="booking/:id" element={<BookingPage />} />
 

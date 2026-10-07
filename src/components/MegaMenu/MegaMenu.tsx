@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { equipmentCategories } from '../../data/equipmentCategories';
-import classNames from 'classnames';
-import { equipmentData } from '../../data/equipmentData';
+import { useEffect, useState } from 'react';
+import { getCategories } from '../../api/categories';
+import { getEquipment, type EquipmentApiItem } from '../../api/equipment';
 import { useCity } from '../../context/CityContext';
+import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 import './MegaMenu.scss';
 
 type Props = {
@@ -11,14 +11,40 @@ type Props = {
 };
 
 export const MegaMenu: React.FC<Props> = ({ onClose }) => {
-  const { selectedCity } = useCity();
+  const { cities, selectedCity } = useCity();
 
+  const [categories, setCategories] = useState<string[]>([]);
+  const [equipment, setEquipment] = useState<EquipmentApiItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const equipment = equipmentData[selectedCity] ?? [];
+  useEffect(() => {
+    getCategories()
+      .then((data) => {
+        setCategories(data.map((category) => category.name));
+      })
+      .catch(() => {
+        setCategories([]);
+      });
+  }, []);
+
+  useEffect(() => {
+    const city = cities.find((item) => item.name === selectedCity);
+
+    if (!city) {
+      return;
+    }
+
+    getEquipment(city.slug)
+      .then((data) => {
+        setEquipment(data);
+      })
+      .catch(() => {
+        setEquipment([]);
+      });
+  }, [cities, selectedCity]);
 
   const categoryEquipment = equipment.filter(
-    (item) => item.category === selectedCategory,
+    (item) => item.category.name === selectedCategory,
   );
 
   const handleCategoryClick = () => {
@@ -29,14 +55,14 @@ export const MegaMenu: React.FC<Props> = ({ onClose }) => {
   return (
     <div className="mega-menu">
       <ul className="mega-menu__list">
-        {equipmentCategories.map((category) => (
+        {categories.map((category) => (
           <li
             key={category}
             className="mega-menu__item text__body text_body--label"
             onMouseEnter={() => setSelectedCategory(category)}
           >
             <Link
-              to={`catalog?category=${encodeURIComponent(category)}`}
+              to={`/catalog?category=${encodeURIComponent(category)}`}
               className={classNames('mega-menu__link', 'text')}
               onClick={handleCategoryClick}
             >
@@ -51,12 +77,11 @@ export const MegaMenu: React.FC<Props> = ({ onClose }) => {
                   {categoryEquipment.map((item) => (
                     <li key={item.id} className="mega-menu__models-item">
                       <Link
-                        to={`/catalog/${item.equipmentId}`}
+                        to={`/catalog/${item.slug}`}
                         className="mega-menu__models-link text"
                         onClick={onClose}
                       >
                         <span>{item.name}</span>
-                        <span>{item.model}</span>
                       </Link>
                     </li>
                   ))}

@@ -1,17 +1,22 @@
 import './EquipmentDetails.scss';
 
+import { useEffect, useState } from 'react';
+import {
+  getEquipmentDetails,
+  getRelatedEquipment,
+  type EquipmentDetailsApiItem,
+} from '../../api/equipment';
 import { Link, useParams } from 'react-router-dom';
 import { useCity } from '../../context/CityContext';
-import { equipmentData } from '../../data/equipmentData';
-import { equipmentDetails } from '../../data/equipmentDetails';
-import { useState } from 'react';
 import { rentalTerms } from '../../data/rentalTerms';
 import classNames from 'classnames';
 import { EquipmentCarousel } from '../EquipmentCarousel';
 import { BookingUnavailable } from '../BookingUnavailable';
 import { QuickBooking } from '../QuickBooking';
 import { useBooking } from '../../context/useBooking';
+import { mapEquipment } from '../../api/equipmentMapper';
 import dayjs from 'dayjs';
+import type { EquipmentType } from '../../types/EquipmentType';
 
 export const EquipmentDetails = () => {
   const [activeImage, setActiveImage] = useState(0);
@@ -27,32 +32,59 @@ export const EquipmentDetails = () => {
     { id: 'delivery', label: 'Доставка і оплата' },
   ];
 
-  const { id } = useParams();
-  const { selectedCity } = useCity();
+  const { slug } = useParams();
+  const { cities, selectedCity } = useCity();
   const { bookings } = useBooking();
 
-  const equipment = equipmentData[selectedCity]?.find(
-    (item) => item.equipmentId === Number(id),
-  );
+  const [equipment, setEquipment] = useState<EquipmentDetailsApiItem | null>(null);
+  const [relatedEquipment, setRelatedEquipment] = useState<EquipmentType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  if (!equipment) {
+  useEffect(() => {
+    if (!slug) {
+      return;
+    }
+
+    getEquipmentDetails(slug)
+      .then(data => {
+        setEquipment(data);
+      })
+      .catch(() => {
+        setError('Не вдалося завантажити обладнання');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [slug]);
+
+  useEffect(() => {
+    if (!slug) {
+      return;
+    }
+
+    getRelatedEquipment(slug)
+      .then(data => {
+        setRelatedEquipment(data.map(mapEquipment));
+      })
+      .catch(() => {
+        setRelatedEquipment([]);
+      });
+  }, [slug]);
+
+  if (isLoading) {
+    return <div>Завантаження...</div>;
+  }
+
+ if (error || !equipment) {
     return <BookingUnavailable />;
   }
 
-  const relatedEquipment =
-    equipmentData[selectedCity]?.filter(
-      (item) => item.equipmentId !== equipment.equipmentId,
-    ) ?? [];
+  const availableCities = equipment.available_cities
+    .map((citySlug) => cities.find((city) => city.slug === citySlug)?.name)
+    .filter(Boolean);
 
-  const details = equipmentDetails[equipment.model];
-
-  const availableCities = Object.entries(equipmentData)
-    .filter(([, cityEquipment]) =>
-      cityEquipment.some((item) => item.equipmentId === equipment.equipmentId),
-    )
-    .map(([city]) => city);
-
-  const images = [equipment.image, ...(details?.images ?? [])];
+  const images = equipment?.main_image ? [equipment.main_image, ...equipment.images] : equipment?.images ?? [];
 
   const handlePrevImage = () => {
     setActiveImage((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -63,12 +95,12 @@ export const EquipmentDetails = () => {
   };
 
   const booking = bookings.find(
-    (item) => item.equipmentId === equipment.equipmentId && item.city === selectedCity,
+    (item) => item.equipmentId === equipment.id && item.city === selectedCity,
   );
 
   const bookedUntil = booking?.dates[1];
 
-  const bookingEndDate = bookedUntil ?? equipment.availableUntil;
+  const bookingEndDate = bookedUntil;
   const isBooked = bookingEndDate && !dayjs(bookingEndDate).isBefore(dayjs(), 'day');
 
   const bookingLabel = isBooked
@@ -79,13 +111,18 @@ export const EquipmentDetails = () => {
     <section className="equipment-details">
       <div className="equipment-details__content">
         <h1 className="equipment-details__title-mobile text__title text__title--basic">
-          {equipment.name} {equipment.model}
+          {equipment.name}
         </h1>
 
         <div className="equipment-details__gallery">
-          <span className="equipment-details__badge-karcher text__body text__body--uppercase">
-            оригінал karcher
-          </span>
+          {equipment.badges.map(badge => (
+            <span
+              key={badge.label}
+              className="equipment-details__badge-karcher text__body text__body--uppercase"
+            >
+              {badge.label}
+            </span>
+          ))}
 
           <span
             className={classNames(
@@ -101,11 +138,13 @@ export const EquipmentDetails = () => {
             {bookingLabel}
           </span>
 
-          <img
-            src={images[activeImage]}
-            alt={equipment.name}
-            className="equipment-details__image"
-          />
+          {images.length > 0 && (
+            <img
+              src={images[activeImage]}
+              alt={equipment.name}
+              className="equipment-details__image"
+            />
+          )}
 
           <div className="equipment-details__thumbnails">
             {images.length > 1 && (
@@ -149,11 +188,11 @@ export const EquipmentDetails = () => {
 
         <div className="equipment-details__info">
           <h1 className="equipment-details__title text__title text__title--basic">
-            {equipment.name} {equipment.model}
+            {equipment.name}
           </h1>
 
           <p className="equipment-details__model text__body">
-            Артикул: {equipment.model}
+            Артикул: {equipment.sku}
           </p>
 
           <ul className="equipment-details__list">
@@ -173,13 +212,13 @@ export const EquipmentDetails = () => {
           </ul>
 
           <p className="equipment-details__price text__title text__title--card">
-            {equipment.pricePerDay} грн /{' '}
+            {equipment.price_per_day} грн /{' '}
             <span className="text__body text__body--small">доба</span>
           </p>
 
           <div className="equipment-details__buttons text__body text__body--buttons">
             <Link
-              to={`/booking/${equipment.equipmentId}`}
+              to={`/booking/${equipment.id}`}
               className="text equipment-details__buttons-button"
             >
               Забронювати
@@ -259,9 +298,9 @@ export const EquipmentDetails = () => {
                 </h3>
 
                 <ul className="equipment-details__suitable-list">
-                  {details?.suitableFor.map((item) => (
-                    <li className="equipment-details__suitable-item" key={item}>
-                      {item}
+                  {equipment.suitable_for.map((item) => (
+                    <li className="equipment-details__suitable-item" key={item.text}>
+                      {item.text}
                     </li>
                   ))}
                 </ul>
@@ -271,9 +310,9 @@ export const EquipmentDetails = () => {
 
           {activeTab === 'equipment' && (
             <ul className="equipment-details__suitable-list">
-              {details?.equipment.map((item) => (
-                <li className="equipment-details__suitable-item" key={item}>
-                  {item}
+              {equipment.included_items.map((item) => (
+                <li className="equipment-details__suitable-item" key={item.name}>
+                  {item.name}
                 </li>
               ))}
             </ul>
@@ -281,9 +320,9 @@ export const EquipmentDetails = () => {
 
           {activeTab === 'specifications' && (
             <ul className="equipment-details__suitable-list">
-              {details?.specifications.map((item) => (
-                <li className="equipment-details__suitable-item" key={item}>
-                  {item}
+              {equipment.specs.map((item) => (
+                <li className="equipment-details__suitable-item" key={item.label}>
+                  <strong>{item.label}:</strong> {item.value}
                 </li>
               ))}
             </ul>
