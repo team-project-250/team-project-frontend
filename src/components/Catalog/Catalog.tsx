@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { useCity } from '../../context/CityContext';
-import { equipmentData } from '../../data/equipmentData';
 import type { EquipmentType } from '../../types/EquipmentType';
 import { CatalogFilter } from '../CatalogFilter';
 import { EquipmentCard } from '../EquipmentCard';
@@ -9,12 +8,14 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useBooking } from '../../context/useBooking';
 import { useSearchParams } from 'react-router-dom';
+import { getEquipment } from '../../api/equipment';
+import { mapEquipment } from '../../api/equipmentMapper';
 
 type SortOption = 'rating' | 'priceAsc' | 'priceDesc' | 'name';
 
 export const Catalog = () => {
   const [searchParams] = useSearchParams();
-  const { selectedCity, setSelectedCity } = useCity();
+  const { cities, selectedCity, setSelectedCity } = useCity();
   const { bookings } = useBooking();
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
@@ -28,9 +29,31 @@ export const Catalog = () => {
   const [sortOption, setSortOption] = useState<SortOption>('rating');
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [equipment, setEquipment] = useState<EquipmentType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
 
   const catalogListRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    const city = cities.find((item) => item.name === selectedCity);
+
+    if (!city) {
+      return;
+    }
+
+    getEquipment(city.slug)
+      .then((data) => {
+        setEquipment(data.map(mapEquipment));
+      })
+      .catch(() => {
+        setError('Не вдалося завантажити обладнання');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [cities, selectedCity]);
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -45,8 +68,6 @@ export const Catalog = () => {
   }, [currentPage]);
 
   const itemsPerPage = 6;
-
-  const equipment: EquipmentType[] = equipmentData[selectedCity] ?? [];
 
   const isCurrentlyBooked = (item: EquipmentType) => {
     const availableUntilIsActive = item.availableUntil
@@ -132,6 +153,14 @@ export const Catalog = () => {
     setSelectedCategories([]);
     setSelectedAvailability([]);
   };
+
+  if (isLoading) {
+    return <div>Завантаження...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <section className="catalog text" ref={catalogListRef}>

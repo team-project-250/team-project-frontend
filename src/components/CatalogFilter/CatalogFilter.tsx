@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react';
+import { getCategories } from '../../api/categories';
 import classNames from 'classnames';
 import { useCity } from '../../context/CityContext';
-import { equipmentCategories } from '../../data/equipmentCategories';
 import './CatalogFilter.scss';
 
 type CatalogFilterProps = {
@@ -26,6 +27,18 @@ export const CatalogFilter = ({
 }: CatalogFilterProps) => {
   const { cities } = useCity();
 
+  const [categories, setCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    getCategories()
+      .then((data) => {
+        setCategories(data.map((category) => category.name));
+      })
+      .catch((error) => {
+        console.error('Не вдалося завантажити категорії:', error);
+      });
+  }, []);
+
   return (
     <aside className={classNames('catalog-filter', { 'catalog-filter--open': isOpen })}>
       <div className="catalog-filter__group">
@@ -34,7 +47,7 @@ export const CatalogFilter = ({
         </h2>
 
         <div className="catalog-filter__options">
-          {equipmentCategories.map((category) => (
+          {categories.map((category) => (
             <label className="catalog-filter__option" key={category}>
               <input
                 type="checkbox"

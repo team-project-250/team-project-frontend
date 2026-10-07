@@ -35,13 +35,13 @@ export const EquipmentCard: React.FC<Props> = ({ equipment }) => {
   const handleBookingClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
 
-    navigate(`/catalog/${equipment.equipmentId}?booking=true`);
+    navigate(`/catalog/${equipment.slug}?booking=true`);
   };
 
   return (
     <article
       className="equipment-card"
-      onClick={() => navigate(`/catalog/${equipment.equipmentId}`)}
+      onClick={() => navigate(`/catalog/${equipment.slug}`)}
     >
       <span
         className={classNames(
@@ -58,17 +58,17 @@ export const EquipmentCard: React.FC<Props> = ({ equipment }) => {
       </span>
 
       <div className="equipment-card__image-wrapper">
-        <img
-          src={equipment.image}
-          alt={equipment.name}
-          className="equipment-card__image"
-        />
+        {equipment.image && (
+          <img
+            src={equipment.image}
+            alt={equipment.name}
+            className="equipment-card__image"
+          />
+        )}
       </div>
 
       <div className="equipment-card__content">
         <p className="equipment-card__name text__body">{equipment.name}</p>
-
-        <p className="equipment-card__model text__body">{equipment.model}</p>
       </div>
 
       <p className="equipment-card__price text__title text__title--utility">
