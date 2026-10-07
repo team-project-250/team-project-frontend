@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { useCity } from '../../context/CityContext';
-import { equipmentCategories } from '../../data/equipmentCategories';
-import { equipmentData } from '../../data/equipmentData';
+import { getCategories } from '../../api/categories';
+import { getEquipment, type EquipmentApiItem } from '../../api/equipment';
 import './MobileMenu.scss';
 
 type Props = {
@@ -17,15 +17,39 @@ export const MobileMenu: React.FC<Props> = ({ onClose }) => {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [isCitiesOpen, setIsCitiesOpen] = useState(false);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [equipment, setEquipment] = useState<EquipmentApiItem[]>([]);
+
+  useEffect(() => {
+    getCategories()
+      .then((data) => {
+        setCategories(data.map((category) => category.name));
+      })
+      .catch(() => {
+        setCategories([]);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!currentCity) {
+      return;
+    }
+
+    getEquipment(currentCity.slug)
+      .then((data) => {
+        setEquipment(data);
+      })
+      .catch(() => {
+        setEquipment([]);
+      });
+  }, [currentCity]);
 
   if (!currentCity) {
     return null;
   }
 
-  const equipment = equipmentData[selectedCity] ?? [];
-
   const categoryEquipment = equipment.filter(
-    (item) => item.category === selectedCategory,
+    (item) => item.category.name === selectedCategory,
   );
 
   const handleCitySelect = (city: string) => {
@@ -52,7 +76,7 @@ export const MobileMenu: React.FC<Props> = ({ onClose }) => {
 
         {isCatalogOpen && (
           <ul className="mobile-menu__catalog-list">
-            {equipmentCategories.map((category) => (
+            {categories.map((category) => (
               <li key={category} className="mobile-menu__catalog-item">
                 <button
                   type="button"
@@ -75,7 +99,7 @@ export const MobileMenu: React.FC<Props> = ({ onClose }) => {
                     {categoryEquipment.map((item) => (
                       <li key={item.id}>
                         <Link
-                          to={`/catalog/${item.equipmentId}`}
+                          to={`/catalog/${item.slug}`}
                           className="mobile-menu__model text text__body text__body--small"
                           onClick={() => {
                             setIsCatalogOpen(false);
@@ -85,7 +109,6 @@ export const MobileMenu: React.FC<Props> = ({ onClose }) => {
                           }}
                         >
                           <span>{item.name}</span>
-                          <span>{item.model}</span>
                         </Link>
                       </li>
                     ))}

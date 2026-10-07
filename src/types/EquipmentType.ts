@@ -9,4 +9,5 @@ export interface EquipmentType {
   category: string;
   rating: number;
   availableUntil?: string;
+  slug?: string;
 }
