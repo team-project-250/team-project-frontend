@@ -1,9 +1,39 @@
-# Team Project — Frontend
+# EasyRent — Frontend
 
-Client application for the Team Project, built with **React + Vite + TypeScript**.
+Website for **EasyRent**, a cleaning-equipment rental service (Kärcher pressure
+washers, vacuums, floor scrubbers and more in Lutsk, Lviv, Kyiv and Odesa), built
+with **React + TypeScript + Vite**.
 
-Backend repository: [`team-project-backend`](https://github.com/glor1ee/team-project-backend) ·
-Development plan: [`DEVELOPMENT_PLAN.md`](https://github.com/glor1ee/team-project-backend/blob/main/DEVELOPMENT_PLAN.md)
+**Live demo:** <https://team-project-250.github.io/team-project-frontend/>
+
+The project lives in **two repositories**:
+
+| Repository | What it is |
+| --- | --- |
+| **team-project-frontend** (this repo) | The website: catalog, product pages, booking form, info pages |
+| [**team-project-backend**](https://github.com/team-project-250/team-project-backend) | Django REST API + admin panel: catalog, availability, bookings with price and conflict checks, editable site content |
+
+Development plan for both repositories: [`DEVELOPMENT_PLAN.md`](https://github.com/team-project-250/team-project-backend/blob/develop/DEVELOPMENT_PLAN.md).
+
+## Project status
+
+The site is a **finished, responsive UI** that currently runs on **mock data**.
+The backend API for every screen is ready; **connecting the site to it is the next
+step** (Stage 3b in the development plan).
+
+| Page / feature | UI | Data source today | API endpoint it will use |
+| --- | --- | --- | --- |
+| Home: hero, popular equipment, how to rent, reviews | ✅ | `src/data/*.ts` | `GET /api/home/` |
+| Catalog with category filter and sorting (rating, price, name) | ✅ | `src/data/equipmentData.ts` | `GET /api/equipment/` |
+| Product page: gallery, specs, "suitable for" | ✅ | `src/data/equipmentDetails.ts` | `GET /api/equipment/{slug}/` |
+| Availability calendar | ✅ | mock dates (`availableUntil`) | `GET /api/equipment/{slug}/availability/` |
+| Booking form with validation and price | ✅ | booking kept in browser memory only | `POST /api/bookings/` |
+| "1-click" booking | ✅ | not sent anywhere | `POST /api/callback-requests/` |
+| City selector, pickup points | ✅ | `src/data/cities.ts`, `cityData.ts` | `GET /api/cities/` |
+| About, rental terms, delivery, FAQ, contacts | ✅ | static content | `GET /api/content/...` |
+
+The mock data and the backend's demo data (`python manage.py seed_demo`) contain the
+same catalog, cities and reviews.
 
 ---
 
@@ -11,69 +41,34 @@ Development plan: [`DEVELOPMENT_PLAN.md`](https://github.com/glor1ee/team-projec
 
 | Area | Choice |
 | --- | --- |
-| Language | TypeScript (strict) |
+| Language | TypeScript |
 | Framework | React 19 |
 | Build tool | Vite |
-| UI library | [Mantine](https://mantine.dev) |
-| Linter | [oxlint](https://oxc.rs) (Vite default) |
-| Formatter | Prettier |
-| CI | GitHub Actions |
-| Deploy | Vercel |
+| Routing | React Router (`HashRouter`, works on GitHub Pages) |
+| UI library | [Mantine](https://mantine.dev) (date picker, popovers) |
+| Styles | SCSS, BEM |
+| State | React Context (selected city, bookings) |
+| Lint / format | oxlint, Prettier |
+| CI | GitHub Actions (lint, format, type-check, build) |
+| Deploy | GitHub Pages |
 
 ---
 
 ## Getting started
 
-### 1. Clone and enter the project
-
 ```bash
-git clone https://github.com/glor1ee/team-project-frontend.git
+git clone https://github.com/team-project-250/team-project-frontend.git
 cd team-project-frontend
-```
-
-### 2. Install dependencies
-
-Node.js **20+** is required.
-
-```bash
 npm install
-```
-
-### 3. Create the environment file (optional for local dev)
-
-```bash
-cp .env.example .env.local
-```
-
-Leave `VITE_API_URL` empty locally — Vite proxies `/api` to the backend.
-
-### 4. Start the backend
-
-The start page calls the API, so run the backend first — see
-[`team-project-backend`](https://github.com/glor1ee/team-project-backend):
-
-```bash
-uvicorn app.main:app --reload
-```
-
-### 5. Start the dev server
-
-```bash
 npm run dev
 ```
 
-The app opens at <http://localhost:5173>.
+Open <http://localhost:5173/team-project-frontend/>. The site works on its own —
+the backend is not needed yet, because every page still uses mock data.
 
----
-
-## Sanity check
-
-Open <http://localhost:5173>. You should see:
-
-- the heading **Hello world!**
-- a green **connected** badge with the message returned by the backend
-
-If the badge is red, the backend is not running on `http://127.0.0.1:8000`.
+To run the backend alongside (for API work), follow the
+[backend README](https://github.com/team-project-250/team-project-backend#getting-started);
+Vite proxies `/api` to `http://127.0.0.1:8000`.
 
 ---
 
@@ -81,17 +76,12 @@ If the badge is red, the backend is not running on `http://127.0.0.1:8000`.
 
 | Command | What it does |
 | --- | --- |
-| `npm run dev` | Start the dev server with hot reload |
-| `npm run build` | Type-check and build for production into `dist/` |
+| `npm run dev` | Start the dev server |
+| `npm run build` | Type-check and build to `dist/` |
 | `npm run preview` | Serve the production build locally |
-| `npm run lint` | Lint with oxlint |
-| `npm run lint:fix` | Lint and auto-fix |
+| `npm run lint` / `lint:fix` | Lint with oxlint |
+| `npm run format` / `format:check` | Format with Prettier |
 | `npm run typecheck` | Type-check without emitting |
-| `npm run format` | Format everything with Prettier |
-| `npm run format:check` | Verify formatting (used by CI) |
-
-CI runs lint, format check, type check and build on every push and pull request
-to `main` and `develop`.
 
 ---
 
@@ -99,38 +89,27 @@ to `main` and `develop`.
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `VITE_API_URL` | _(empty)_ | Base URL of the backend. Empty in development (Vite proxy handles it); set to the deployed backend URL in production. |
-
-Only variables prefixed with `VITE_` are exposed to the client bundle.
-Never put secrets here — everything in the bundle is public.
+| `VITE_API_URL` | _(empty)_ | Backend URL. Empty in development (the Vite proxy handles `/api`); set to the deployed backend once the site talks to the API. |
 
 ---
 
 ## Project structure
 
 ```
-team-project-frontend/
-├── src/
-│   ├── api/
-│   │   ├── client.ts       # Typed fetch wrapper + ApiError
-│   │   ├── sanity.ts       # Calls to the sanity endpoints
-│   │   └── types.ts        # Response types shared with the backend
-│   ├── components/
-│   │   └── BackendStatus.tsx
-│   ├── App.tsx             # Start page
-│   ├── main.tsx            # Entry point + MantineProvider
-│   ├── theme.ts            # Design tokens
-│   └── index.css
-├── .github/
-│   ├── workflows/ci.yml
-│   └── pull_request_template.md
-├── .env.example
-├── .prettierrc
-├── .oxlintrc.json
-├── postcss.config.cjs      # Required by Mantine
-├── vite.config.ts          # Dev server + /api proxy
-└── vercel.json             # Vercel deployment config
+src/
+├── api/          # fetch wrapper (client.ts) — ready for the API integration
+├── components/   # UI blocks: Header, Catalog, EquipmentDetails, Booking, BookingCalendar, …
+├── context/      # React Context: selected city, bookings
+├── data/         # mock data: equipment, details, cities, reviews, steps, terms
+├── pages/        # one folder per route
+├── styles/       # shared SCSS (variables, mixins, typography)
+├── types/        # shared TypeScript types
+└── Root.tsx      # routes
+public/img/       # product photos, icons, avatars
 ```
+
+Routes: `/`, `/catalog`, `/catalog/:id`, `/booking/:id`, `/booking-success`,
+`/about`, `/rental-terms`, `/delivery`, `/questions`, `/contacts`.
 
 ---
 
@@ -178,14 +157,16 @@ Keep the history clean — one logical change per commit.
 
 ---
 
-## Deployment (Vercel)
+## Deployment (GitHub Pages)
 
-1. Push the repository to GitHub.
-2. In Vercel, **Add New → Project** and import this repository.
-3. Vercel detects Vite automatically; [`vercel.json`](vercel.json) pins the settings.
-4. Add the environment variable `VITE_API_URL` = deployed backend URL
-   (e.g. `https://team-project-backend.onrender.com`).
-5. Add the resulting Vercel URL to `CORS_ORIGINS` on the backend.
+Every push to `main` runs [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml),
+which builds the site and publishes it to
+<https://team-project-250.github.io/team-project-frontend/>. The Vite `base` is
+`/team-project-frontend/` and routing uses `HashRouter`, so deep links work on
+GitHub Pages without server rewrites.
+
+Once the site uses the API, set `VITE_API_URL` in the deploy workflow and add
+`https://team-project-250.github.io` to `CORS_ORIGINS` on the backend.
 
 ---
 
@@ -193,5 +174,5 @@ Keep the history clean — one logical change per commit.
 
 | Name | Role | GitHub |
 | --- | --- | --- |
-| _TBD_ | Frontend | [@username](https://github.com/username) |
-| _TBD_ | Backend | [@username](https://github.com/username) |
+| Alexey Kravets | Frontend | [@kravets111](https://github.com/kravets111) |
+| Taras Mosiichuk | Backend | [@tarasmosiichuk01-ship-it](https://github.com/tarasmosiichuk01-ship-it) |
