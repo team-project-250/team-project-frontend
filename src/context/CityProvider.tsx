@@ -11,7 +11,7 @@ export const CityProvider = ({ children }: CityProviderProps) => {
   const [selectedCity, setSelectedCity] = useState('');
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/cities/')
+    fetch(`${import.meta.env.VITE_API_URL}/cities/`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Не вдалося завантажити міста');
