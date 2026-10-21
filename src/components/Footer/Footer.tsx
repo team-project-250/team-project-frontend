@@ -4,7 +4,7 @@ import './Footer.scss';
 
 export const Footer = () => {
   const { cities, selectedCity } = useCity();
-  const currentCity = cities.find((city) => city.name === selectedCity);
+  const currentCity = cities.find((city) => city.slug === selectedCity);
 
   if (!currentCity) {
     return null;
@@ -76,7 +76,7 @@ export const Footer = () => {
 
               <div className="footer__contacts-wrapper">
                 <p className="footer__contacts-description text__title text__title--secondary">
-                  м. {selectedCity}
+                  м. {currentCity.name}
                 </p>
 
                 <p className="footer__contacts-description">

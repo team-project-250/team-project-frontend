@@ -9,7 +9,7 @@ import { MegaMenu } from '../MegaMenu';
 
 export const Header = () => {
   const { cities, selectedCity } = useCity();
-  const currentCity = cities.find((city) => city.name === selectedCity);
+  const currentCity = cities.find((city) => city.slug === selectedCity);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
@@ -89,7 +89,7 @@ export const Header = () => {
           </button>
 
           <div className="header__main-city">
-            <p className="text__title text__title--secondary">{selectedCity}</p>
+            <p className="text__title text__title--secondary">{currentCity.name}</p>
 
             <p className="header__main-text text__body text__body--small">
               {currentCity.pickup_address}

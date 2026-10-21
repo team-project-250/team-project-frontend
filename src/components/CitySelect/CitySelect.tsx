@@ -27,7 +27,9 @@ export const CitySelect: React.FC<Props> = ({ onSelect, className }) => {
       >
         <span className="icon icon--location city-select__icon"></span>
 
-        <span className="city-select__name">{selectedCity}</span>
+        <span className="city-select__name">
+          {cities.find((city) => city.slug === selectedCity)?.name ?? selectedCity}
+        </span>
 
         <span
           className={classNames('city-select__arrow icon icon--arrow', {
@@ -43,7 +45,7 @@ export const CitySelect: React.FC<Props> = ({ onSelect, className }) => {
               <button
                 type="button"
                 className="city-select__option text text__body text__body--label"
-                onClick={() => handleCitySelect(city.name)}
+                onClick={() => handleCitySelect(city.slug)}
               >
                 {city.name}
               </button>
