@@ -1,197 +1,148 @@
-# Team Project — Frontend
+EasyRent — Frontend
 
-Client application for the Team Project, built with **React + Vite + TypeScript**.
+The frontend application for EasyRent, an equipment rental service. Users can browse equipment, filter the catalog by city, view equipment details, explore related equipment, and create booking requests.
 
-Backend repository: [`team-project-backend`](https://github.com/glor1ee/team-project-backend) ·
-Development plan: [`DEVELOPMENT_PLAN.md`](https://github.com/glor1ee/team-project-backend/blob/main/DEVELOPMENT_PLAN.md)
+Project status: In development.
 
----
+Project Links
 
-## Tech stack
+* Frontend repository: team-project-frontend
+* Backend repository: team-project-backend
+* Live application: EasyRent on GitHub Pages
+* Production API: EasyRent API
+* API documentation: Swagger UI
+* Backend development plan: DEVELOPMENT_PLAN.md
 
-| Area | Choice |
-| --- | --- |
-| Language | TypeScript (strict) |
-| Framework | React 19 |
-| Build tool | Vite |
-| UI library | [Mantine](https://mantine.dev) |
-| Linter | [oxlint](https://oxc.rs) (Vite default) |
-| Formatter | Prettier |
-| CI | GitHub Actions |
-| Deploy | Vercel |
+Features
 
----
+* Equipment catalog loaded from the backend REST API.
+* City-based catalog filtering.
+* Equipment details loaded by equipment slug.
+* Related equipment fetched from the API.
+* Equipment categories fetched from the API.
+* Booking creation through the backend API.
+* Booking confirmation page.
+* Application pages for the home page, catalog, equipment details, booking, delivery, contacts, rental terms, FAQ, and about information.
+* Shared application state for city selection and booking.
+* Automated quality checks and deployment through GitHub Actions.
 
-## Getting started
+Current Scope and Limitations
 
-### 1. Clone and enter the project
+* Reviews, rental terms, and some informational sections use static frontend data.
+* In the catalog mapper, the equipment description is currently set to an empty string. The equipment details endpoint provides a separate description field.
+* Equipment images depend on the data returned by the backend.
+* The project is under active development. Not every possible user flow is necessarily complete.
 
-```bash
+Tech Stack
+
+* React 19
+* TypeScript
+* Vite
+* React Router
+* Mantine
+* Sass
+* oxlint
+* Prettier
+* GitHub Actions
+* GitHub Pages
+
+API Integration
+
+The frontend communicates with the backend through a REST API. The base URL is configured using the VITE_API_URL environment variable.
+
+Purpose	Method and endpoint
+Equipment catalog by city	GET /equipment/?city={citySlug}
+Equipment details	GET /equipment/{slug}/
+Related equipment	GET /equipment/{slug}/related/
+Equipment categories	GET /categories/
+Create a booking	POST /bookings/
+
+Production API URL: https://easyrent-rental-api.onrender.com/api
+
+Getting Started
+
+Prerequisites
+
+* Node.js 22
+* npm
+* A running backend instance for API-dependent features
+
+1. Clone the repository
+
 git clone https://github.com/glor1ee/team-project-frontend.git
 cd team-project-frontend
-```
 
-### 2. Install dependencies
+2. Install dependencies
 
-Node.js **20+** is required.
+npm ci
 
-```bash
-npm install
-```
+3. Configure the API URL
 
-### 3. Create the environment file (optional for local dev)
+Create a local environment file:
 
-```bash
-cp .env.example .env.local
-```
+cp .env.example .env
 
-Leave `VITE_API_URL` empty locally — Vite proxies `/api` to the backend.
+The example configuration points to a locally running backend:
 
-### 4. Start the backend
+VITE_API_URL=http://127.0.0.1:8000/api
 
-The start page calls the API, so run the backend first — see
-[`team-project-backend`](https://github.com/glor1ee/team-project-backend):
+Make sure the backend is running at http://127.0.0.1:8000. If it runs at a different address, update VITE_API_URL accordingly.
 
-```bash
-uvicorn app.main:app --reload
-```
+4. Start the development server
 
-### 5. Start the dev server
-
-```bash
 npm run dev
-```
 
-The app opens at <http://localhost:5173>.
+Open the local URL printed by Vite. The Vite configuration uses the base path /team-project-frontend/, so the development URL may include that path.
 
----
+Keep the backend running while testing API-dependent functionality.
 
-## Sanity check
+Available Scripts
 
-Open <http://localhost:5173>. You should see:
+Command	Description
+npm run dev	Start the Vite development server
+npm run build	Run TypeScript build checks and create a production build in dist/
+npm run preview	Preview the production build locally
+npm run lint	Run oxlint
+npm run lint:fix	Automatically fix supported lint issues
+npm run typecheck	Run TypeScript checks without emitting build output
+npm run format	Format files with Prettier
+npm run format:check	Check formatting without modifying files
 
-- the heading **Hello world!**
-- a green **connected** badge with the message returned by the backend
+Before submitting changes, run:
 
-If the badge is red, the backend is not running on `http://127.0.0.1:8000`.
+npm run lint
+npm run format:check
+npm run typecheck
+npm run build
 
----
+Project Structure
 
-## Available scripts
+src/
+├── api/          # API client, endpoints, response types, and mappers
+├── components/   # Reusable UI components
+├── context/      # Shared application state and providers
+├── data/         # Static content used by the interface
+├── pages/        # Application pages
+├── types/        # Shared TypeScript types
+└── ...
 
-| Command | What it does |
-| --- | --- |
-| `npm run dev` | Start the dev server with hot reload |
-| `npm run build` | Type-check and build for production into `dist/` |
-| `npm run preview` | Serve the production build locally |
-| `npm run lint` | Lint with oxlint |
-| `npm run lint:fix` | Lint and auto-fix |
-| `npm run typecheck` | Type-check without emitting |
-| `npm run format` | Format everything with Prettier |
-| `npm run format:check` | Verify formatting (used by CI) |
+CI and Deployment
 
-CI runs lint, format check, type check and build on every push and pull request
-to `main` and `develop`.
+GitHub Actions runs the quality workflow on pushes and pull requests targeting main and develop. The workflow checks:
 
----
+* Linting
+* Formatting
+* TypeScript types
+* Production build
 
-## Environment variables
+A separate workflow deploys the application to GitHub Pages when changes are pushed to main.
 
-| Variable | Default | Description |
-| --- | --- | --- |
-| `VITE_API_URL` | _(empty)_ | Base URL of the backend. Empty in development (Vite proxy handles it); set to the deployed backend URL in production. |
+The production build uses:
 
-Only variables prefixed with `VITE_` are exposed to the client bundle.
-Never put secrets here — everything in the bundle is public.
+https://easyrent-rental-api.onrender.com/api
 
----
+Development Workflow
 
-## Project structure
+The project uses main and develop branches. Feature work and fixes should be submitted through pull requests according to the team’s agreed workflow.
 
-```
-team-project-frontend/
-├── src/
-│   ├── api/
-│   │   ├── client.ts       # Typed fetch wrapper + ApiError
-│   │   ├── sanity.ts       # Calls to the sanity endpoints
-│   │   └── types.ts        # Response types shared with the backend
-│   ├── components/
-│   │   └── BackendStatus.tsx
-│   ├── App.tsx             # Start page
-│   ├── main.tsx            # Entry point + MantineProvider
-│   ├── theme.ts            # Design tokens
-│   └── index.css
-├── .github/
-│   ├── workflows/ci.yml
-│   └── pull_request_template.md
-├── .env.example
-├── .prettierrc
-├── .oxlintrc.json
-├── postcss.config.cjs      # Required by Mantine
-├── vite.config.ts          # Dev server + /api proxy
-└── vercel.json             # Vercel deployment config
-```
-
----
-
-## Git Flow
-
-The team follows Git Flow. Two long-lived branches:
-
-- **`main`** — production-ready code only. Never commit directly.
-- **`develop`** — integration branch. All feature work merges here first.
-
-Short-lived branches:
-
-| Prefix | Purpose | Branch off | Merge into |
-| --- | --- | --- | --- |
-| `feature/*` | New functionality | `develop` | `develop` |
-| `fix/*` | Bug fixes | `develop` | `develop` |
-| `hotfix/*` | Urgent production fixes | `main` | `main` **and** `develop` |
-| `release/*` | Release preparation | `develop` | `main` **and** `develop` |
-
-### Typical workflow
-
-```bash
-git checkout develop
-git pull origin develop
-
-git checkout -b feature/login-page
-# ... work, commit, work, commit ...
-git push -u origin feature/login-page
-# then open a Pull Request into develop
-```
-
-### Commit messages
-
-Use [Conventional Commits](https://www.conventionalcommits.org/):
-
-```
-feat: add login page
-fix: keep the header visible while scrolling on mobile
-style: align the card paddings with the design
-refactor: extract the API client
-chore: bump vite to 8.2
-```
-
-Keep the history clean — one logical change per commit.
-
----
-
-## Deployment (Vercel)
-
-1. Push the repository to GitHub.
-2. In Vercel, **Add New → Project** and import this repository.
-3. Vercel detects Vite automatically; [`vercel.json`](vercel.json) pins the settings.
-4. Add the environment variable `VITE_API_URL` = deployed backend URL
-   (e.g. `https://team-project-backend.onrender.com`).
-5. Add the resulting Vercel URL to `CORS_ORIGINS` on the backend.
-
----
-
-## Team
-
-| Name | Role | GitHub |
-| --- | --- | --- |
-| _TBD_ | Frontend | [@username](https://github.com/username) |
-| _TBD_ | Backend | [@username](https://github.com/username) |
+Keep this README synchronized with the implementation. Update it whenever API behavior, setup requirements, project status, or deployment configuration changes.

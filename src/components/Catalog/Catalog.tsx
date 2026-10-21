@@ -37,7 +37,7 @@ export const Catalog = () => {
   const isFirstRender = useRef(true);
 
   useEffect(() => {
-    const city = cities.find((item) => item.name === selectedCity);
+    const city = cities.find((item) => item.slug === selectedCity);
 
     if (!city) {
       return;

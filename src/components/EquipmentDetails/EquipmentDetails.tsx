@@ -218,7 +218,7 @@ export const EquipmentDetails = () => {
 
           <div className="equipment-details__buttons text__body text__body--buttons">
             <Link
-              to={`/booking/${equipment.id}`}
+              to={`/booking/${equipment.slug}`}
               className="text equipment-details__buttons-button"
             >
               Забронювати
