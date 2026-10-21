@@ -15,8 +15,9 @@ import { createBooking } from '../../api/booking';
 
 export const Booking = () => {
   const { id } = useParams();
-  const [equipment, setEquipment] =
-    useState<Awaited<ReturnType<typeof getEquipmentDetails>> | null>(null);
+  const [equipment, setEquipment] = useState<Awaited<
+    ReturnType<typeof getEquipmentDetails>
+  > | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
 
@@ -88,8 +89,7 @@ export const Booking = () => {
 
   const deliveryPrice = delivery === 'delivery' ? 100 : 0;
 
-  const totalPrice =
-    Number(equipment.price_per_day) * rentalDays + deliveryPrice;
+  const totalPrice = Number(equipment.price_per_day) * rentalDays + deliveryPrice;
 
   const getDaysLabel = (days: number) => {
     const lastTwoDigits = days % 100;
