@@ -52,7 +52,7 @@ interface EquipmentApiResponse {
   results: EquipmentApiItem[];
 }
 
-const API_URL = 'http://127.0.0.1:8000/api';
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const getEquipment = async (citySlug: string): Promise<EquipmentApiItem[]> => {
   const response = await fetch(`${API_URL}/equipment/?city=${citySlug}`);
