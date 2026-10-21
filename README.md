@@ -1,178 +1,148 @@
-# EasyRent — Frontend
+EasyRent — Frontend
 
-Website for **EasyRent**, a cleaning-equipment rental service (Kärcher pressure
-washers, vacuums, floor scrubbers and more in Lutsk, Lviv, Kyiv and Odesa), built
-with **React + TypeScript + Vite**.
+The frontend application for EasyRent, an equipment rental service. Users can browse equipment, filter the catalog by city, view equipment details, explore related equipment, and create booking requests.
 
-**Live demo:** <https://team-project-250.github.io/team-project-frontend/>
+Project status: In development.
 
-The project lives in **two repositories**:
+Project Links
 
-| Repository | What it is |
-| --- | --- |
-| **team-project-frontend** (this repo) | The website: catalog, product pages, booking form, info pages |
-| [**team-project-backend**](https://github.com/team-project-250/team-project-backend) | Django REST API + admin panel: catalog, availability, bookings with price and conflict checks, editable site content |
+* Frontend repository: team-project-frontend
+* Backend repository: team-project-backend
+* Live application: EasyRent on GitHub Pages
+* Production API: EasyRent API
+* API documentation: Swagger UI
+* Backend development plan: DEVELOPMENT_PLAN.md
 
-Development plan for both repositories: [`DEVELOPMENT_PLAN.md`](https://github.com/team-project-250/team-project-backend/blob/develop/DEVELOPMENT_PLAN.md).
+Features
 
-## Project status
+* Equipment catalog loaded from the backend REST API.
+* City-based catalog filtering.
+* Equipment details loaded by equipment slug.
+* Related equipment fetched from the API.
+* Equipment categories fetched from the API.
+* Booking creation through the backend API.
+* Booking confirmation page.
+* Application pages for the home page, catalog, equipment details, booking, delivery, contacts, rental terms, FAQ, and about information.
+* Shared application state for city selection and booking.
+* Automated quality checks and deployment through GitHub Actions.
 
-The site is a **finished, responsive UI** that currently runs on **mock data**.
-The backend API for every screen is ready; **connecting the site to it is the next
-step** (Stage 3b in the development plan).
+Current Scope and Limitations
 
-| Page / feature | UI | Data source today | API endpoint it will use |
-| --- | --- | --- | --- |
-| Home: hero, popular equipment, how to rent, reviews | ✅ | `src/data/*.ts` | `GET /api/home/` |
-| Catalog with category filter and sorting (rating, price, name) | ✅ | `src/data/equipmentData.ts` | `GET /api/equipment/` |
-| Product page: gallery, specs, "suitable for" | ✅ | `src/data/equipmentDetails.ts` | `GET /api/equipment/{slug}/` |
-| Availability calendar | ✅ | mock dates (`availableUntil`) | `GET /api/equipment/{slug}/availability/` |
-| Booking form with validation and price | ✅ | booking kept in browser memory only | `POST /api/bookings/` |
-| "1-click" booking | ✅ | not sent anywhere | `POST /api/callback-requests/` |
-| City selector, pickup points | ✅ | `src/data/cities.ts`, `cityData.ts` | `GET /api/cities/` |
-| About, rental terms, delivery, FAQ, contacts | ✅ | static content | `GET /api/content/...` |
+* Reviews, rental terms, and some informational sections use static frontend data.
+* In the catalog mapper, the equipment description is currently set to an empty string. The equipment details endpoint provides a separate description field.
+* Equipment images depend on the data returned by the backend.
+* The project is under active development. Not every possible user flow is necessarily complete.
 
-The mock data and the backend's demo data (`python manage.py seed_demo`) contain the
-same catalog, cities and reviews.
+Tech Stack
 
----
+* React 19
+* TypeScript
+* Vite
+* React Router
+* Mantine
+* Sass
+* oxlint
+* Prettier
+* GitHub Actions
+* GitHub Pages
 
-## Tech stack
+API Integration
 
-| Area | Choice |
-| --- | --- |
-| Language | TypeScript |
-| Framework | React 19 |
-| Build tool | Vite |
-| Routing | React Router (`HashRouter`, works on GitHub Pages) |
-| UI library | [Mantine](https://mantine.dev) (date picker, popovers) |
-| Styles | SCSS, BEM |
-| State | React Context (selected city, bookings) |
-| Lint / format | oxlint, Prettier |
-| CI | GitHub Actions (lint, format, type-check, build) |
-| Deploy | GitHub Pages |
+The frontend communicates with the backend through a REST API. The base URL is configured using the VITE_API_URL environment variable.
 
----
+Purpose	Method and endpoint
+Equipment catalog by city	GET /equipment/?city={citySlug}
+Equipment details	GET /equipment/{slug}/
+Related equipment	GET /equipment/{slug}/related/
+Equipment categories	GET /categories/
+Create a booking	POST /bookings/
 
-## Getting started
+Production API URL: https://easyrent-rental-api.onrender.com/api
 
-```bash
-git clone https://github.com/team-project-250/team-project-frontend.git
+Getting Started
+
+Prerequisites
+
+* Node.js 22
+* npm
+* A running backend instance for API-dependent features
+
+1. Clone the repository
+
+git clone https://github.com/glor1ee/team-project-frontend.git
 cd team-project-frontend
-npm install
+
+2. Install dependencies
+
+npm ci
+
+3. Configure the API URL
+
+Create a local environment file:
+
+cp .env.example .env
+
+The example configuration points to a locally running backend:
+
+VITE_API_URL=http://127.0.0.1:8000/api
+
+Make sure the backend is running at http://127.0.0.1:8000. If it runs at a different address, update VITE_API_URL accordingly.
+
+4. Start the development server
+
 npm run dev
-```
 
-Open <http://localhost:5173/team-project-frontend/>. The site works on its own —
-the backend is not needed yet, because every page still uses mock data.
+Open the local URL printed by Vite. The Vite configuration uses the base path /team-project-frontend/, so the development URL may include that path.
 
-To run the backend alongside (for API work), follow the
-[backend README](https://github.com/team-project-250/team-project-backend#getting-started);
-Vite proxies `/api` to `http://127.0.0.1:8000`.
+Keep the backend running while testing API-dependent functionality.
 
----
+Available Scripts
 
-## Available scripts
+Command	Description
+npm run dev	Start the Vite development server
+npm run build	Run TypeScript build checks and create a production build in dist/
+npm run preview	Preview the production build locally
+npm run lint	Run oxlint
+npm run lint:fix	Automatically fix supported lint issues
+npm run typecheck	Run TypeScript checks without emitting build output
+npm run format	Format files with Prettier
+npm run format:check	Check formatting without modifying files
 
-| Command | What it does |
-| --- | --- |
-| `npm run dev` | Start the dev server |
-| `npm run build` | Type-check and build to `dist/` |
-| `npm run preview` | Serve the production build locally |
-| `npm run lint` / `lint:fix` | Lint with oxlint |
-| `npm run format` / `format:check` | Format with Prettier |
-| `npm run typecheck` | Type-check without emitting |
+Before submitting changes, run:
 
----
+npm run lint
+npm run format:check
+npm run typecheck
+npm run build
 
-## Environment variables
+Project Structure
 
-| Variable | Default | Description |
-| --- | --- | --- |
-| `VITE_API_URL` | _(empty)_ | Backend URL. Empty in development (the Vite proxy handles `/api`); set to the deployed backend once the site talks to the API. |
-
----
-
-## Project structure
-
-```
 src/
-├── api/          # fetch wrapper (client.ts) — ready for the API integration
-├── components/   # UI blocks: Header, Catalog, EquipmentDetails, Booking, BookingCalendar, …
-├── context/      # React Context: selected city, bookings
-├── data/         # mock data: equipment, details, cities, reviews, steps, terms
-├── pages/        # one folder per route
-├── styles/       # shared SCSS (variables, mixins, typography)
-├── types/        # shared TypeScript types
-└── Root.tsx      # routes
-public/img/       # product photos, icons, avatars
-```
+├── api/          # API client, endpoints, response types, and mappers
+├── components/   # Reusable UI components
+├── context/      # Shared application state and providers
+├── data/         # Static content used by the interface
+├── pages/        # Application pages
+├── types/        # Shared TypeScript types
+└── ...
 
-Routes: `/`, `/catalog`, `/catalog/:id`, `/booking/:id`, `/booking-success`,
-`/about`, `/rental-terms`, `/delivery`, `/questions`, `/contacts`.
+CI and Deployment
 
----
+GitHub Actions runs the quality workflow on pushes and pull requests targeting main and develop. The workflow checks:
 
-## Git Flow
+* Linting
+* Formatting
+* TypeScript types
+* Production build
 
-The team follows Git Flow. Two long-lived branches:
+A separate workflow deploys the application to GitHub Pages when changes are pushed to main.
 
-- **`main`** — production-ready code only. Never commit directly.
-- **`develop`** — integration branch. All feature work merges here first.
+The production build uses:
 
-Short-lived branches:
+https://easyrent-rental-api.onrender.com/api
 
-| Prefix | Purpose | Branch off | Merge into |
-| --- | --- | --- | --- |
-| `feature/*` | New functionality | `develop` | `develop` |
-| `fix/*` | Bug fixes | `develop` | `develop` |
-| `hotfix/*` | Urgent production fixes | `main` | `main` **and** `develop` |
-| `release/*` | Release preparation | `develop` | `main` **and** `develop` |
+Development Workflow
 
-### Typical workflow
+The project uses main and develop branches. Feature work and fixes should be submitted through pull requests according to the team’s agreed workflow.
 
-```bash
-git checkout develop
-git pull origin develop
-
-git checkout -b feature/login-page
-# ... work, commit, work, commit ...
-git push -u origin feature/login-page
-# then open a Pull Request into develop
-```
-
-### Commit messages
-
-Use [Conventional Commits](https://www.conventionalcommits.org/):
-
-```
-feat: add login page
-fix: keep the header visible while scrolling on mobile
-style: align the card paddings with the design
-refactor: extract the API client
-chore: bump vite to 8.2
-```
-
-Keep the history clean — one logical change per commit.
-
----
-
-## Deployment (GitHub Pages)
-
-Every push to `main` runs [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml),
-which builds the site and publishes it to
-<https://team-project-250.github.io/team-project-frontend/>. The Vite `base` is
-`/team-project-frontend/` and routing uses `HashRouter`, so deep links work on
-GitHub Pages without server rewrites.
-
-Once the site uses the API, set `VITE_API_URL` in the deploy workflow and add
-`https://team-project-250.github.io` to `CORS_ORIGINS` on the backend.
-
----
-
-## Team
-
-| Name | Role | GitHub |
-| --- | --- | --- |
-| Alexey Kravets | Frontend | [@kravets111](https://github.com/kravets111) |
-| Taras Mosiichuk | Backend | [@tarasmosiichuk01-ship-it](https://github.com/tarasmosiichuk01-ship-it) |
+Keep this README synchronized with the implementation. Update it whenever API behavior, setup requirements, project status, or deployment configuration changes.

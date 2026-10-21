@@ -3,25 +3,62 @@ import dayjs from 'dayjs';
 import './Booking.scss';
 import { useCity } from '../../context/CityContext';
 import { useBooking } from '../../context/useBooking';
-import React, { useState } from 'react';
-import { equipmentData } from '../../data/equipmentData';
+import React, { useEffect, useState } from 'react';
+import { getEquipmentDetails } from '../../api/equipment';
 import { BookingCalendar } from '../BookingCalendar';
 import type { DateRange } from '../../types/DateRange';
 import type { BookingFormData, BookingFormErrors } from '../../types/BookingForm';
 import { validateBookingForm } from '../utils/bookingValidation';
 import { CitySelect } from '../CitySelect';
 import { BookingUnavailable } from '../BookingUnavailable';
+import { createBooking } from '../../api/booking';
 
 export const Booking = () => {
   const { id } = useParams();
+  const [equipment, setEquipment] =
+    useState<Awaited<ReturnType<typeof getEquipmentDetails>> | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+
+  useEffect(() => {
+    let isActive = true;
+
+    if (!id) {
+      return () => {
+        isActive = false;
+      };
+    }
+
+    getEquipmentDetails(id)
+      .then((data) => {
+        if (isActive) {
+          setEquipment(data);
+        }
+      })
+      .catch(() => {
+        if (isActive) {
+          setLoadError(true);
+        }
+      })
+      .finally(() => {
+        if (isActive) {
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, [id]);
+
   const { selectedCity } = useCity();
   const { bookings, addBooking } = useBooking();
   const navigate = useNavigate();
-
   const [selectedRange, setSelectedRange] = useState<DateRange>([null, null]);
   const [delivery, setDelivery] = useState<'pickup' | 'delivery'>('pickup');
   const [payment, setPayment] = useState<'cash' | 'iban'>('cash');
   const [isAgree, setIsAgree] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<BookingFormData>({
     name: '',
     tel: '',
@@ -36,11 +73,11 @@ export const Booking = () => {
     address: '',
   });
 
-  const equipment = equipmentData[selectedCity]?.find(
-    (item) => item.equipmentId === Number(id),
-  );
+  if (isLoading) {
+    return <p>Завантаження обладнання...</p>;
+  }
 
-  if (!equipment) {
+  if (loadError || !equipment) {
     return <BookingUnavailable />;
   }
 
@@ -50,7 +87,9 @@ export const Booking = () => {
       : 0;
 
   const deliveryPrice = delivery === 'delivery' ? 100 : 0;
-  const totalPrice = equipment.pricePerDay * rentalDays + deliveryPrice;
+
+  const totalPrice =
+    Number(equipment.price_per_day) * rentalDays + deliveryPrice;
 
   const getDaysLabel = (days: number) => {
     const lastTwoDigits = days % 100;
@@ -71,8 +110,12 @@ export const Booking = () => {
     return 'днів';
   };
 
-  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (isSubmitting) {
+      return;
+    }
 
     const validationErrors = validateBookingForm(formData, delivery);
 
@@ -88,13 +131,37 @@ export const Booking = () => {
       return;
     }
 
-    addBooking({
-      equipmentId: equipment.equipmentId,
-      city: selectedCity,
-      dates: selectedRange,
-    });
+    setIsSubmitting(true);
 
-    navigate('/booking-success');
+    try {
+      const bookingResponse = await createBooking({
+        equipment: equipment.slug,
+        city: selectedCity,
+        customer_name: formData.name.trim(),
+        customer_phone: formData.tel,
+        customer_email: formData.email.trim(),
+        start_date: dayjs(selectedRange[0]).format('YYYY-MM-DD'),
+        end_date: dayjs(selectedRange[1]).format('YYYY-MM-DD'),
+        delivery_method: delivery === 'delivery' ? 'courier' : 'pickup',
+        delivery_address: delivery === 'delivery' ? formData.address.trim() : '',
+        payment_method: payment === 'iban' ? 'transfer' : 'cash',
+      });
+
+      addBooking({
+        equipmentId: equipment.id,
+        city: selectedCity,
+        dates: selectedRange,
+      });
+
+      navigate('/booking-success', {
+        state: { booking: bookingResponse },
+      });
+    } catch (error) {
+      console.error('Не вдалося створити бронювання:', error);
+      alert('Не вдалося оформити бронювання. Перевірте дані та спробуйте ще раз.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,10 +188,10 @@ export const Booking = () => {
             <h3 className="booking__form-title text__title text__title--secondary">
               Дата бронювання
             </h3>
+
             <BookingCalendar
-              availableUntil={equipment.availableUntil}
               bookings={bookings}
-              equipmentId={equipment.equipmentId}
+              equipmentId={equipment.id}
               city={selectedCity}
               onDateChange={setSelectedRange}
             />
@@ -259,8 +326,10 @@ export const Booking = () => {
                   type="text"
                   name="address"
                   id="form-address"
+                  value={formData.address}
                   onChange={handleInputChange}
                   placeholder="Введіть адресу"
+                  required
                 />
 
                 {errors.address && (
@@ -307,11 +376,13 @@ export const Booking = () => {
           </h3>
 
           <div className="booking__card-product">
-            <img src={equipment.image} alt="" className="booking__card-image" />
+            <img
+              src={equipment.main_image ?? undefined}
+              alt={equipment.name}
+              className="booking__card-image"
+            />
             <p className="booking__card-name text__body text__body--label">
               {equipment.name}
-              <br />
-              {equipment.model}
             </p>
           </div>
 
@@ -322,7 +393,7 @@ export const Booking = () => {
               </p>
 
               <p className="booking__card-text text__body text__body--label">
-                {equipment.pricePerDay} грн
+                {Number(equipment.price_per_day)} грн
               </p>
             </div>
 
@@ -357,7 +428,7 @@ export const Booking = () => {
             type="submit"
             form="booking-form"
             className="booking__card-button text text__body text__body--buttons"
-            disabled={!isAgree}
+            disabled={!isAgree || isSubmitting}
           >
             Забронювати
           </button>
