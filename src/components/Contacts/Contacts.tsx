@@ -3,7 +3,7 @@ import './Contacts.scss';
 
 export const Contacts = () => {
   const { cities, selectedCity } = useCity();
-  const currentCity = cities.find((city) => city.name === selectedCity);
+  const currentCity = cities.find((city) => city.slug === selectedCity);
 
   if (!currentCity) {
     return null;

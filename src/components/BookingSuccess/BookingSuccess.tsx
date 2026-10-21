@@ -1,8 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './BookingSuccess.scss';
 
 export const BookingSuccess = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const booking = location.state?.booking;
 
   const handleCatalogClick = () => {
     navigate('/catalog');
@@ -19,6 +21,12 @@ export const BookingSuccess = () => {
       <p className="booking-success__text text__body">
         Ми зв’яжемось з Вами протягом години
       </p>
+
+      {booking?.number && (
+        <p className="booking-success__text text__body">
+          Номер вашого бронювання: <strong>{booking.number}</strong>
+        </p>
+      )}
 
       <button
         type="button"

@@ -25,7 +25,7 @@ export const CityProvider = ({ children }: CityProviderProps) => {
         const defaultCity = data.find((city) => city.is_default);
 
         if (defaultCity) {
-          setSelectedCity(defaultCity.name);
+          setSelectedCity(defaultCity.slug);
         }
       })
       .catch((error) => {
