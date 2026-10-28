@@ -12,7 +12,7 @@ type Props = {
 
 export const MobileMenu: React.FC<Props> = ({ onClose }) => {
   const { cities, selectedCity, setSelectedCity } = useCity();
-  const currentCity = cities.find((city) => city.name === selectedCity);
+  const currentCity = cities.find((city) => city.slug === selectedCity);
 
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -154,7 +154,7 @@ export const MobileMenu: React.FC<Props> = ({ onClose }) => {
         >
           <span className="icon icon--location"></span>
 
-          <span>{selectedCity}</span>
+          <span>{currentCity.name}</span>
 
           <span
             className={classNames('icon icon--arrow', {
@@ -170,7 +170,7 @@ export const MobileMenu: React.FC<Props> = ({ onClose }) => {
                 <button
                   type="button"
                   className="mobile-menu__city text text__body"
-                  onClick={() => handleCitySelect(city.name)}
+                  onClick={() => handleCitySelect(city.slug)}
                 >
                   {city.name}
                 </button>
@@ -180,7 +180,7 @@ export const MobileMenu: React.FC<Props> = ({ onClose }) => {
         )}
 
         <p className="mobile-menu__address text__body text__body--buttons">
-          {selectedCity} {currentCity.pickup_address}
+          {currentCity.name} {currentCity.pickup_address}
         </p>
       </div>
     </div>

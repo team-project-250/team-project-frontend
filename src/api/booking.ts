@@ -30,6 +30,20 @@ export interface BookingCreateResponse {
   created_at: string;
 }
 
+export interface CallbackRequest {
+  phone: string;
+  equipment?: string;
+  start_date?: string;
+  end_date?: string;
+  comment?: string;
+}
+
+export const createCallbackRequest = (
+  request: CallbackRequest,
+): Promise<CallbackRequest> => {
+  return api.post<CallbackRequest>('/callback-requests/', request);
+};
+
 export const createBooking = (
   booking: BookingCreateRequest,
 ): Promise<BookingCreateResponse> => {

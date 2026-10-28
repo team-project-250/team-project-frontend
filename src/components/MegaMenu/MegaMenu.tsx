@@ -28,7 +28,7 @@ export const MegaMenu: React.FC<Props> = ({ onClose }) => {
   }, []);
 
   useEffect(() => {
-    const city = cities.find((item) => item.name === selectedCity);
+    const city = cities.find((item) => item.slug === selectedCity);
 
     if (!city) {
       return;

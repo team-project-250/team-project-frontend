@@ -165,6 +165,10 @@
     }
   }
 
+  &__danger {
+    color: red;
+  }
+
   &__model {
     margin: 0;
     color: $color-background;
@@ -252,6 +256,12 @@
       &:hover {
         background-color: transparent;
         border: 1px solid $color-primary;
+      }
+
+      &--disable {
+        background-color: transparent;
+        border-color: $color-primary;
+        cursor: no-drop;
       }
 
       &--booking-for-one {
