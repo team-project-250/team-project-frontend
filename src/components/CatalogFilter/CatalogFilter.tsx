@@ -72,8 +72,8 @@ export const CatalogFilter = ({
               <input
                 type="radio"
                 name="city"
-                checked={selectedCity === city.name}
-                onChange={() => onCityChange(city.name)}
+                checked={selectedCity === city.slug}
+                onChange={() => onCityChange(city.slug)}
               />
 
               <span>{city.name}</span>

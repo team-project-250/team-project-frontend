@@ -84,6 +84,8 @@ export const EquipmentDetails = () => {
     .map((citySlug) => cities.find((city) => city.slug === citySlug)?.name)
     .filter(Boolean);
 
+  const isAvailableInSelectedCity = equipment.available_cities.includes(selectedCity);
+
   const images = equipment?.main_image
     ? [equipment.main_image, ...equipment.images]
     : (equipment?.images ?? []);
@@ -102,7 +104,11 @@ export const EquipmentDetails = () => {
 
   const bookedUntil = booking?.dates[1];
 
-  const bookingEndDate = bookedUntil;
+  const bookingEndDate =
+    bookedUntil ??
+    (equipment.availability.status === 'booked'
+      ? equipment.availability.available_from
+      : undefined);
   const isBooked = bookingEndDate && !dayjs(bookingEndDate).isBefore(dayjs(), 'day');
 
   const bookingLabel = isBooked
@@ -216,21 +222,50 @@ export const EquipmentDetails = () => {
             <span className="text__body text__body--small">доба</span>
           </p>
 
-          <div className="equipment-details__buttons text__body text__body--buttons">
-            <Link
-              to={`/booking/${equipment.slug}`}
-              className="text equipment-details__buttons-button"
-            >
-              Забронювати
-            </Link>
+          {!isAvailableInSelectedCity && (
+            <p className="equipment-details__danger text__body">
+              Це обладнання недоступне у вибраному місті.
+            </p>
+          )}
 
-            <button
-              type="button"
-              className="text equipment-details__buttons-button equipment-details__buttons-button--booking-for-one"
-              onClick={() => setIsQuickBookingOpen(true)}
-            >
-              Забронювати в 1 клік
-            </button>
+          <div className="equipment-details__buttons text__body text__body--buttons">
+            {isAvailableInSelectedCity ? (
+              <>
+                <Link
+                  to={`/booking/${equipment.slug}`}
+                  className="text equipment-details__buttons-button"
+                >
+                  Забронювати
+                </Link>
+
+                <button
+                  type="button"
+                  className="text equipment-details__buttons-button equipment-details__buttons-button--booking-for-one"
+                  onClick={() => setIsQuickBookingOpen(true)}
+                >
+                  Забронювати в 1 клік
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="text equipment-details__buttons-button equipment-details__buttons-button--disable"
+                  disabled
+                >
+                  Забронювати
+                </button>
+
+                <button
+                  type="button"
+                  className="text equipment-details__buttons-button equipment-details__buttons-button--disable"
+                  onClick={() => setIsQuickBookingOpen(true)}
+                  disabled
+                >
+                  Забронювати в 1 клік
+                </button>
+              </>
+            )}
           </div>
         </div>
 
@@ -370,7 +405,11 @@ export const EquipmentDetails = () => {
       </div>
 
       {isQuickBookingOpen && (
-        <QuickBooking onClose={() => setIsQuickBookingOpen(false)} />
+        <QuickBooking
+          onClose={() => setIsQuickBookingOpen(false)}
+          isAvailable={isAvailableInSelectedCity}
+          equipmentSlug={equipment.slug}
+        />
       )}
     </section>
   );
