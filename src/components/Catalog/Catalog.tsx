@@ -24,6 +24,8 @@ export const Catalog = () => {
     return category ? [category] : [];
   });
 
+  const categoryFromUrl = searchParams.get('category');
+
   const [selectedAvailability, setSelectedAvailability] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOption, setSortOption] = useState<SortOption>('rating');
@@ -32,6 +34,13 @@ export const Catalog = () => {
   const [equipment, setEquipment] = useState<EquipmentType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [previousCategoryFromUrl, setPreviousCategoryFromUrl] = useState(categoryFromUrl);
+
+  if (categoryFromUrl !== previousCategoryFromUrl) {
+    setPreviousCategoryFromUrl(categoryFromUrl);
+    setSelectedCategories(categoryFromUrl ? [categoryFromUrl] : []);
+    setCurrentPage(1);
+  }
 
   const catalogListRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
@@ -263,9 +272,13 @@ export const Catalog = () => {
               )}
             </div>
 
-            {currentEquipment.map((item) => (
-              <EquipmentCard key={item.id} equipment={item} />
-            ))}
+            {currentEquipment.length > 0 ? (
+              currentEquipment.map((item) => (
+                <EquipmentCard key={item.id} equipment={item} />
+              ))
+            ) : (
+              <p className="text__body">На жаль, товарів за вашим запитом не знайдено.</p>
+            )}
 
             {totalPages > 1 && (
               <div className="catalog__pagination">

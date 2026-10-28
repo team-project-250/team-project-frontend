@@ -82,6 +82,8 @@ export const Booking = () => {
     return <BookingUnavailable />;
   }
 
+  const isAvailableInSelectedCity = equipment.available_cities.includes(selectedCity);
+
   const rentalDays =
     selectedRange[0] && selectedRange[1]
       ? dayjs(selectedRange[1]).diff(dayjs(selectedRange[0]), 'day') + 1
@@ -113,7 +115,7 @@ export const Booking = () => {
   const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (isSubmitting) {
+    if (isSubmitting || !isAvailableInSelectedCity) {
       return;
     }
 
@@ -182,271 +184,287 @@ export const Booking = () => {
     <section className="booking">
       <h2 className="booking__title text__title text__title--basic">Бронювання</h2>
 
-      <div className="booking__content">
-        <form className="booking__form" id="booking-form" onSubmit={handleSubmit}>
-          <div className=" booking__form-content">
-            <h3 className="booking__form-title text__title text__title--secondary">
-              Дата бронювання
-            </h3>
+      {!isAvailableInSelectedCity ? (
+        <p className="text__body" role="status">
+          На жаль, це обладнання недоступне у вибраному місті. Будь ласка, оберіть інше
+          місто.
+        </p>
+      ) : (
+        <div className="booking__content">
+          <form className="booking__form" id="booking-form" onSubmit={handleSubmit}>
+            <div className=" booking__form-content">
+              <h3 className="booking__form-title text__title text__title--secondary">
+                Дата бронювання
+              </h3>
 
-            <BookingCalendar
-              bookings={bookings}
-              equipmentId={equipment.id}
-              city={selectedCity}
-              onDateChange={setSelectedRange}
-            />
-          </div>
-
-          <div className="booking__form-content booking__form-content--grid">
-            <h3 className="booking__form-title text__title text__title--secondary">
-              Контактні дані
-            </h3>
-
-            <label
-              htmlFor="form-name"
-              className="booking__form-label booking__form-label--name"
-            >
-              <p className="booking__form-description text__body text__body--label">
-                Ім'я та прізвище
-                <span className="booking__form-mark">*</span>
-              </p>
-
-              <input
-                type="text"
-                name="name"
-                id="form-name"
-                onChange={handleInputChange}
-                value={formData.name}
-                required
+              <BookingCalendar
+                availableUntil={
+                  equipment.availability.status === 'booked'
+                    ? (equipment.availability.available_from ?? undefined)
+                    : undefined
+                }
+                bookings={bookings}
+                equipmentId={equipment.id}
+                city={selectedCity}
+                onDateChange={setSelectedRange}
               />
-
-              {errors.name && (
-                <span className="booking__form-error text__body text__body--error">
-                  {errors.name}
-                </span>
-              )}
-            </label>
-
-            <label
-              htmlFor="form-tel"
-              className="booking__form-label booking__form-label--tel"
-            >
-              <p className="booking__form-description text__body text__body--label">
-                Номер телефону
-                <span className="booking__form-mark">*</span>
-              </p>
-
-              <input
-                type="tel"
-                name="tel"
-                id="form-tel"
-                required
-                value={formData.tel}
-                onChange={handleInputChange}
-                placeholder="+380"
-              />
-
-              {errors.tel && (
-                <span className="booking__form-error text__body text__body--error">
-                  {errors.tel}
-                </span>
-              )}
-            </label>
-
-            <div className="booking__form-label booking__form-label--city">
-              <p className="booking__form-description text__body text__body--label">
-                Місто
-                <span className="booking__form-mark">*</span>
-              </p>
-
-              <CitySelect className="city-select--booking" />
             </div>
 
-            <label
-              htmlFor="form-email"
-              className="booking__form-label booking__form-label--email"
-            >
-              <p className="booking__form-description text__body text__body--label">
-                Пошта
-                <span className="booking__form-mark">*</span>
-              </p>
+            <div className="booking__form-content booking__form-content--grid">
+              <h3 className="booking__form-title text__title text__title--secondary">
+                Контактні дані
+              </h3>
 
-              <input
-                type="email"
-                name="email"
-                id="form-email"
-                required
-                value={formData.email}
-                onChange={handleInputChange}
-              />
-
-              {errors.email && (
-                <span className="booking__form-error text__body text__body--error">
-                  {errors.email}
-                </span>
-              )}
-            </label>
-          </div>
-
-          <div className="booking__form-content">
-            <h3 className="booking__form-title text__title text__title--secondary">
-              Спосіб доставки
-            </h3>
-
-            <label htmlFor="form-pickup" className="text__body text__body--label">
-              <input
-                type="radio"
-                name="delivery"
-                id="form-pickup"
-                value="pickup"
-                checked={delivery === 'pickup'}
-                onChange={() => setDelivery('pickup')}
-              />
-              Самовивіз
-            </label>
-
-            <label htmlFor="form-delivery" className="text__body text__body--label">
-              <input
-                type="radio"
-                name="delivery"
-                id="form-delivery"
-                value="delivery"
-                checked={delivery === 'delivery'}
-                onChange={() => setDelivery('delivery')}
-              />
-              Доставка по місту - 100грн
-            </label>
-
-            {delivery === 'delivery' && (
               <label
-                className="booking__form-label booking__form-label--address"
-                htmlFor="form-address"
+                htmlFor="form-name"
+                className="booking__form-label booking__form-label--name"
               >
+                <p className="booking__form-description text__body text__body--label">
+                  Ім'я та прізвище
+                  <span className="booking__form-mark">*</span>
+                </p>
+
                 <input
                   type="text"
-                  name="address"
-                  id="form-address"
-                  value={formData.address}
+                  name="name"
+                  id="form-name"
                   onChange={handleInputChange}
-                  placeholder="Введіть адресу"
+                  value={formData.name}
                   required
                 />
 
-                {errors.address && (
+                {errors.name && (
                   <span className="booking__form-error text__body text__body--error">
-                    {errors.address}
+                    {errors.name}
                   </span>
                 )}
               </label>
-            )}
-          </div>
 
-          <div className="booking__form-content">
-            <h3 className="booking__form-title">Оплата</h3>
+              <label
+                htmlFor="form-tel"
+                className="booking__form-label booking__form-label--tel"
+              >
+                <p className="booking__form-description text__body text__body--label">
+                  Номер телефону
+                  <span className="booking__form-mark">*</span>
+                </p>
 
-            <label htmlFor="form-cash" className="text__body text__body--label">
-              <input
-                type="radio"
-                name="payment"
-                id="form-cash"
-                value="cash"
-                checked={payment === 'cash'}
-                onChange={() => setPayment('cash')}
+                <input
+                  type="tel"
+                  name="tel"
+                  id="form-tel"
+                  required
+                  value={formData.tel}
+                  onChange={handleInputChange}
+                  placeholder="+380"
+                />
+
+                {errors.tel && (
+                  <span className="booking__form-error text__body text__body--error">
+                    {errors.tel}
+                  </span>
+                )}
+              </label>
+
+              <div className="booking__form-label booking__form-label--city">
+                <p className="booking__form-description text__body text__body--label">
+                  Місто
+                  <span className="booking__form-mark">*</span>
+                </p>
+
+                <CitySelect className="city-select--booking" />
+              </div>
+
+              <label
+                htmlFor="form-email"
+                className="booking__form-label booking__form-label--email"
+              >
+                <p className="booking__form-description text__body text__body--label">
+                  Пошта
+                  <span className="booking__form-mark">*</span>
+                </p>
+
+                <input
+                  type="email"
+                  name="email"
+                  id="form-email"
+                  required
+                  value={formData.email}
+                  onChange={handleInputChange}
+                />
+
+                {errors.email && (
+                  <span className="booking__form-error text__body text__body--error">
+                    {errors.email}
+                  </span>
+                )}
+              </label>
+            </div>
+
+            <div className="booking__form-content">
+              <h3 className="booking__form-title text__title text__title--secondary">
+                Спосіб доставки
+              </h3>
+
+              <label htmlFor="form-pickup" className="text__body text__body--label">
+                <input
+                  type="radio"
+                  name="delivery"
+                  id="form-pickup"
+                  value="pickup"
+                  checked={delivery === 'pickup'}
+                  onChange={() => setDelivery('pickup')}
+                />
+                Самовивіз
+              </label>
+
+              <label htmlFor="form-delivery" className="text__body text__body--label">
+                <input
+                  type="radio"
+                  name="delivery"
+                  id="form-delivery"
+                  value="delivery"
+                  checked={delivery === 'delivery'}
+                  onChange={() => setDelivery('delivery')}
+                />
+                Доставка по місту - 100грн
+              </label>
+
+              {delivery === 'delivery' && (
+                <label
+                  className="booking__form-label booking__form-label--address"
+                  htmlFor="form-address"
+                >
+                  <input
+                    type="text"
+                    name="address"
+                    id="form-address"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    placeholder="Введіть адресу"
+                    required
+                  />
+
+                  {errors.address && (
+                    <span className="booking__form-error text__body text__body--error">
+                      {errors.address}
+                    </span>
+                  )}
+                </label>
+              )}
+            </div>
+
+            <div className="booking__form-content">
+              <h3 className="booking__form-title">Оплата</h3>
+
+              <label htmlFor="form-cash" className="text__body text__body--label">
+                <input
+                  type="radio"
+                  name="payment"
+                  id="form-cash"
+                  value="cash"
+                  checked={payment === 'cash'}
+                  onChange={() => setPayment('cash')}
+                />
+                Готівкою
+              </label>
+
+              <label htmlFor="form-payment" className="text__body text__body--label">
+                <input
+                  type="radio"
+                  name="payment"
+                  id="form-payment"
+                  value="iban"
+                  checked={payment === 'iban'}
+                  onChange={() => setPayment('iban')}
+                />
+                По реквізитам IBAN
+              </label>
+            </div>
+          </form>
+
+          <div className="booking__card">
+            <h3 className="booking__form-title text__title text__title--secondary">
+              Моє замовлення
+            </h3>
+
+            <div className="booking__card-product">
+              <img
+                src={equipment.main_image ?? undefined}
+                alt={equipment.name}
+                className="booking__card-image"
               />
-              Готівкою
-            </label>
+              <p className="booking__card-name text__body text__body--label">
+                {equipment.name}
+              </p>
+            </div>
 
-            <label htmlFor="form-payment" className="text__body text__body--label">
+            <div className="booking__card-ditails">
+              <div className="booking__card-row">
+                <p className="booking__card-text text__body text__body--label">
+                  Ціна за день
+                </p>
+
+                <p className="booking__card-text text__body text__body--label">
+                  {Number(equipment.price_per_day)} грн
+                </p>
+              </div>
+
+              <div className="booking__card-row">
+                <p className="booking__card-text text__body text__body--label">
+                  Кількість днів
+                </p>
+
+                <p className="booking__card-text text__body text__body--label">
+                  {rentalDays} {getDaysLabel(rentalDays)}
+                </p>
+              </div>
+
+              <div className="booking__card-row">
+                <p className="booking__card-text text__body text__body--label">
+                  Доставка
+                </p>
+
+                <p className="booking__card-text text__body text__body--label">
+                  {deliveryPrice} грн
+                </p>
+              </div>
+
+              <div className="booking__card-row">
+                <p className="booking__card-text text__body text__body--label">
+                  Вартість
+                </p>
+
+                <p className="booking__card-text text__title text__title--secondary">
+                  {totalPrice} грн
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              form="booking-form"
+              className="booking__card-button text text__body text__body--buttons"
+              disabled={!isAgree || isSubmitting}
+            >
+              Забронювати
+            </button>
+
+            <label className="booking__card-agreement">
               <input
-                type="radio"
-                name="payment"
-                id="form-payment"
-                value="iban"
-                checked={payment === 'iban'}
-                onChange={() => setPayment('iban')}
+                type="checkbox"
+                checked={isAgree}
+                onChange={(event) => setIsAgree(event.target.checked)}
+                required
               />
-              По реквізитам IBAN
+
+              <span className="booking__card-checkbox text__body text__body--small">
+                Відправляючи заявку, я погоджуюсь з умовами обробки персональних даних
+              </span>
             </label>
           </div>
-        </form>
-
-        <div className="booking__card">
-          <h3 className="booking__form-title text__title text__title--secondary">
-            Моє замовлення
-          </h3>
-
-          <div className="booking__card-product">
-            <img
-              src={equipment.main_image ?? undefined}
-              alt={equipment.name}
-              className="booking__card-image"
-            />
-            <p className="booking__card-name text__body text__body--label">
-              {equipment.name}
-            </p>
-          </div>
-
-          <div className="booking__card-ditails">
-            <div className="booking__card-row">
-              <p className="booking__card-text text__body text__body--label">
-                Ціна за день
-              </p>
-
-              <p className="booking__card-text text__body text__body--label">
-                {Number(equipment.price_per_day)} грн
-              </p>
-            </div>
-
-            <div className="booking__card-row">
-              <p className="booking__card-text text__body text__body--label">
-                Кількість днів
-              </p>
-
-              <p className="booking__card-text text__body text__body--label">
-                {rentalDays} {getDaysLabel(rentalDays)}
-              </p>
-            </div>
-
-            <div className="booking__card-row">
-              <p className="booking__card-text text__body text__body--label">Доставка</p>
-
-              <p className="booking__card-text text__body text__body--label">
-                {deliveryPrice} грн
-              </p>
-            </div>
-
-            <div className="booking__card-row">
-              <p className="booking__card-text text__body text__body--label">Вартість</p>
-
-              <p className="booking__card-text text__title text__title--secondary">
-                {totalPrice} грн
-              </p>
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            form="booking-form"
-            className="booking__card-button text text__body text__body--buttons"
-            disabled={!isAgree || isSubmitting}
-          >
-            Забронювати
-          </button>
-
-          <label className="booking__card-agreement">
-            <input
-              type="checkbox"
-              checked={isAgree}
-              onChange={(event) => setIsAgree(event.target.checked)}
-              required
-            />
-
-            <span className="booking__card-checkbox text__body text__body--small">
-              Відправляючи заявку, я погоджуюсь з умовами обробки персональних даних
-            </span>
-          </label>
         </div>
-      </div>
+      )}
     </section>
   );
 };
