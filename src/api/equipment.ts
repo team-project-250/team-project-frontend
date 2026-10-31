@@ -18,13 +18,18 @@ export interface EquipmentApiItem {
 }
 
 export interface EquipmentDetailsApiItem extends EquipmentApiItem {
+  model: string | null;
   sku: string;
   short_description: string;
   description: string;
   badges: {
     label: string;
   }[];
-  images: string[];
+  images: {
+    id: number;
+    image: string;
+    order: number;
+  }[];
   specs: {
     label: string;
     value: string;

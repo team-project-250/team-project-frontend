@@ -1,6 +1,6 @@
 import './EquipmentDetails.scss';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   getEquipmentDetails,
   getRelatedEquipment,
@@ -18,7 +18,11 @@ import { mapEquipment } from '../../api/equipmentMapper';
 import dayjs from 'dayjs';
 import type { EquipmentType } from '../../types/EquipmentType';
 
-export const EquipmentDetails = () => {
+type Props = {
+  onModelLoad: (model: string) => void;
+};
+
+export const EquipmentDetails: React.FC<Props> = ({ onModelLoad }) => {
   const [activeImage, setActiveImage] = useState(0);
   const [activeTab, setActiveTab] = useState('description');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -49,6 +53,7 @@ export const EquipmentDetails = () => {
     getEquipmentDetails(slug)
       .then((data) => {
         setEquipment(data);
+        onModelLoad(data.model || data.sku);
       })
       .catch(() => {
         setError('Не вдалося завантажити обладнання');
@@ -56,7 +61,7 @@ export const EquipmentDetails = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [slug]);
+  }, [onModelLoad, slug]);
 
   useEffect(() => {
     if (!slug) {
@@ -86,9 +91,10 @@ export const EquipmentDetails = () => {
 
   const isAvailableInSelectedCity = equipment.available_cities.includes(selectedCity);
 
-  const images = equipment?.main_image
-    ? [equipment.main_image, ...equipment.images]
-    : (equipment?.images ?? []);
+  const images = [
+    ...(equipment.main_image ? [equipment.main_image] : []),
+    ...equipment.images.map((item) => item.image),
+  ];
 
   const handlePrevImage = () => {
     setActiveImage((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -199,7 +205,9 @@ export const EquipmentDetails = () => {
             {equipment.name}
           </h1>
 
-          <p className="equipment-details__model text__body">Артикул: {equipment.sku}</p>
+          <p className="equipment-details__model text__body">
+            Артикул: {equipment.model?.replace(/^Kärcher\s*/i, '') || equipment.sku}
+          </p>
 
           <ul className="equipment-details__list">
             <li className="equipment-details__availability">
