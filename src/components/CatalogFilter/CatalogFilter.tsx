@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getCategories } from '../../api/categories';
+import { getCategories, type CategoryApiItem } from '../../api/categories';
 import classNames from 'classnames';
 import { useCity } from '../../context/CityContext';
 import './CatalogFilter.scss';
@@ -27,13 +27,11 @@ export const CatalogFilter = ({
 }: CatalogFilterProps) => {
   const { cities } = useCity();
 
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<CategoryApiItem[]>([]);
 
   useEffect(() => {
     getCategories()
-      .then((data) => {
-        setCategories(data.map((category) => category.name));
-      })
+      .then(setCategories)
       .catch((error) => {
         console.error('Не вдалося завантажити категорії:', error);
       });
@@ -48,14 +46,14 @@ export const CatalogFilter = ({
 
         <div className="catalog-filter__options">
           {categories.map((category) => (
-            <label className="catalog-filter__option" key={category}>
+            <label className="catalog-filter__option" key={category.id}>
               <input
                 type="checkbox"
-                checked={selectedCategories.includes(category)}
-                onChange={() => onCategoryChange(category)}
+                checked={selectedCategories.includes(category.slug)}
+                onChange={() => onCategoryChange(category.slug)}
               />
 
-              <span>{category}</span>
+              <span>{category.name}</span>
             </label>
           ))}
         </div>

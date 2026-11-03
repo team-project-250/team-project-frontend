@@ -12,6 +12,7 @@ import { validateBookingForm } from '../utils/bookingValidation';
 import { CitySelect } from '../CitySelect';
 import { BookingUnavailable } from '../BookingUnavailable';
 import { createBooking } from '../../api/booking';
+import { getLastBookedDay } from '../../api/equipmentMapper';
 
 export const Booking = () => {
   const { id } = useParams();
@@ -200,7 +201,7 @@ export const Booking = () => {
               <BookingCalendar
                 availableUntil={
                   equipment.availability.status === 'booked'
-                    ? (equipment.availability.available_from ?? undefined)
+                    ? getLastBookedDay(equipment.availability.available_from)
                     : undefined
                 }
                 bookings={bookings}
