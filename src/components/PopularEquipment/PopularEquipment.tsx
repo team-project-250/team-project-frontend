@@ -19,15 +19,12 @@ export const PopularEquipment = () => {
       return;
     }
 
-    getEquipment(city.slug)
-      .then((data) => {
-        const popularEquipment = data.filter((item) => item.is_popular);
-
-        setEquipment(popularEquipment.map(mapEquipment));
-      })
-      .catch(() => {
-        setEquipment([]);
-      });
+    getEquipment({
+      city: city.slug,
+      is_popular: true,
+    }).then((data) => {
+      setEquipment(data.results.map(mapEquipment));
+    });
   }, [cities, selectedCity]);
 
   return (

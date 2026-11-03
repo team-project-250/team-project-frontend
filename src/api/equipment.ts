@@ -50,25 +50,62 @@ export interface EquipmentDetailsApiItem extends EquipmentApiItem {
   }[];
 }
 
-interface EquipmentApiResponse {
+export interface EquipmentApiResponse {
   count: number;
   next: string | null;
   previous: string | null;
   results: EquipmentApiItem[];
 }
 
+export interface EquipmentQueryParams {
+  city: string;
+  category?: string[];
+  availability?: 'available' | 'booked';
+  ordering?: 'rating' | '-rating' | 'price_per_day' | '-price_per_day' | 'name';
+  page?: number;
+  page_size?: number;
+  is_popular?: boolean;
+}
+
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const getEquipment = async (citySlug: string): Promise<EquipmentApiItem[]> => {
-  const response = await fetch(`${API_URL}/equipment/?city=${citySlug}`);
+export const getEquipment = async (
+  params: EquipmentQueryParams,
+): Promise<EquipmentApiResponse> => {
+  const searchParams = new URLSearchParams();
+
+  searchParams.set('city', params.city);
+
+  if (params.category?.length) {
+    searchParams.set('category', params.category.join(','));
+  }
+
+  if (params.availability) {
+    searchParams.set('availability', params.availability);
+  }
+
+  if (params.ordering) {
+    searchParams.set('ordering', params.ordering);
+  }
+
+  if (params.page) {
+    searchParams.set('page', String(params.page));
+  }
+
+  if (params.page_size) {
+    searchParams.set('page_size', String(params.page_size));
+  }
+
+  if (params.is_popular) {
+    searchParams.set('is_popular', 'true');
+  }
+
+  const response = await fetch(`${API_URL}/equipment/?${searchParams.toString()}`);
 
   if (!response.ok) {
     throw new Error('Не вдалося завантажити обладнання');
   }
-
-  const data: EquipmentApiResponse = await response.json();
-
-  return data.results;
+  return response.json();
 };
 
 export const getEquipmentDetails = async (
