@@ -14,7 +14,7 @@ import { EquipmentCarousel } from '../EquipmentCarousel';
 import { BookingUnavailable } from '../BookingUnavailable';
 import { QuickBooking } from '../QuickBooking';
 import { useBooking } from '../../context/useBooking';
-import { mapEquipment } from '../../api/equipmentMapper';
+import { getLastBookedDay, mapEquipment } from '../../api/equipmentMapper';
 import dayjs from 'dayjs';
 import type { EquipmentType } from '../../types/EquipmentType';
 
@@ -113,8 +113,9 @@ export const EquipmentDetails: React.FC<Props> = ({ onModelLoad }) => {
   const bookingEndDate =
     bookedUntil ??
     (equipment.availability.status === 'booked'
-      ? equipment.availability.available_from
+      ? getLastBookedDay(equipment.availability.available_from)
       : undefined);
+
   const isBooked = bookingEndDate && !dayjs(bookingEndDate).isBefore(dayjs(), 'day');
 
   const bookingLabel = isBooked

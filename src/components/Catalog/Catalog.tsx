@@ -1,30 +1,34 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useCity } from '../../context/CityContext';
 import type { EquipmentType } from '../../types/EquipmentType';
 import { CatalogFilter } from '../CatalogFilter';
 import { EquipmentCard } from '../EquipmentCard';
 import './Catalog.scss';
 import classNames from 'classnames';
-import dayjs from 'dayjs';
-import { useBooking } from '../../context/useBooking';
 import { useSearchParams } from 'react-router-dom';
 import { getEquipment } from '../../api/equipment';
 import { mapEquipment } from '../../api/equipmentMapper';
 
 type SortOption = 'rating' | 'priceAsc' | 'priceDesc' | 'name';
 
+const orderingMap = {
+  rating: '-rating',
+  priceAsc: 'price_per_day',
+  priceDesc: '-price_per_day',
+  name: 'name',
+} as const;
+
 export const Catalog = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const { cities, selectedCity, setSelectedCity } = useCity();
-  const { bookings } = useBooking();
-
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
-    const category = searchParams.get('category');
-
-    return category ? [category] : [];
-  });
 
   const categoryFromUrl = searchParams.get('category');
+
+  const selectedCategories = useMemo(
+    () => (categoryFromUrl ? categoryFromUrl.split(',') : []),
+    [categoryFromUrl],
+  );
 
   const [selectedAvailability, setSelectedAvailability] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,15 +36,9 @@ export const Catalog = () => {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [equipment, setEquipment] = useState<EquipmentType[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  const [previousCategoryFromUrl, setPreviousCategoryFromUrl] = useState(categoryFromUrl);
-
-  if (categoryFromUrl !== previousCategoryFromUrl) {
-    setPreviousCategoryFromUrl(categoryFromUrl);
-    setSelectedCategories(categoryFromUrl ? [categoryFromUrl] : []);
-    setCurrentPage(1);
-  }
 
   const catalogListRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
@@ -52,9 +50,17 @@ export const Catalog = () => {
       return;
     }
 
-    getEquipment(city.slug)
+    getEquipment({
+      city: city.slug,
+      category: selectedCategories,
+      availability: selectedAvailability[0] as 'available' | 'booked' | undefined,
+      ordering: orderingMap[sortOption],
+      page: currentPage,
+      page_size: 6,
+    })
       .then((data) => {
-        setEquipment(data.map(mapEquipment));
+        setEquipment(data.results.map(mapEquipment));
+        setTotalCount(data.count);
       })
       .catch(() => {
         setError('Не вдалося завантажити обладнання');
@@ -62,11 +68,19 @@ export const Catalog = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [cities, selectedCity]);
+  }, [
+    cities,
+    selectedCity,
+    selectedCategories,
+    selectedAvailability,
+    sortOption,
+    currentPage,
+  ]);
 
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
+
       return;
     }
 
@@ -78,70 +92,24 @@ export const Catalog = () => {
 
   const itemsPerPage = 6;
 
-  const isCurrentlyBooked = (item: EquipmentType) => {
-    const availableUntilIsActive = item.availableUntil
-      ? !dayjs(item.availableUntil).isBefore(dayjs(), 'day')
-      : false;
-
-    const bookingIsActive = bookings.some((booking) => {
-      if (booking.equipmentId !== item.equipmentId || booking.city !== selectedCity) {
-        return false;
-      }
-
-      const [, bookingEnd] = booking.dates;
-
-      return bookingEnd ? !dayjs(bookingEnd).isBefore(dayjs(), 'day') : false;
-    });
-
-    return availableUntilIsActive || bookingIsActive;
-  };
-
-  const filteredEquipment = equipment.filter((item) => {
-    const categoryMatches =
-      selectedCategories.length === 0 || selectedCategories.includes(item.category);
-
-    const isBooked = isCurrentlyBooked(item);
-
-    const availabilityMatches =
-      selectedAvailability.length === 0 ||
-      (selectedAvailability.includes('available') && !isBooked) ||
-      (selectedAvailability.includes('booked') && isBooked);
-
-    return categoryMatches && availabilityMatches;
-  });
-
-  const sortedEquipment = [...filteredEquipment].sort((a, b) => {
-    switch (sortOption) {
-      case 'rating':
-        return b.rating - a.rating;
-
-      case 'priceAsc':
-        return a.pricePerDay - b.pricePerDay;
-
-      case 'priceDesc':
-        return b.pricePerDay - a.pricePerDay;
-
-      case 'name':
-        return a.name.localeCompare(b.name);
-
-      default:
-        return 0;
-    }
-  });
-
-  const totalPages = Math.ceil(sortedEquipment.length / itemsPerPage);
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentEquipment = sortedEquipment.slice(startIndex, startIndex + itemsPerPage);
+  const totalPages = Math.ceil(totalCount / itemsPerPage);
 
   const handleCategoryChange = (category: string) => {
+    const updatedCategories = selectedCategories.includes(category)
+      ? selectedCategories.filter((item) => item !== category)
+      : [...selectedCategories, category];
+
     setCurrentPage(1);
 
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((item) => item !== category)
-        : [...prev, category],
-    );
+    const params = new URLSearchParams(searchParams);
+
+    if (updatedCategories.length > 0) {
+      params.set('category', updatedCategories.join(','));
+    } else {
+      params.delete('category');
+    }
+
+    setSearchParams(params);
   };
 
   const handleCityChange = (city: string) => {
@@ -150,17 +118,20 @@ export const Catalog = () => {
   };
 
   const handleAvailabilityChange = (availability: string) => {
+    setCurrentPage(1);
     setSelectedAvailability((prev) =>
-      prev.includes(availability)
-        ? prev.filter((item) => item !== availability)
-        : [...prev, availability],
+      prev.includes(availability) ? [] : [availability],
     );
   };
 
   const handleReset = () => {
     setCurrentPage(1);
-    setSelectedCategories([]);
     setSelectedAvailability([]);
+
+    const params = new URLSearchParams(searchParams);
+
+    params.delete('category');
+    setSearchParams(params);
   };
 
   if (isLoading) {
@@ -202,6 +173,7 @@ export const Catalog = () => {
                   )}
                 ></span>
               </button>
+
               <button
                 type="button"
                 className={`text catalog__sort-button ${
@@ -272,10 +244,8 @@ export const Catalog = () => {
               )}
             </div>
 
-            {currentEquipment.length > 0 ? (
-              currentEquipment.map((item) => (
-                <EquipmentCard key={item.id} equipment={item} />
-              ))
+            {equipment.length > 0 ? (
+              equipment.map((item) => <EquipmentCard key={item.id} equipment={item} />)
             ) : (
               <p className="text__body">На жаль, товарів за вашим запитом не знайдено.</p>
             )}
@@ -308,7 +278,7 @@ export const Catalog = () => {
 
                 <button
                   type="button"
-                  className="catalog__pagination-arrows "
+                  className="catalog__pagination-arrows"
                   onClick={() => setCurrentPage((prev) => prev + 1)}
                   disabled={currentPage === totalPages}
                 >
