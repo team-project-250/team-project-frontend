@@ -43,7 +43,7 @@ export const Questions = () => {
         </li>
 
         <li className="questions__item">
-          <strong>У яких містах працює Easyrent?</strong>
+          <strong>У яких містах працює EasyRent?</strong>
 
           <p className="text text__body">
             Ми надаємо послуги оренди у Луцьку, Києві, Львові та Одесі. Ви можете

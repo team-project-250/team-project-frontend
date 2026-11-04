@@ -186,7 +186,7 @@ export const Booking = () => {
       <h2 className="booking__title text__title text__title--basic">Бронювання</h2>
 
       {!isAvailableInSelectedCity ? (
-        <p className="text__body" role="status">
+        <p className="booking__text text__body" role="status">
           На жаль, це обладнання недоступне у вибраному місті. Будь ласка, оберіть інше
           місто.
         </p>
